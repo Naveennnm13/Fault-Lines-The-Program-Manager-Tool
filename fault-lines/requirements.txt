@@ -1,0 +1,4 @@
+networkx>=3.0
+# narrative.py's live mode uses output_config structured outputs and the
+# server-side fallback beta; both verified present in 1.8.0.
+anthropic>=1.8.0

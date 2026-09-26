@@ -1,0 +1,383 @@
+{
+  "program": {
+    "slug": "regulatory-reporting",
+    "name": "Regulatory Reporting Remediation",
+    "start_date": "2026-09-14",
+    "teams": [
+      "Engineering",
+      "Data",
+      "Design",
+      "Compliance",
+      "Ops",
+      "Marketing"
+    ]
+  },
+  "tasks": [
+    {
+      "id": "R01",
+      "name": "Audit findings triage",
+      "team": "Compliance",
+      "owner": "G. Hale",
+      "duration": 4,
+      "deps": [],
+      "status": "done",
+      "pct": 100
+    },
+    {
+      "id": "R02",
+      "name": "Remediation plan & regulator commitment",
+      "team": "Compliance",
+      "owner": "G. Hale",
+      "duration": 3,
+      "deps": [
+        "R01"
+      ],
+      "status": "done",
+      "pct": 100
+    },
+    {
+      "id": "R03",
+      "name": "Reporting data lineage mapping",
+      "team": "Data",
+      "owner": "Y. Tanaka",
+      "duration": 8,
+      "deps": [
+        "R02"
+      ],
+      "status": "in_progress",
+      "pct": 45
+    },
+    {
+      "id": "R04",
+      "name": "Control inventory & gap assessment",
+      "team": "Compliance",
+      "owner": "F. Moreau",
+      "duration": 6,
+      "deps": [
+        "R02"
+      ],
+      "status": "in_progress",
+      "pct": 40
+    },
+    {
+      "id": "R05",
+      "name": "Reporting environments & access",
+      "team": "Ops",
+      "owner": "B. Kowalski",
+      "duration": 3,
+      "deps": [
+        "R02"
+      ],
+      "status": "done",
+      "pct": 100
+    },
+    {
+      "id": "R06",
+      "name": "Data retention policy rewrite",
+      "team": "Compliance",
+      "owner": "F. Moreau",
+      "duration": 5,
+      "deps": [
+        "R04"
+      ],
+      "status": "not_started",
+      "pct": 0
+    },
+    {
+      "id": "R07",
+      "name": "Source-system extract fixes",
+      "team": "Engineering",
+      "owner": "D. Osei",
+      "duration": 7,
+      "deps": [
+        "R03",
+        "R05"
+      ],
+      "status": "not_started",
+      "pct": 0
+    },
+    {
+      "id": "R08",
+      "name": "Data quality controls on reportable fields",
+      "team": "Data",
+      "owner": "Y. Tanaka",
+      "duration": 6,
+      "deps": [
+        "R03"
+      ],
+      "status": "not_started",
+      "pct": 0
+    },
+    {
+      "id": "R09",
+      "name": "Report template redesign",
+      "team": "Design",
+      "owner": "A. Lindqvist",
+      "duration": 4,
+      "deps": [
+        "R02"
+      ],
+      "status": "in_progress",
+      "pct": 60
+    },
+    {
+      "id": "R10",
+      "name": "Automated control testing harness",
+      "team": "Engineering",
+      "owner": "C. Park",
+      "duration": 5,
+      "deps": [
+        "R04",
+        "R05"
+      ],
+      "status": "not_started",
+      "pct": 0
+    },
+    {
+      "id": "R11",
+      "name": "Maker-checker for manual adjustments",
+      "team": "Engineering",
+      "owner": "C. Park",
+      "duration": 5,
+      "deps": [
+        "R04"
+      ],
+      "status": "not_started",
+      "pct": 0
+    },
+    {
+      "id": "R12",
+      "name": "Evidence repository & retention setup",
+      "team": "Ops",
+      "owner": "B. Kowalski",
+      "duration": 4,
+      "deps": [
+        "R06"
+      ],
+      "status": "blocked",
+      "pct": 0
+    },
+    {
+      "id": "R13",
+      "name": "Reporting calculation rewrite",
+      "team": "Data",
+      "owner": "V. Mensah",
+      "duration": 8,
+      "deps": [
+        "R07",
+        "R08"
+      ],
+      "status": "not_started",
+      "pct": 0
+    },
+    {
+      "id": "R14",
+      "name": "Parallel report generation, old vs new",
+      "team": "Data",
+      "owner": "V. Mensah",
+      "duration": 5,
+      "deps": [
+        "R13"
+      ],
+      "status": "not_started",
+      "pct": 0
+    },
+    {
+      "id": "R15",
+      "name": "Variance investigation & sign-off",
+      "team": "Data",
+      "owner": "Y. Tanaka",
+      "duration": 4,
+      "deps": [
+        "R14"
+      ],
+      "status": "not_started",
+      "pct": 0
+    },
+    {
+      "id": "R16",
+      "name": "Control testing, cycle 1",
+      "team": "Compliance",
+      "owner": "F. Moreau",
+      "duration": 5,
+      "deps": [
+        "R10",
+        "R11"
+      ],
+      "status": "not_started",
+      "pct": 0
+    },
+    {
+      "id": "R17",
+      "name": "Control test remediation",
+      "team": "Engineering",
+      "owner": "D. Osei",
+      "duration": 4,
+      "deps": [
+        "R16"
+      ],
+      "status": "not_started",
+      "pct": 0
+    },
+    {
+      "id": "R18",
+      "name": "Control testing, cycle 2",
+      "team": "Compliance",
+      "owner": "F. Moreau",
+      "duration": 3,
+      "deps": [
+        "R17"
+      ],
+      "status": "not_started",
+      "pct": 0
+    },
+    {
+      "id": "R19",
+      "name": "Report template UAT",
+      "team": "Design",
+      "owner": "A. Lindqvist",
+      "duration": 3,
+      "deps": [
+        "R09",
+        "R13"
+      ],
+      "status": "not_started",
+      "pct": 0
+    },
+    {
+      "id": "R20",
+      "name": "Evidence pack assembly",
+      "team": "Compliance",
+      "owner": "G. Hale",
+      "duration": 4,
+      "deps": [
+        "R12",
+        "R15",
+        "R18"
+      ],
+      "status": "not_started",
+      "pct": 0
+    },
+    {
+      "id": "R21",
+      "name": "Internal audit walkthrough",
+      "team": "Compliance",
+      "owner": "G. Hale",
+      "duration": 3,
+      "deps": [
+        "R20"
+      ],
+      "status": "not_started",
+      "pct": 0
+    },
+    {
+      "id": "R22",
+      "name": "Executive attestation",
+      "team": "Compliance",
+      "owner": "G. Hale",
+      "duration": 1,
+      "deps": [
+        "R21",
+        "R19"
+      ],
+      "status": "not_started",
+      "pct": 0
+    },
+    {
+      "id": "R23",
+      "name": "Regulator submission",
+      "team": "Compliance",
+      "owner": "G. Hale",
+      "duration": 1,
+      "deps": [
+        "R22"
+      ],
+      "status": "not_started",
+      "pct": 0
+    },
+    {
+      "id": "R24",
+      "name": "Post-submission monitoring",
+      "team": "Ops",
+      "owner": "B. Kowalski",
+      "duration": 5,
+      "deps": [
+        "R23"
+      ],
+      "status": "not_started",
+      "pct": 0
+    },
+    {
+      "id": "R25",
+      "name": "Board risk committee update",
+      "team": "Marketing",
+      "owner": "P. Achebe",
+      "duration": 2,
+      "deps": [
+        "R22"
+      ],
+      "status": "not_started",
+      "pct": 0
+    },
+    {
+      "id": "R26",
+      "name": "Staff training on new controls",
+      "team": "Ops",
+      "owner": "B. Kowalski",
+      "duration": 3,
+      "deps": [
+        "R18"
+      ],
+      "status": "not_started",
+      "pct": 0
+    },
+    {
+      "id": "R27",
+      "name": "Client disclosure updates",
+      "team": "Marketing",
+      "owner": "P. Achebe",
+      "duration": 3,
+      "deps": [
+        "R15"
+      ],
+      "status": "not_started",
+      "pct": 0
+    },
+    {
+      "id": "R28",
+      "name": "Control operating runbooks",
+      "team": "Ops",
+      "owner": "B. Kowalski",
+      "duration": 3,
+      "deps": [
+        "R17"
+      ],
+      "status": "not_started",
+      "pct": 0
+    },
+    {
+      "id": "R29",
+      "name": "Lessons-learned review",
+      "team": "Design",
+      "owner": "A. Lindqvist",
+      "duration": 2,
+      "deps": [
+        "R23"
+      ],
+      "status": "not_started",
+      "pct": 0
+    },
+    {
+      "id": "R30",
+      "name": "Regulator follow-up comms plan",
+      "team": "Marketing",
+      "owner": "P. Achebe",
+      "duration": 2,
+      "deps": [
+        "R21"
+      ],
+      "status": "not_started",
+      "pct": 0
+    }
+  ]
+}

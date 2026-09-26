@@ -1,0 +1,52 @@
+{
+  "mode": "mock",
+  "model": null,
+  "source_fingerprint": "c3d6badb2406bf2b",
+  "headline": "The biggest risk in this program is Vendor data feed contracts (Ops). It's blocked, it's on the critical path, and 15 tasks across 5 teams can't start until it's done.",
+  "risks": [
+    {
+      "task_id": "T05",
+      "task_name": "Vendor data feed contracts",
+      "team": "Ops",
+      "why_it_matters": "The ingestion pipeline and data validation can't start until this contract is signed, and a lot of the program sits behind those. There's no spare time here, so every day it stays blocked pushes the launch back a day.",
+      "mitigation": "Ask legal to fast-track the contract review this week. In parallel, have Ops line up a backup data source so Engineering isn't waiting on one vendor."
+    },
+    {
+      "task_id": "T07",
+      "task_name": "Reporting API layer",
+      "team": "Engineering",
+      "why_it_matters": "It's 40% done and four other pieces of work are waiting on it: audit logging, the dashboard front-end, analytics tagging and the security pen test.",
+      "mitigation": "Move one engineer from the accessibility review (T29), which isn't urgent yet, onto the reporting API for the next week."
+    },
+    {
+      "task_id": "T01",
+      "task_name": "Define platform requirements",
+      "team": "Engineering",
+      "why_it_matters": "This is already done. It's on the list because everything else builds on it, so a gap found here late would mean the most rework.",
+      "mitigation": "Nothing to do now. If a new requirement comes up, handle it as a change request rather than reopening T01."
+    }
+  ],
+  "cascade_summary": "If Vendor data feed contracts slips another 3 days, the program finishes on day 44 instead of day 41. The delay reaches Compliance, Data, Engineering, Marketing and Ops.",
+  "task_briefings": {
+    "T05": {
+      "why_it_matters": "The ingestion pipeline and data validation can't start until this contract is signed, and a lot of the program sits behind those. There's no spare time here, so every day it stays blocked pushes the launch back a day.",
+      "mitigation": "Ask legal to fast-track the contract review this week. In parallel, have Ops line up a backup data source so Engineering isn't waiting on one vendor."
+    },
+    "T07": {
+      "why_it_matters": "It's 40% done and four other pieces of work are waiting on it: audit logging, the dashboard front-end, analytics tagging and the security pen test.",
+      "mitigation": "Move one engineer from the accessibility review (T29), which isn't urgent yet, onto the reporting API for the next week."
+    },
+    "T01": {
+      "why_it_matters": "This is already done. It's on the list because everything else builds on it, so a gap found here late would mean the most rework.",
+      "mitigation": "Nothing to do now. If a new requirement comes up, handle it as a change request rather than reopening T01."
+    },
+    "T06": {
+      "why_it_matters": "The ingestion pipeline can't start until the vendor contract is signed, and it's on the critical path too. Any delay on T05 lands here in full.",
+      "mitigation": "Have S. Ibarra start building against a mocked feed now, so the pipeline can switch to live data as soon as the contract is signed."
+    },
+    "T19": {
+      "why_it_matters": "The regulatory filing has a fixed external window and is on the critical path. Adding people won't make it go faster.",
+      "mitigation": "Confirm the filing window with J. Okafor now, and start drafting the submission while reconciliation is still running."
+    }
+  }
+}

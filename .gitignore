@@ -1,0 +1,20 @@
+# Source archives and the unmodified template this was built from.
+*.zip
+mainline-nextjs-template-master/
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# Secrets never belong in the repo. narrative.py reads ANTHROPIC_API_KEY
+# from the environment.
+.env
+.env.*
+
+# OS / editor
+.DS_Store
+Thumbs.db
+
+# fault-lines-ui/ has its own .gitignore for node_modules, .next and .vercel.

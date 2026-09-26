@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Fault Lines — Q4 Platform Launch</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
+<style>
+  :root {
+    --ink: #1c1a17;
+    --paper: #f6f4ef;
+    --panel: #ffffff;
+    --rule: #dcd6c8;
+    --slate: #5b5648;
+    --team-engineering: #3a5a6b;
+    --team-data: #7a5c3e;
+    --team-design: #8a6d8f;
+    --team-compliance: #6b4a4a;
+    --team-ops: #4a6b52;
+    --team-marketing: #a3763f;
+    --risk: #b1442f;
+    --critical: #1c1a17;
+    --font-display: 'Iowan Old Style', 'Palatino Linotype', Georgia, serif;
+    --font-mono: 'IBM Plex Mono', 'Courier New', monospace;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--font-display);
+    font-size: 15px;
+  }
+  header {
+    padding: 28px 32px 18px;
+    border-bottom: 1px solid var(--rule);
+  }
+  header h1 {
+    margin: 0;
+    font-size: 26px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+  header .sub {
+    font-family: var(--font-mono);
+    font-size: 12.5px;
+    color: var(--slate);
+    margin-top: 6px;
+    letter-spacing: 0.02em;
+  }
+  .layout {
+    display: grid;
+    grid-template-columns: 1fr 380px;
+    gap: 0;
+    height: calc(100vh - 92px);
+  }
+  #graph-pane {
+    position: relative;
+    border-right: 1px solid var(--rule);
+    overflow: hidden;
+  }
+  #legend {
+    position: absolute;
+    top: 16px;
+    left: 16px;
+    background: var(--panel);
+    border: 1px solid var(--rule);
+    padding: 10px 14px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    line-height: 1.9;
+    color: var(--slate);
+  }
+  .legend-dot { display: inline-block; width: 9px; height: 9px; border-radius: 50%; margin-right: 7px; }
+  aside {
+    padding: 22px 24px;
+    overflow-y: auto;
+    background: var(--panel);
+  }
+  aside h2 {
+    font-size: 13px;
+    font-family: var(--font-mono);
+    text-transform: none;
+    letter-spacing: 0.03em;
+    color: var(--slate);
+    margin: 0 0 10px;
+    border-bottom: 1px solid var(--rule);
+    padding-bottom: 8px;
+  }
+  #task-detail {
+    min-height: 120px;
+    border-bottom: 1px solid var(--rule);
+    padding-bottom: 18px;
+    margin-bottom: 18px;
+  }
+  #task-detail .placeholder { color: var(--slate); font-style: italic; font-size: 13.5px; }
+  #task-detail .name { font-size: 18px; font-weight: 600; margin-bottom: 4px; }
+  #task-detail .meta { font-family: var(--font-mono); font-size: 11.5px; color: var(--slate); margin-bottom: 10px; }
+  #task-detail .tag {
+    display: inline-block; font-family: var(--font-mono); font-size: 10.5px;
+    padding: 2px 7px; border: 1px solid var(--rule); margin-right: 6px; margin-bottom: 6px;
+  }
+  #task-detail .tag.risk { border-color: var(--risk); color: var(--risk); }
+  #task-detail .tag.crit { border-color: var(--critical); color: var(--critical); font-weight: 600; }
+
+  #sim-controls label {
+    display: block; font-family: var(--font-mono); font-size: 11.5px; color: var(--slate); margin-bottom: 6px;
+  }
+  #sim-controls input[type=range] { width: 100%; accent-color: var(--risk); }
+  #sim-result {
+    margin-top: 12px; font-size: 13.5px; line-height: 1.55; min-height: 60px;
+  }
+  #sim-result .slip { font-weight: 600; color: var(--risk); }
+  #sim-result .noslip { font-weight: 600; color: var(--team-ops); }
+
+  #narrative-section { margin-top: 22px; }
+  #narrative-section .headline {
+    font-size: 15px; line-height: 1.5; margin-bottom: 16px; padding: 12px 14px;
+    background: var(--paper); border-left: 3px solid var(--risk);
+  }
+  .risk-card {
+    border-bottom: 1px solid var(--rule); padding: 12px 0;
+  }
+  .risk-card:last-child { border-bottom: none; }
+  .risk-card .rtitle { font-weight: 600; font-size: 13.5px; margin-bottom: 4px; }
+  .risk-card .rteam { font-family: var(--font-mono); font-size: 10.5px; color: var(--slate); margin-bottom: 6px; }
+  .risk-card .rwhy { font-size: 13px; line-height: 1.5; margin-bottom: 6px; }
+  .risk-card .rmit { font-size: 12.5px; line-height: 1.5; color: var(--slate); }
+  .risk-card .rmit strong { color: var(--ink); }
+
+  .node circle { cursor: pointer; }
+  .node text { font-family: var(--font-mono); font-size: 9.5px; fill: var(--ink); pointer-events: none; }
+  .link { stroke: #b8b2a0; stroke-width: 1.2px; fill: none; }
+  .link.critical { stroke: var(--critical); stroke-width: 2px; }
+  .link.affected { stroke: var(--risk); stroke-width: 2px; stroke-dasharray: 3,2; }
+  .node.affected circle { stroke: var(--risk); stroke-width: 2.5px; }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Fault Lines</h1>
+  <div class="sub">Q4 PLATFORM LAUNCH — 35 TASKS, 6 TEAMS — CROSS-TEAM DEPENDENCY &amp; BOTTLENECK RADAR</div>
+</header>
+
+<div class="layout">
+  <div id="graph-pane">
+    <div id="legend"></div>
+    <svg id="graph" width="100%" height="100%"></svg>
+  </div>
+  <aside>
+    <h2>Selected task</h2>
+    <div id="task-detail"><div class="placeholder">Click a node to inspect it.</div></div>
+
+    <h2>Simulate a delay</h2>
+    <div id="sim-controls">
+      <label id="sim-label">Select a task first, then drag the slider</label>
+      <input type="range" id="sim-slider" min="0" max="10" value="0" disabled>
+      <div id="sim-result"></div>
+    </div>
+
+    <div id="narrative-section">
+      <h2>AI risk briefing</h2>
+      <div id="narrative-body">Loading…</div>
+    </div>
+  </aside>
+</div>
+
+<script>
+const teamColor = {
+  Engineering: "var(--team-engineering)",
+  Data: "var(--team-data)",
+  Design: "var(--team-design)",
+  Compliance: "var(--team-compliance)",
+  Ops: "var(--team-ops)",
+  Marketing: "var(--team-marketing)",
+};
+const resolvedTeamColor = {};
+
+let TASKS, ANALYSIS, NARRATIVE;
+let selectedTaskId = null;
+
+Promise.all([
+  fetch('data/tasks.json').then(r => r.json()),
+  fetch('data/analysis.json').then(r => r.json()),
+  fetch('data/narrative.json').then(r => r.json()),
+]).then(([tasksData, analysis, narrative]) => {
+  TASKS = tasksData.tasks;
+  ANALYSIS = analysis;
+  NARRATIVE = narrative;
+  init();
+}).catch(err => {
+  document.getElementById('narrative-body').innerHTML =
+    '<div class="placeholder">Could not load data/*.json. Run generate_data.py, analyze.py, and narrative.py first, and serve this folder over HTTP (not file://).</div>';
+  console.error(err);
+});
+
+function init() {
+  buildLegend();
+  buildGraph();
+  renderNarrative();
+}
+
+function buildLegend() {
+  const style = getComputedStyle(document.documentElement);
+  const rows = Object.keys(teamColor).map(team => {
+    const c = style.getPropertyValue(teamColor[team].match(/--[\w-]+/)[0]).trim();
+    resolvedTeamColor[team] = c;
+    return `<div><span class="legend-dot" style="background:${c}"></span>${team}</div>`;
+  }).join('');
+  document.getElementById('legend').innerHTML =
+    rows + `<div style="margin-top:6px;border-top:1px solid var(--rule);padding-top:6px;">
+      <span style="display:inline-block;width:14px;border-top:2px solid var(--ink);vertical-align:middle;margin-right:6px;"></span>critical path<br>
+      <span style="display:inline-block;width:9px;height:9px;border-radius:50%;border:2px solid var(--risk);vertical-align:middle;margin-right:6px;"></span>at risk
+    </div>`;
+}
+
+function buildGraph() {
+  const svg = d3.select('#graph');
+  const pane = document.getElementById('graph-pane');
+  const width = pane.clientWidth, height = pane.clientHeight;
+  svg.attr('viewBox', [0, 0, width, height]);
+
+  const taskById = Object.fromEntries(TASKS.map(t => [t.id, t]));
+  const criticalSet = new Set(ANALYSIS.cpm.critical_path);
+
+  const outDegree = {};
+  TASKS.forEach(t => t.deps.forEach(d => { outDegree[d] = (outDegree[d] || 0) + 1; }));
+
+  const nodes = TASKS.map(t => ({ ...t, deps_out_count: outDegree[t.id] || 0 }));
+  const links = [];
+  TASKS.forEach(t => t.deps.forEach(d => links.push({ source: d, target: t.id })));
+
+  const sim = d3.forceSimulation(nodes)
+    .force('link', d3.forceLink(links).id(d => d.id).distance(70).strength(0.5))
+    .force('charge', d3.forceManyBody().strength(-180))
+    .force('x', d3.forceX(width / 2).strength(0.06))
+    .force('y', d3.forceY(height / 2).strength(0.06))
+    .force('collide', d3.forceCollide(20));
+
+  const link = svg.append('g').selectAll('path')
+    .data(links).join('path')
+    .attr('class', d => 'link' + (criticalSet.has(d.source) && criticalSet.has(d.target) ? ' critical' : ''))
+    .attr('marker-end', 'url(#arrow)');
+
+  svg.append('defs').append('marker')
+    .attr('id', 'arrow').attr('viewBox', '0 -4 8 8')
+    .attr('refX', 16).attr('refY', 0)
+    .attr('markerWidth', 6).attr('markerHeight', 6)
+    .attr('orient', 'auto')
+    .append('path').attr('d', 'M0,-4L8,0L0,4').attr('fill', '#b8b2a0');
+
+  const node = svg.append('g').selectAll('g')
+    .data(nodes).join('g')
+    .attr('class', 'node')
+    .call(d3.drag()
+      .on('start', (e, d) => { if (!e.active) sim.alphaTarget(0.2).restart(); d.fx = d.x; d.fy = d.y; })
+      .on('drag', (e, d) => { d.fx = e.x; d.fy = e.y; })
+      .on('end', (e, d) => { if (!e.active) sim.alphaTarget(0); d.fx = null; d.fy = null; }));
+
+  node.append('circle')
+    .attr('r', d => 5 + Math.min(d.deps_out_count || 0, 10))
+    .attr('fill', d => resolvedTeamColor[d.team])
+    .attr('stroke', d => d.status === 'blocked' ? 'var(--risk)' : 'var(--paper)')
+    .attr('stroke-width', d => criticalSet.has(d.id) ? 3 : 1.5);
+
+  node.append('text')
+    .attr('dy', -11)
+    .attr('text-anchor', 'middle')
+    .text(d => d.id);
+
+  node.on('click', (event, d) => selectTask(d.id));
+
+  sim.on('tick', () => {
+    link.attr('d', d => `M${d.source.x},${d.source.y}L${d.target.x},${d.target.y}`);
+    node.attr('transform', d => `translate(${d.x},${d.y})`);
+  });
+
+  window._graphRefs = { svg, node, link, sim, criticalSet };
+}
+
+function selectTask(id) {
+  selectedTaskId = id;
+  const task = TASKS.find(t => t.id === id);
+  const cpm = ANALYSIS.cpm;
+  const bScore = ANALYSIS.bottleneck_scores.find(s => s.id === id);
+  const onCritical = cpm.critical_path.includes(id);
+
+  const dependents = TASKS.filter(t => t.deps.includes(id)).map(t => t.id);
+
+  document.getElementById('task-detail').innerHTML = `
+    <div class="name">${task.name}</div>
+    <div class="meta">${id} · ${task.team} · owner ${task.owner} · ${task.duration}d</div>
+    ${onCritical ? '<span class="tag crit">CRITICAL PATH</span>' : ''}
+    ${bScore && bScore.at_risk ? '<span class="tag risk">AT RISK</span>' : ''}
+    <span class="tag">status: ${task.status.replace('_',' ')}</span>
+    <span class="tag">${task.pct}% complete</span>
+    <div style="margin-top:10px;font-size:12.5px;color:var(--slate);">
+      Blast radius: <strong style="color:var(--ink)">${bScore ? bScore.blast_radius : 0} downstream tasks</strong>.
+      ${dependents.length ? 'Directly unblocks: ' + dependents.join(', ') + '.' : 'No direct dependents.'}
+    </div>
+  `;
+
+  const slider = document.getElementById('sim-slider');
+  slider.disabled = false;
+  slider.value = 0;
+  document.getElementById('sim-label').textContent = `Delay "${task.name}" by:`;
+  runSimulation(id, 0);
+}
+
+document.getElementById('sim-slider').addEventListener('input', (e) => {
+  if (selectedTaskId) runSimulation(selectedTaskId, +e.target.value);
+});
+
+function runSimulation(taskId, delayDays) {
+  document.getElementById('sim-label').textContent =
+    `Delay "${TASKS.find(t=>t.id===taskId).name}" by ${delayDays} day${delayDays === 1 ? '' : 's'}`;
+
+  if (delayDays === 0) {
+    document.getElementById('sim-result').innerHTML =
+      '<span class="noslip">No delay applied — program stays on its current end date.</span>';
+    clearAffected();
+    return;
+  }
+
+  const result = clientSideCascade(taskId, delayDays);
+  const el = document.getElementById('sim-result');
+  if (result.programSlip > 0) {
+    el.innerHTML = `<span class="slip">Program end date slips ${result.programSlip} day${result.programSlip===1?'':'s'}.</span>
+      ${result.affectedTasks.length} downstream tasks shift, across ${Object.keys(result.affectedTeams).length} team(s):
+      ${Object.entries(result.affectedTeams).map(([t,d]) => `${t} (+${d}d)`).join(', ')}.`;
+  } else {
+    el.innerHTML = `<span class="noslip">Absorbed by slack — no change to the program end date.</span>`;
+  }
+  markAffected(result.affectedTasks.map(t => t.id));
+}
+
+// Mirrors analyze.py's simulate_delay(), recomputed client-side so the
+// slider is instant with no round trip to the AI or the backend.
+function clientSideCascade(taskId, delayDays) {
+  const byId = Object.fromEntries(TASKS.map(t => [t.id, t]));
+  const ef = { ...ANALYSIS.cpm.earliest_finish };
+  const newEf = { ...ef };
+  newEf[taskId] = ef[taskId] + delayDays;
+
+  const order = topoOrder();
+  for (const id of order) {
+    if (id === taskId) continue;
+    const preds = TASKS.find(t => t.id === id).deps;
+    if (!preds.length) continue;
+    const candidateStart = Math.max(...preds.map(p => newEf[p] ?? ef[p]));
+    const candidateFinish = candidateStart + byId[id].duration;
+    if (candidateFinish > newEf[id]) newEf[id] = candidateFinish;
+  }
+
+  const oldLen = ANALYSIS.cpm.program_length_days;
+  const newLen = Math.max(...Object.values(newEf));
+  const affectedTasks = [];
+  const affectedTeams = {};
+  for (const id of Object.keys(newEf)) {
+    const shift = newEf[id] - ef[id];
+    if (shift > 0) {
+      affectedTasks.push({ id, shift });
+      const team = byId[id].team;
+      affectedTeams[team] = Math.max(affectedTeams[team] || 0, shift);
+    }
+  }
+  return { programSlip: newLen - oldLen, affectedTasks, affectedTeams };
+}
+
+function topoOrder() {
+  const visited = new Set(), order = [];
+  const byId = Object.fromEntries(TASKS.map(t => [t.id, t]));
+  function visit(id) {
+    if (visited.has(id)) return;
+    visited.add(id);
+    byId[id].deps.forEach(visit);
+    order.push(id);
+  }
+  TASKS.forEach(t => visit(t.id));
+  return order;
+}
+
+function markAffected(ids) {
+  const set = new Set(ids);
+  window._graphRefs.node.classed('affected', d => set.has(d.id));
+  window._graphRefs.link.classed('affected', d => set.has(d.target.id || d.target));
+}
+function clearAffected() {
+  window._graphRefs.node.classed('affected', false);
+  window._graphRefs.link.classed('affected', false);
+}
+
+function renderNarrative() {
+  const body = document.getElementById('narrative-body');
+  const risksHtml = NARRATIVE.risks.map(r => `
+    <div class="risk-card">
+      <div class="rtitle">${r.task_name}</div>
+      <div class="rteam">${r.task_id} · ${r.team}</div>
+      <div class="rwhy">${r.why_it_matters}</div>
+      <div class="rmit"><strong>Do this:</strong> ${r.mitigation}</div>
+    </div>
+  `).join('');
+  body.innerHTML = `
+    <div class="headline">${NARRATIVE.headline}</div>
+    ${risksHtml}
+    <div style="margin-top:14px;font-size:12.5px;color:var(--slate);font-style:italic;">${NARRATIVE.cascade_summary}</div>
+  `;
+}
+</script>
+</body>
+</html>

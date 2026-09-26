@@ -1,0 +1,795 @@
+{
+  "cpm": {
+    "program_length_days": 53,
+    "critical_path": [
+      "C01",
+      "C03",
+      "C06",
+      "C08",
+      "C15",
+      "C17",
+      "C20",
+      "C21",
+      "C22",
+      "C23",
+      "C24"
+    ],
+    "slack": {
+      "C01": 0,
+      "C02": 4,
+      "C03": 0,
+      "C04": 29,
+      "C05": 20,
+      "C06": 0,
+      "C07": 4,
+      "C08": 0,
+      "C09": 6,
+      "C10": 28,
+      "C11": 3,
+      "C12": 20,
+      "C13": 16,
+      "C14": 1,
+      "C15": 0,
+      "C16": 28,
+      "C17": 0,
+      "C18": 9,
+      "C19": 28,
+      "C20": 0,
+      "C21": 0,
+      "C22": 0,
+      "C23": 0,
+      "C24": 0,
+      "C25": 4,
+      "C26": 17,
+      "C27": 23,
+      "C28": 14
+    },
+    "earliest_finish": {
+      "C01": 5,
+      "C02": 9,
+      "C03": 13,
+      "C04": 10,
+      "C05": 8,
+      "C10": 14,
+      "C06": 23,
+      "C07": 19,
+      "C12": 10,
+      "C16": 20,
+      "C11": 27,
+      "C13": 27,
+      "C08": 29,
+      "C09": 23,
+      "C19": 23,
+      "C27": 30,
+      "C14": 33,
+      "C15": 34,
+      "C26": 36,
+      "C17": 44,
+      "C18": 37,
+      "C20": 46,
+      "C21": 46,
+      "C28": 39,
+      "C22": 47,
+      "C23": 48,
+      "C25": 49,
+      "C24": 53
+    }
+  },
+  "bottleneck_scores": [
+    {
+      "id": "C01",
+      "name": "Custodian API contract & SLA review",
+      "team": "Ops",
+      "owner": "K. Brennan",
+      "status": "done",
+      "pct": 100,
+      "blast_radius": 27,
+      "on_critical_path": true,
+      "at_risk": false,
+      "score": 40.5
+    },
+    {
+      "id": "C07",
+      "name": "Transaction ingest pipeline",
+      "team": "Data",
+      "owner": "E. Marsh",
+      "status": "in_progress",
+      "pct": 35,
+      "blast_radius": 14,
+      "on_critical_path": false,
+      "at_risk": true,
+      "score": 35.0
+    },
+    {
+      "id": "C03",
+      "name": "Custodian-to-internal data mapping",
+      "team": "Data",
+      "owner": "E. Marsh",
+      "status": "in_progress",
+      "pct": 60,
+      "blast_radius": 19,
+      "on_critical_path": true,
+      "at_risk": false,
+      "score": 28.5
+    },
+    {
+      "id": "C05",
+      "name": "SFTP & API credential provisioning",
+      "team": "Ops",
+      "owner": "K. Brennan",
+      "status": "blocked",
+      "pct": 10,
+      "blast_radius": 10,
+      "on_critical_path": false,
+      "at_risk": true,
+      "score": 25.0
+    },
+    {
+      "id": "C06",
+      "name": "Position & balance sync service",
+      "team": "Engineering",
+      "owner": "T. Oduya",
+      "status": "not_started",
+      "pct": 0,
+      "blast_radius": 16,
+      "on_critical_path": true,
+      "at_risk": false,
+      "score": 24.0
+    },
+    {
+      "id": "C02",
+      "name": "Integration architecture design",
+      "team": "Engineering",
+      "owner": "T. Oduya",
+      "status": "done",
+      "pct": 100,
+      "blast_radius": 20,
+      "on_critical_path": false,
+      "at_risk": false,
+      "score": 20.0
+    },
+    {
+      "id": "C08",
+      "name": "Reconciliation rules engine",
+      "team": "Data",
+      "owner": "R. Iyer",
+      "status": "not_started",
+      "pct": 0,
+      "blast_radius": 12,
+      "on_critical_path": true,
+      "at_risk": false,
+      "score": 18.0
+    },
+    {
+      "id": "C15",
+      "name": "Historical data backfill",
+      "team": "Data",
+      "owner": "R. Iyer",
+      "status": "not_started",
+      "pct": 0,
+      "blast_radius": 9,
+      "on_critical_path": true,
+      "at_risk": false,
+      "score": 13.5
+    },
+    {
+      "id": "C09",
+      "name": "Corporate actions handling",
+      "team": "Data",
+      "owner": "R. Iyer",
+      "status": "not_started",
+      "pct": 0,
+      "blast_radius": 10,
+      "on_critical_path": false,
+      "at_risk": false,
+      "score": 10.0
+    },
+    {
+      "id": "C11",
+      "name": "Exception & break queue",
+      "team": "Engineering",
+      "owner": "J. Whitfield",
+      "status": "not_started",
+      "pct": 0,
+      "blast_radius": 10,
+      "on_critical_path": false,
+      "at_risk": false,
+      "score": 10.0
+    },
+    {
+      "id": "C12",
+      "name": "Sandbox connectivity test",
+      "team": "Ops",
+      "owner": "K. Brennan",
+      "status": "not_started",
+      "pct": 0,
+      "blast_radius": 9,
+      "on_critical_path": false,
+      "at_risk": false,
+      "score": 9.0
+    },
+    {
+      "id": "C17",
+      "name": "Parallel-run reconciliation",
+      "team": "Ops",
+      "owner": "S. Adeyemi",
+      "status": "not_started",
+      "pct": 0,
+      "blast_radius": 6,
+      "on_critical_path": true,
+      "at_risk": false,
+      "score": 9.0
+    },
+    {
+      "id": "C14",
+      "name": "End-to-end sync in sandbox",
+      "team": "Engineering",
+      "owner": "J. Whitfield",
+      "status": "not_started",
+      "pct": 0,
+      "blast_radius": 8,
+      "on_critical_path": false,
+      "at_risk": false,
+      "score": 8.0
+    },
+    {
+      "id": "C10",
+      "name": "Advisor account-status UI design",
+      "team": "Design",
+      "owner": "M. Castillo",
+      "status": "in_progress",
+      "pct": 30,
+      "blast_radius": 3,
+      "on_critical_path": false,
+      "at_risk": true,
+      "score": 7.5
+    },
+    {
+      "id": "C04",
+      "name": "Security & access review",
+      "team": "Compliance",
+      "owner": "H. Varga",
+      "status": "in_progress",
+      "pct": 70,
+      "blast_radius": 7,
+      "on_critical_path": false,
+      "at_risk": false,
+      "score": 7.0
+    },
+    {
+      "id": "C13",
+      "name": "Entitlements & data access controls",
+      "team": "Compliance",
+      "owner": "H. Varga",
+      "status": "not_started",
+      "pct": 0,
+      "blast_radius": 6,
+      "on_critical_path": false,
+      "at_risk": false,
+      "score": 6.0
+    },
+    {
+      "id": "C20",
+      "name": "Parallel-run sign-off",
+      "team": "Data",
+      "owner": "E. Marsh",
+      "status": "not_started",
+      "pct": 0,
+      "blast_radius": 4,
+      "on_critical_path": true,
+      "at_risk": false,
+      "score": 6.0
+    },
+    {
+      "id": "C21",
+      "name": "Production credentials & cutover plan",
+      "team": "Ops",
+      "owner": "S. Adeyemi",
+      "status": "not_started",
+      "pct": 0,
+      "blast_radius": 4,
+      "on_critical_path": true,
+      "at_risk": false,
+      "score": 6.0
+    },
+    {
+      "id": "C18",
+      "name": "Data lineage compliance review",
+      "team": "Compliance",
+      "owner": "H. Varga",
+      "status": "not_started",
+      "pct": 0,
+      "blast_radius": 5,
+      "on_critical_path": false,
+      "at_risk": false,
+      "score": 5.0
+    },
+    {
+      "id": "C22",
+      "name": "Go-live readiness review",
+      "team": "Engineering",
+      "owner": "T. Oduya",
+      "status": "not_started",
+      "pct": 0,
+      "blast_radius": 3,
+      "on_critical_path": true,
+      "at_risk": false,
+      "score": 4.5
+    },
+    {
+      "id": "C16",
+      "name": "Account onboarding flow build",
+      "team": "Engineering",
+      "owner": "J. Whitfield",
+      "status": "not_started",
+      "pct": 0,
+      "blast_radius": 2,
+      "on_critical_path": false,
+      "at_risk": false,
+      "score": 2.0
+    },
+    {
+      "id": "C23",
+      "name": "Production cutover",
+      "team": "Engineering",
+      "owner": "T. Oduya",
+      "status": "not_started",
+      "pct": 0,
+      "blast_radius": 1,
+      "on_critical_path": true,
+      "at_risk": false,
+      "score": 1.5
+    },
+    {
+      "id": "C19",
+      "name": "Advisor pilot group enablement",
+      "team": "Marketing",
+      "owner": "N. Laurent",
+      "status": "not_started",
+      "pct": 0,
+      "blast_radius": 1,
+      "on_critical_path": false,
+      "at_risk": false,
+      "score": 1.0
+    },
+    {
+      "id": "C24",
+      "name": "Hypercare window",
+      "team": "Ops",
+      "owner": "S. Adeyemi",
+      "status": "not_started",
+      "pct": 0,
+      "blast_radius": 0,
+      "on_critical_path": true,
+      "at_risk": false,
+      "score": 0.0
+    },
+    {
+      "id": "C25",
+      "name": "Advisor comms & release notes",
+      "team": "Marketing",
+      "owner": "N. Laurent",
+      "status": "not_started",
+      "pct": 0,
+      "blast_radius": 0,
+      "on_critical_path": false,
+      "at_risk": false,
+      "score": 0.0
+    },
+    {
+      "id": "C26",
+      "name": "Custodian-break support runbook",
+      "team": "Ops",
+      "owner": "S. Adeyemi",
+      "status": "not_started",
+      "pct": 0,
+      "blast_radius": 0,
+      "on_critical_path": false,
+      "at_risk": false,
+      "score": 0.0
+    },
+    {
+      "id": "C27",
+      "name": "Feed monitoring & alerting",
+      "team": "Engineering",
+      "owner": "J. Whitfield",
+      "status": "not_started",
+      "pct": 0,
+      "blast_radius": 0,
+      "on_critical_path": false,
+      "at_risk": false,
+      "score": 0.0
+    },
+    {
+      "id": "C28",
+      "name": "Client notification letters",
+      "team": "Marketing",
+      "owner": "N. Laurent",
+      "status": "not_started",
+      "pct": 0,
+      "blast_radius": 0,
+      "on_critical_path": false,
+      "at_risk": false,
+      "score": 0.0
+    }
+  ],
+  "team_bottleneck_load": {
+    "Ops": {
+      "critical_path_tasks": 4,
+      "total_blast_radius": 56,
+      "at_risk_tasks": 1
+    },
+    "Engineering": {
+      "critical_path_tasks": 3,
+      "total_blast_radius": 60,
+      "at_risk_tasks": 0
+    },
+    "Data": {
+      "critical_path_tasks": 4,
+      "total_blast_radius": 68,
+      "at_risk_tasks": 1
+    },
+    "Compliance": {
+      "critical_path_tasks": 0,
+      "total_blast_radius": 18,
+      "at_risk_tasks": 0
+    },
+    "Design": {
+      "critical_path_tasks": 0,
+      "total_blast_radius": 3,
+      "at_risk_tasks": 1
+    },
+    "Marketing": {
+      "critical_path_tasks": 0,
+      "total_blast_radius": 1,
+      "at_risk_tasks": 0
+    }
+  },
+  "sample_delay_scenarios": [
+    {
+      "task_id": "C01",
+      "delay_days": 3,
+      "old_program_length_days": 53,
+      "new_program_length_days": 56,
+      "program_slip_days": 3,
+      "affected_teams": {
+        "Ops": 3,
+        "Engineering": 3,
+        "Data": 3,
+        "Compliance": 3,
+        "Design": 3,
+        "Marketing": 3
+      },
+      "affected_tasks": [
+        {
+          "id": "C01",
+          "name": "Custodian API contract & SLA review",
+          "team": "Ops",
+          "shift_days": 3
+        },
+        {
+          "id": "C02",
+          "name": "Integration architecture design",
+          "team": "Engineering",
+          "shift_days": 3
+        },
+        {
+          "id": "C03",
+          "name": "Custodian-to-internal data mapping",
+          "team": "Data",
+          "shift_days": 3
+        },
+        {
+          "id": "C04",
+          "name": "Security & access review",
+          "team": "Compliance",
+          "shift_days": 3
+        },
+        {
+          "id": "C05",
+          "name": "SFTP & API credential provisioning",
+          "team": "Ops",
+          "shift_days": 3
+        },
+        {
+          "id": "C06",
+          "name": "Position & balance sync service",
+          "team": "Engineering",
+          "shift_days": 3
+        },
+        {
+          "id": "C07",
+          "name": "Transaction ingest pipeline",
+          "team": "Data",
+          "shift_days": 3
+        },
+        {
+          "id": "C08",
+          "name": "Reconciliation rules engine",
+          "team": "Data",
+          "shift_days": 3
+        },
+        {
+          "id": "C09",
+          "name": "Corporate actions handling",
+          "team": "Data",
+          "shift_days": 3
+        },
+        {
+          "id": "C10",
+          "name": "Advisor account-status UI design",
+          "team": "Design",
+          "shift_days": 3
+        },
+        {
+          "id": "C11",
+          "name": "Exception & break queue",
+          "team": "Engineering",
+          "shift_days": 3
+        },
+        {
+          "id": "C12",
+          "name": "Sandbox connectivity test",
+          "team": "Ops",
+          "shift_days": 3
+        },
+        {
+          "id": "C13",
+          "name": "Entitlements & data access controls",
+          "team": "Compliance",
+          "shift_days": 3
+        },
+        {
+          "id": "C14",
+          "name": "End-to-end sync in sandbox",
+          "team": "Engineering",
+          "shift_days": 3
+        },
+        {
+          "id": "C15",
+          "name": "Historical data backfill",
+          "team": "Data",
+          "shift_days": 3
+        },
+        {
+          "id": "C16",
+          "name": "Account onboarding flow build",
+          "team": "Engineering",
+          "shift_days": 3
+        },
+        {
+          "id": "C17",
+          "name": "Parallel-run reconciliation",
+          "team": "Ops",
+          "shift_days": 3
+        },
+        {
+          "id": "C18",
+          "name": "Data lineage compliance review",
+          "team": "Compliance",
+          "shift_days": 3
+        },
+        {
+          "id": "C19",
+          "name": "Advisor pilot group enablement",
+          "team": "Marketing",
+          "shift_days": 3
+        },
+        {
+          "id": "C20",
+          "name": "Parallel-run sign-off",
+          "team": "Data",
+          "shift_days": 3
+        },
+        {
+          "id": "C21",
+          "name": "Production credentials & cutover plan",
+          "team": "Ops",
+          "shift_days": 3
+        },
+        {
+          "id": "C22",
+          "name": "Go-live readiness review",
+          "team": "Engineering",
+          "shift_days": 3
+        },
+        {
+          "id": "C23",
+          "name": "Production cutover",
+          "team": "Engineering",
+          "shift_days": 3
+        },
+        {
+          "id": "C24",
+          "name": "Hypercare window",
+          "team": "Ops",
+          "shift_days": 3
+        },
+        {
+          "id": "C25",
+          "name": "Advisor comms & release notes",
+          "team": "Marketing",
+          "shift_days": 3
+        },
+        {
+          "id": "C26",
+          "name": "Custodian-break support runbook",
+          "team": "Ops",
+          "shift_days": 3
+        },
+        {
+          "id": "C27",
+          "name": "Feed monitoring & alerting",
+          "team": "Engineering",
+          "shift_days": 3
+        },
+        {
+          "id": "C28",
+          "name": "Client notification letters",
+          "team": "Marketing",
+          "shift_days": 3
+        }
+      ]
+    },
+    {
+      "task_id": "C07",
+      "delay_days": 3,
+      "old_program_length_days": 53,
+      "new_program_length_days": 53,
+      "program_slip_days": 0,
+      "affected_teams": {
+        "Data": 3
+      },
+      "affected_tasks": [
+        {
+          "id": "C07",
+          "name": "Transaction ingest pipeline",
+          "team": "Data",
+          "shift_days": 3
+        },
+        {
+          "id": "C09",
+          "name": "Corporate actions handling",
+          "team": "Data",
+          "shift_days": 3
+        }
+      ]
+    },
+    {
+      "task_id": "C03",
+      "delay_days": 3,
+      "old_program_length_days": 53,
+      "new_program_length_days": 56,
+      "program_slip_days": 3,
+      "affected_teams": {
+        "Data": 3,
+        "Engineering": 3,
+        "Compliance": 3,
+        "Ops": 3,
+        "Marketing": 3
+      },
+      "affected_tasks": [
+        {
+          "id": "C03",
+          "name": "Custodian-to-internal data mapping",
+          "team": "Data",
+          "shift_days": 3
+        },
+        {
+          "id": "C06",
+          "name": "Position & balance sync service",
+          "team": "Engineering",
+          "shift_days": 3
+        },
+        {
+          "id": "C07",
+          "name": "Transaction ingest pipeline",
+          "team": "Data",
+          "shift_days": 3
+        },
+        {
+          "id": "C08",
+          "name": "Reconciliation rules engine",
+          "team": "Data",
+          "shift_days": 3
+        },
+        {
+          "id": "C09",
+          "name": "Corporate actions handling",
+          "team": "Data",
+          "shift_days": 3
+        },
+        {
+          "id": "C11",
+          "name": "Exception & break queue",
+          "team": "Engineering",
+          "shift_days": 3
+        },
+        {
+          "id": "C13",
+          "name": "Entitlements & data access controls",
+          "team": "Compliance",
+          "shift_days": 3
+        },
+        {
+          "id": "C14",
+          "name": "End-to-end sync in sandbox",
+          "team": "Engineering",
+          "shift_days": 3
+        },
+        {
+          "id": "C15",
+          "name": "Historical data backfill",
+          "team": "Data",
+          "shift_days": 3
+        },
+        {
+          "id": "C17",
+          "name": "Parallel-run reconciliation",
+          "team": "Ops",
+          "shift_days": 3
+        },
+        {
+          "id": "C18",
+          "name": "Data lineage compliance review",
+          "team": "Compliance",
+          "shift_days": 3
+        },
+        {
+          "id": "C20",
+          "name": "Parallel-run sign-off",
+          "team": "Data",
+          "shift_days": 3
+        },
+        {
+          "id": "C21",
+          "name": "Production credentials & cutover plan",
+          "team": "Ops",
+          "shift_days": 3
+        },
+        {
+          "id": "C22",
+          "name": "Go-live readiness review",
+          "team": "Engineering",
+          "shift_days": 3
+        },
+        {
+          "id": "C23",
+          "name": "Production cutover",
+          "team": "Engineering",
+          "shift_days": 3
+        },
+        {
+          "id": "C24",
+          "name": "Hypercare window",
+          "team": "Ops",
+          "shift_days": 3
+        },
+        {
+          "id": "C25",
+          "name": "Advisor comms & release notes",
+          "team": "Marketing",
+          "shift_days": 3
+        },
+        {
+          "id": "C26",
+          "name": "Custodian-break support runbook",
+          "team": "Ops",
+          "shift_days": 3
+        },
+        {
+          "id": "C27",
+          "name": "Feed monitoring & alerting",
+          "team": "Engineering",
+          "shift_days": 3
+        },
+        {
+          "id": "C28",
+          "name": "Client notification letters",
+          "team": "Marketing",
+          "shift_days": 3
+        }
+      ]
+    }
+  ]
+}

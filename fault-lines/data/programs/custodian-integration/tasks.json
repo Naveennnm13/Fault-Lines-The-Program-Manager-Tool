@@ -1,0 +1,363 @@
+{
+  "program": {
+    "slug": "custodian-integration",
+    "name": "Custodian Integration",
+    "start_date": "2026-11-02",
+    "teams": [
+      "Engineering",
+      "Data",
+      "Design",
+      "Compliance",
+      "Ops",
+      "Marketing"
+    ]
+  },
+  "tasks": [
+    {
+      "id": "C01",
+      "name": "Custodian API contract & SLA review",
+      "team": "Ops",
+      "owner": "K. Brennan",
+      "duration": 5,
+      "deps": [],
+      "status": "done",
+      "pct": 100
+    },
+    {
+      "id": "C02",
+      "name": "Integration architecture design",
+      "team": "Engineering",
+      "owner": "T. Oduya",
+      "duration": 4,
+      "deps": [
+        "C01"
+      ],
+      "status": "done",
+      "pct": 100
+    },
+    {
+      "id": "C03",
+      "name": "Custodian-to-internal data mapping",
+      "team": "Data",
+      "owner": "E. Marsh",
+      "duration": 8,
+      "deps": [
+        "C01"
+      ],
+      "status": "in_progress",
+      "pct": 60
+    },
+    {
+      "id": "C04",
+      "name": "Security & access review",
+      "team": "Compliance",
+      "owner": "H. Varga",
+      "duration": 5,
+      "deps": [
+        "C01"
+      ],
+      "status": "in_progress",
+      "pct": 70
+    },
+    {
+      "id": "C05",
+      "name": "SFTP & API credential provisioning",
+      "team": "Ops",
+      "owner": "K. Brennan",
+      "duration": 3,
+      "deps": [
+        "C01"
+      ],
+      "status": "blocked",
+      "pct": 10
+    },
+    {
+      "id": "C06",
+      "name": "Position & balance sync service",
+      "team": "Engineering",
+      "owner": "T. Oduya",
+      "duration": 10,
+      "deps": [
+        "C02",
+        "C03"
+      ],
+      "status": "not_started",
+      "pct": 0
+    },
+    {
+      "id": "C07",
+      "name": "Transaction ingest pipeline",
+      "team": "Data",
+      "owner": "E. Marsh",
+      "duration": 6,
+      "deps": [
+        "C03"
+      ],
+      "status": "in_progress",
+      "pct": 35
+    },
+    {
+      "id": "C08",
+      "name": "Reconciliation rules engine",
+      "team": "Data",
+      "owner": "R. Iyer",
+      "duration": 6,
+      "deps": [
+        "C06",
+        "C07"
+      ],
+      "status": "not_started",
+      "pct": 0
+    },
+    {
+      "id": "C09",
+      "name": "Corporate actions handling",
+      "team": "Data",
+      "owner": "R. Iyer",
+      "duration": 4,
+      "deps": [
+        "C07"
+      ],
+      "status": "not_started",
+      "pct": 0
+    },
+    {
+      "id": "C10",
+      "name": "Advisor account-status UI design",
+      "team": "Design",
+      "owner": "M. Castillo",
+      "duration": 5,
+      "deps": [
+        "C02"
+      ],
+      "status": "in_progress",
+      "pct": 30
+    },
+    {
+      "id": "C11",
+      "name": "Exception & break queue",
+      "team": "Engineering",
+      "owner": "J. Whitfield",
+      "duration": 4,
+      "deps": [
+        "C06"
+      ],
+      "status": "not_started",
+      "pct": 0
+    },
+    {
+      "id": "C12",
+      "name": "Sandbox connectivity test",
+      "team": "Ops",
+      "owner": "K. Brennan",
+      "duration": 2,
+      "deps": [
+        "C05"
+      ],
+      "status": "not_started",
+      "pct": 0
+    },
+    {
+      "id": "C13",
+      "name": "Entitlements & data access controls",
+      "team": "Compliance",
+      "owner": "H. Varga",
+      "duration": 4,
+      "deps": [
+        "C04",
+        "C06"
+      ],
+      "status": "not_started",
+      "pct": 0
+    },
+    {
+      "id": "C14",
+      "name": "End-to-end sync in sandbox",
+      "team": "Engineering",
+      "owner": "J. Whitfield",
+      "duration": 4,
+      "deps": [
+        "C08",
+        "C11",
+        "C12"
+      ],
+      "status": "not_started",
+      "pct": 0
+    },
+    {
+      "id": "C15",
+      "name": "Historical data backfill",
+      "team": "Data",
+      "owner": "R. Iyer",
+      "duration": 5,
+      "deps": [
+        "C08",
+        "C09"
+      ],
+      "status": "not_started",
+      "pct": 0
+    },
+    {
+      "id": "C16",
+      "name": "Account onboarding flow build",
+      "team": "Engineering",
+      "owner": "J. Whitfield",
+      "duration": 6,
+      "deps": [
+        "C10"
+      ],
+      "status": "not_started",
+      "pct": 0
+    },
+    {
+      "id": "C17",
+      "name": "Parallel-run reconciliation",
+      "team": "Ops",
+      "owner": "S. Adeyemi",
+      "duration": 10,
+      "deps": [
+        "C14",
+        "C15"
+      ],
+      "status": "not_started",
+      "pct": 0
+    },
+    {
+      "id": "C18",
+      "name": "Data lineage compliance review",
+      "team": "Compliance",
+      "owner": "H. Varga",
+      "duration": 3,
+      "deps": [
+        "C13",
+        "C15"
+      ],
+      "status": "not_started",
+      "pct": 0
+    },
+    {
+      "id": "C19",
+      "name": "Advisor pilot group enablement",
+      "team": "Marketing",
+      "owner": "N. Laurent",
+      "duration": 3,
+      "deps": [
+        "C16"
+      ],
+      "status": "not_started",
+      "pct": 0
+    },
+    {
+      "id": "C20",
+      "name": "Parallel-run sign-off",
+      "team": "Data",
+      "owner": "E. Marsh",
+      "duration": 2,
+      "deps": [
+        "C17"
+      ],
+      "status": "not_started",
+      "pct": 0
+    },
+    {
+      "id": "C21",
+      "name": "Production credentials & cutover plan",
+      "team": "Ops",
+      "owner": "S. Adeyemi",
+      "duration": 2,
+      "deps": [
+        "C17",
+        "C12"
+      ],
+      "status": "not_started",
+      "pct": 0
+    },
+    {
+      "id": "C22",
+      "name": "Go-live readiness review",
+      "team": "Engineering",
+      "owner": "T. Oduya",
+      "duration": 1,
+      "deps": [
+        "C20",
+        "C21",
+        "C18"
+      ],
+      "status": "not_started",
+      "pct": 0
+    },
+    {
+      "id": "C23",
+      "name": "Production cutover",
+      "team": "Engineering",
+      "owner": "T. Oduya",
+      "duration": 1,
+      "deps": [
+        "C22"
+      ],
+      "status": "not_started",
+      "pct": 0
+    },
+    {
+      "id": "C24",
+      "name": "Hypercare window",
+      "team": "Ops",
+      "owner": "S. Adeyemi",
+      "duration": 5,
+      "deps": [
+        "C23"
+      ],
+      "status": "not_started",
+      "pct": 0
+    },
+    {
+      "id": "C25",
+      "name": "Advisor comms & release notes",
+      "team": "Marketing",
+      "owner": "N. Laurent",
+      "duration": 2,
+      "deps": [
+        "C19",
+        "C22"
+      ],
+      "status": "not_started",
+      "pct": 0
+    },
+    {
+      "id": "C26",
+      "name": "Custodian-break support runbook",
+      "team": "Ops",
+      "owner": "S. Adeyemi",
+      "duration": 3,
+      "deps": [
+        "C14"
+      ],
+      "status": "not_started",
+      "pct": 0
+    },
+    {
+      "id": "C27",
+      "name": "Feed monitoring & alerting",
+      "team": "Engineering",
+      "owner": "J. Whitfield",
+      "duration": 3,
+      "deps": [
+        "C11"
+      ],
+      "status": "not_started",
+      "pct": 0
+    },
+    {
+      "id": "C28",
+      "name": "Client notification letters",
+      "team": "Marketing",
+      "owner": "N. Laurent",
+      "duration": 2,
+      "deps": [
+        "C18"
+      ],
+      "status": "not_started",
+      "pct": 0
+    }
+  ]
+}

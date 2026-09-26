@@ -1,0 +1,967 @@
+{
+  "cpm": {
+    "program_length_days": 41,
+    "critical_path": [
+      "T01",
+      "T05",
+      "T06",
+      "T12",
+      "T15",
+      "T19",
+      "T25",
+      "T26",
+      "T27"
+    ],
+    "slack": {
+      "T01": 0,
+      "T02": 3,
+      "T03": 13,
+      "T04": 5,
+      "T05": 0,
+      "T06": 0,
+      "T07": 3,
+      "T08": 13,
+      "T09": 5,
+      "T10": 8,
+      "T11": 9,
+      "T12": 0,
+      "T13": 3,
+      "T14": 13,
+      "T15": 0,
+      "T16": 15,
+      "T17": 9,
+      "T18": 3,
+      "T19": 0,
+      "T20": 15,
+      "T21": 18,
+      "T22": 3,
+      "T23": 1,
+      "T24": 10,
+      "T25": 0,
+      "T26": 0,
+      "T27": 0,
+      "T28": 3,
+      "T29": 25,
+      "T30": 23,
+      "T31": 20,
+      "T32": 16,
+      "T33": 14,
+      "T34": 14,
+      "T35": 5
+    },
+    "earliest_finish": {
+      "T01": 5,
+      "T02": 9,
+      "T03": 11,
+      "T04": 8,
+      "T05": 13,
+      "T07": 15,
+      "T08": 16,
+      "T09": 13,
+      "T06": 20,
+      "T10": 17,
+      "T11": 19,
+      "T30": 18,
+      "T31": 21,
+      "T14": 18,
+      "T13": 23,
+      "T16": 17,
+      "T29": 16,
+      "T12": 25,
+      "T17": 22,
+      "T18": 28,
+      "T32": 25,
+      "T33": 27,
+      "T20": 20,
+      "T21": 21,
+      "T15": 31,
+      "T24": 25,
+      "T22": 31,
+      "T19": 34,
+      "T23": 33,
+      "T34": 27,
+      "T25": 35,
+      "T26": 36,
+      "T35": 36,
+      "T27": 41,
+      "T28": 38
+    }
+  },
+  "bottleneck_scores": [
+    {
+      "id": "T05",
+      "name": "Vendor data feed contracts",
+      "team": "Ops",
+      "owner": "M. Reyes",
+      "status": "blocked",
+      "pct": 20,
+      "blast_radius": 15,
+      "on_critical_path": true,
+      "at_risk": true,
+      "score": 56.2
+    },
+    {
+      "id": "T01",
+      "name": "Define platform requirements",
+      "team": "Engineering",
+      "owner": "R. Kapoor",
+      "status": "done",
+      "pct": 100,
+      "blast_radius": 34,
+      "on_critical_path": true,
+      "at_risk": false,
+      "score": 51.0
+    },
+    {
+      "id": "T07",
+      "name": "Reporting API layer",
+      "team": "Engineering",
+      "owner": "R. Kapoor",
+      "status": "in_progress",
+      "pct": 40,
+      "blast_radius": 16,
+      "on_critical_path": false,
+      "at_risk": true,
+      "score": 40.0
+    },
+    {
+      "id": "T02",
+      "name": "Data model & schema design",
+      "team": "Data",
+      "owner": "S. Ibarra",
+      "status": "done",
+      "pct": 100,
+      "blast_radius": 22,
+      "on_critical_path": false,
+      "at_risk": false,
+      "score": 22.0
+    },
+    {
+      "id": "T04",
+      "name": "Design system audit",
+      "team": "Design",
+      "owner": "L. Chen",
+      "status": "done",
+      "pct": 100,
+      "blast_radius": 15,
+      "on_critical_path": false,
+      "at_risk": false,
+      "score": 15.0
+    },
+    {
+      "id": "T09",
+      "name": "Component library build",
+      "team": "Design",
+      "owner": "L. Chen",
+      "status": "in_progress",
+      "pct": 70,
+      "blast_radius": 14,
+      "on_critical_path": false,
+      "at_risk": false,
+      "score": 14.0
+    },
+    {
+      "id": "T06",
+      "name": "Core ingestion pipeline",
+      "team": "Data",
+      "owner": "S. Ibarra",
+      "status": "not_started",
+      "pct": 0,
+      "blast_radius": 9,
+      "on_critical_path": true,
+      "at_risk": false,
+      "score": 13.5
+    },
+    {
+      "id": "T10",
+      "name": "Vendor onboarding & sandbox test",
+      "team": "Ops",
+      "owner": "M. Reyes",
+      "status": "not_started",
+      "pct": 0,
+      "blast_radius": 12,
+      "on_critical_path": false,
+      "at_risk": false,
+      "score": 12.0
+    },
+    {
+      "id": "T12",
+      "name": "Data quality validation rules",
+      "team": "Data",
+      "owner": "P. Singh",
+      "status": "not_started",
+      "pct": 0,
+      "blast_radius": 8,
+      "on_critical_path": true,
+      "at_risk": false,
+      "score": 12.0
+    },
+    {
+      "id": "T15",
+      "name": "Cross-team data reconciliation",
+      "team": "Data",
+      "owner": "P. Singh",
+      "status": "not_started",
+      "pct": 0,
+      "blast_radius": 7,
+      "on_critical_path": true,
+      "at_risk": false,
+      "score": 10.5
+    },
+    {
+      "id": "T11",
+      "name": "Audit trail logging",
+      "team": "Engineering",
+      "owner": "A. Novak",
+      "status": "not_started",
+      "pct": 0,
+      "blast_radius": 9,
+      "on_critical_path": false,
+      "at_risk": false,
+      "score": 9.0
+    },
+    {
+      "id": "T13",
+      "name": "Dashboard front-end build",
+      "team": "Engineering",
+      "owner": "A. Novak",
+      "status": "not_started",
+      "pct": 0,
+      "blast_radius": 9,
+      "on_critical_path": false,
+      "at_risk": false,
+      "score": 9.0
+    },
+    {
+      "id": "T03",
+      "name": "Compliance scope review",
+      "team": "Compliance",
+      "owner": "J. Okafor",
+      "status": "in_progress",
+      "pct": 60,
+      "blast_radius": 8,
+      "on_critical_path": false,
+      "at_risk": false,
+      "score": 8.0
+    },
+    {
+      "id": "T17",
+      "name": "Internal beta access rollout",
+      "team": "Ops",
+      "owner": "M. Reyes",
+      "status": "not_started",
+      "pct": 0,
+      "blast_radius": 8,
+      "on_critical_path": false,
+      "at_risk": false,
+      "score": 8.0
+    },
+    {
+      "id": "T19",
+      "name": "Regulatory filing submission",
+      "team": "Compliance",
+      "owner": "J. Okafor",
+      "status": "not_started",
+      "pct": 0,
+      "blast_radius": 5,
+      "on_critical_path": true,
+      "at_risk": false,
+      "score": 7.5
+    },
+    {
+      "id": "T08",
+      "name": "KYC / regulatory checks",
+      "team": "Compliance",
+      "owner": "J. Okafor",
+      "status": "not_started",
+      "pct": 0,
+      "blast_radius": 7,
+      "on_critical_path": false,
+      "at_risk": false,
+      "score": 7.0
+    },
+    {
+      "id": "T14",
+      "name": "Compliance sign-off checkpoint",
+      "team": "Compliance",
+      "owner": "J. Okafor",
+      "status": "not_started",
+      "pct": 0,
+      "blast_radius": 6,
+      "on_critical_path": false,
+      "at_risk": false,
+      "score": 6.0
+    },
+    {
+      "id": "T18",
+      "name": "Load & performance testing",
+      "team": "Engineering",
+      "owner": "A. Novak",
+      "status": "not_started",
+      "pct": 0,
+      "blast_radius": 6,
+      "on_critical_path": false,
+      "at_risk": false,
+      "score": 6.0
+    },
+    {
+      "id": "T25",
+      "name": "Go / no-go readiness review",
+      "team": "Engineering",
+      "owner": "R. Kapoor",
+      "status": "not_started",
+      "pct": 0,
+      "blast_radius": 4,
+      "on_critical_path": true,
+      "at_risk": false,
+      "score": 6.0
+    },
+    {
+      "id": "T16",
+      "name": "Brand & messaging finalization",
+      "team": "Marketing",
+      "owner": "D. Alvarez",
+      "status": "not_started",
+      "pct": 0,
+      "blast_radius": 5,
+      "on_critical_path": false,
+      "at_risk": false,
+      "score": 5.0
+    },
+    {
+      "id": "T22",
+      "name": "Production cutover rehearsal",
+      "team": "Engineering",
+      "owner": "R. Kapoor",
+      "status": "not_started",
+      "pct": 0,
+      "blast_radius": 5,
+      "on_critical_path": false,
+      "at_risk": false,
+      "score": 5.0
+    },
+    {
+      "id": "T23",
+      "name": "Final data accuracy sign-off",
+      "team": "Data",
+      "owner": "S. Ibarra",
+      "status": "not_started",
+      "pct": 0,
+      "blast_radius": 5,
+      "on_critical_path": false,
+      "at_risk": false,
+      "score": 5.0
+    },
+    {
+      "id": "T24",
+      "name": "Support team training",
+      "team": "Ops",
+      "owner": "M. Reyes",
+      "status": "not_started",
+      "pct": 0,
+      "blast_radius": 4,
+      "on_critical_path": false,
+      "at_risk": false,
+      "score": 4.0
+    },
+    {
+      "id": "T20",
+      "name": "Customer-facing help docs",
+      "team": "Marketing",
+      "owner": "D. Alvarez",
+      "status": "not_started",
+      "pct": 0,
+      "blast_radius": 3,
+      "on_critical_path": false,
+      "at_risk": false,
+      "score": 3.0
+    },
+    {
+      "id": "T26",
+      "name": "Production launch",
+      "team": "Engineering",
+      "owner": "R. Kapoor",
+      "status": "not_started",
+      "pct": 0,
+      "blast_radius": 2,
+      "on_critical_path": true,
+      "at_risk": false,
+      "score": 3.0
+    },
+    {
+      "id": "T21",
+      "name": "Launch comms & press plan",
+      "team": "Marketing",
+      "owner": "D. Alvarez",
+      "status": "not_started",
+      "pct": 0,
+      "blast_radius": 1,
+      "on_critical_path": false,
+      "at_risk": false,
+      "score": 1.0
+    },
+    {
+      "id": "T27",
+      "name": "Post-launch monitoring window",
+      "team": "Ops",
+      "owner": "M. Reyes",
+      "status": "not_started",
+      "pct": 0,
+      "blast_radius": 0,
+      "on_critical_path": true,
+      "at_risk": false,
+      "score": 0.0
+    },
+    {
+      "id": "T28",
+      "name": "Press release & launch marketing push",
+      "team": "Marketing",
+      "owner": "D. Alvarez",
+      "status": "not_started",
+      "pct": 0,
+      "blast_radius": 0,
+      "on_critical_path": false,
+      "at_risk": false,
+      "score": 0.0
+    },
+    {
+      "id": "T29",
+      "name": "Accessibility review",
+      "team": "Design",
+      "owner": "L. Chen",
+      "status": "not_started",
+      "pct": 0,
+      "blast_radius": 0,
+      "on_critical_path": false,
+      "at_risk": false,
+      "score": 0.0
+    },
+    {
+      "id": "T30",
+      "name": "Analytics event tagging",
+      "team": "Data",
+      "owner": "P. Singh",
+      "status": "not_started",
+      "pct": 0,
+      "blast_radius": 0,
+      "on_critical_path": false,
+      "at_risk": false,
+      "score": 0.0
+    },
+    {
+      "id": "T31",
+      "name": "Third-party security pen test",
+      "team": "Compliance",
+      "owner": "J. Okafor",
+      "status": "not_started",
+      "pct": 0,
+      "blast_radius": 0,
+      "on_critical_path": false,
+      "at_risk": false,
+      "score": 0.0
+    },
+    {
+      "id": "T32",
+      "name": "Internal training deck",
+      "team": "Marketing",
+      "owner": "D. Alvarez",
+      "status": "not_started",
+      "pct": 0,
+      "blast_radius": 0,
+      "on_critical_path": false,
+      "at_risk": false,
+      "score": 0.0
+    },
+    {
+      "id": "T33",
+      "name": "Disaster recovery runbook",
+      "team": "Engineering",
+      "owner": "A. Novak",
+      "status": "not_started",
+      "pct": 0,
+      "blast_radius": 0,
+      "on_critical_path": false,
+      "at_risk": false,
+      "score": 0.0
+    },
+    {
+      "id": "T34",
+      "name": "Customer support macros",
+      "team": "Ops",
+      "owner": "M. Reyes",
+      "status": "not_started",
+      "pct": 0,
+      "blast_radius": 0,
+      "on_critical_path": false,
+      "at_risk": false,
+      "score": 0.0
+    },
+    {
+      "id": "T35",
+      "name": "Executive launch briefing",
+      "team": "Marketing",
+      "owner": "D. Alvarez",
+      "status": "not_started",
+      "pct": 0,
+      "blast_radius": 0,
+      "on_critical_path": false,
+      "at_risk": false,
+      "score": 0.0
+    }
+  ],
+  "team_bottleneck_load": {
+    "Engineering": {
+      "critical_path_tasks": 3,
+      "total_blast_radius": 85,
+      "at_risk_tasks": 1
+    },
+    "Data": {
+      "critical_path_tasks": 3,
+      "total_blast_radius": 51,
+      "at_risk_tasks": 0
+    },
+    "Compliance": {
+      "critical_path_tasks": 1,
+      "total_blast_radius": 26,
+      "at_risk_tasks": 0
+    },
+    "Design": {
+      "critical_path_tasks": 0,
+      "total_blast_radius": 29,
+      "at_risk_tasks": 0
+    },
+    "Ops": {
+      "critical_path_tasks": 2,
+      "total_blast_radius": 39,
+      "at_risk_tasks": 1
+    },
+    "Marketing": {
+      "critical_path_tasks": 0,
+      "total_blast_radius": 9,
+      "at_risk_tasks": 0
+    }
+  },
+  "sample_delay_scenarios": [
+    {
+      "task_id": "T05",
+      "delay_days": 3,
+      "old_program_length_days": 41,
+      "new_program_length_days": 44,
+      "program_slip_days": 3,
+      "affected_teams": {
+        "Ops": 3,
+        "Data": 3,
+        "Compliance": 3,
+        "Engineering": 3,
+        "Marketing": 3
+      },
+      "affected_tasks": [
+        {
+          "id": "T05",
+          "name": "Vendor data feed contracts",
+          "team": "Ops",
+          "shift_days": 3
+        },
+        {
+          "id": "T06",
+          "name": "Core ingestion pipeline",
+          "team": "Data",
+          "shift_days": 3
+        },
+        {
+          "id": "T10",
+          "name": "Vendor onboarding & sandbox test",
+          "team": "Ops",
+          "shift_days": 3
+        },
+        {
+          "id": "T12",
+          "name": "Data quality validation rules",
+          "team": "Data",
+          "shift_days": 3
+        },
+        {
+          "id": "T15",
+          "name": "Cross-team data reconciliation",
+          "team": "Data",
+          "shift_days": 3
+        },
+        {
+          "id": "T19",
+          "name": "Regulatory filing submission",
+          "team": "Compliance",
+          "shift_days": 3
+        },
+        {
+          "id": "T23",
+          "name": "Final data accuracy sign-off",
+          "team": "Data",
+          "shift_days": 3
+        },
+        {
+          "id": "T25",
+          "name": "Go / no-go readiness review",
+          "team": "Engineering",
+          "shift_days": 3
+        },
+        {
+          "id": "T26",
+          "name": "Production launch",
+          "team": "Engineering",
+          "shift_days": 3
+        },
+        {
+          "id": "T27",
+          "name": "Post-launch monitoring window",
+          "team": "Ops",
+          "shift_days": 3
+        },
+        {
+          "id": "T28",
+          "name": "Press release & launch marketing push",
+          "team": "Marketing",
+          "shift_days": 3
+        },
+        {
+          "id": "T35",
+          "name": "Executive launch briefing",
+          "team": "Marketing",
+          "shift_days": 3
+        },
+        {
+          "id": "T17",
+          "name": "Internal beta access rollout",
+          "team": "Ops",
+          "shift_days": 1
+        },
+        {
+          "id": "T24",
+          "name": "Support team training",
+          "team": "Ops",
+          "shift_days": 1
+        },
+        {
+          "id": "T34",
+          "name": "Customer support macros",
+          "team": "Ops",
+          "shift_days": 1
+        }
+      ]
+    },
+    {
+      "task_id": "T01",
+      "delay_days": 3,
+      "old_program_length_days": 41,
+      "new_program_length_days": 44,
+      "program_slip_days": 3,
+      "affected_teams": {
+        "Engineering": 3,
+        "Data": 3,
+        "Compliance": 3,
+        "Design": 3,
+        "Ops": 3,
+        "Marketing": 3
+      },
+      "affected_tasks": [
+        {
+          "id": "T01",
+          "name": "Define platform requirements",
+          "team": "Engineering",
+          "shift_days": 3
+        },
+        {
+          "id": "T02",
+          "name": "Data model & schema design",
+          "team": "Data",
+          "shift_days": 3
+        },
+        {
+          "id": "T03",
+          "name": "Compliance scope review",
+          "team": "Compliance",
+          "shift_days": 3
+        },
+        {
+          "id": "T04",
+          "name": "Design system audit",
+          "team": "Design",
+          "shift_days": 3
+        },
+        {
+          "id": "T05",
+          "name": "Vendor data feed contracts",
+          "team": "Ops",
+          "shift_days": 3
+        },
+        {
+          "id": "T06",
+          "name": "Core ingestion pipeline",
+          "team": "Data",
+          "shift_days": 3
+        },
+        {
+          "id": "T07",
+          "name": "Reporting API layer",
+          "team": "Engineering",
+          "shift_days": 3
+        },
+        {
+          "id": "T08",
+          "name": "KYC / regulatory checks",
+          "team": "Compliance",
+          "shift_days": 3
+        },
+        {
+          "id": "T09",
+          "name": "Component library build",
+          "team": "Design",
+          "shift_days": 3
+        },
+        {
+          "id": "T10",
+          "name": "Vendor onboarding & sandbox test",
+          "team": "Ops",
+          "shift_days": 3
+        },
+        {
+          "id": "T11",
+          "name": "Audit trail logging",
+          "team": "Engineering",
+          "shift_days": 3
+        },
+        {
+          "id": "T12",
+          "name": "Data quality validation rules",
+          "team": "Data",
+          "shift_days": 3
+        },
+        {
+          "id": "T13",
+          "name": "Dashboard front-end build",
+          "team": "Engineering",
+          "shift_days": 3
+        },
+        {
+          "id": "T14",
+          "name": "Compliance sign-off checkpoint",
+          "team": "Compliance",
+          "shift_days": 3
+        },
+        {
+          "id": "T15",
+          "name": "Cross-team data reconciliation",
+          "team": "Data",
+          "shift_days": 3
+        },
+        {
+          "id": "T16",
+          "name": "Brand & messaging finalization",
+          "team": "Marketing",
+          "shift_days": 3
+        },
+        {
+          "id": "T17",
+          "name": "Internal beta access rollout",
+          "team": "Ops",
+          "shift_days": 3
+        },
+        {
+          "id": "T18",
+          "name": "Load & performance testing",
+          "team": "Engineering",
+          "shift_days": 3
+        },
+        {
+          "id": "T19",
+          "name": "Regulatory filing submission",
+          "team": "Compliance",
+          "shift_days": 3
+        },
+        {
+          "id": "T20",
+          "name": "Customer-facing help docs",
+          "team": "Marketing",
+          "shift_days": 3
+        },
+        {
+          "id": "T21",
+          "name": "Launch comms & press plan",
+          "team": "Marketing",
+          "shift_days": 3
+        },
+        {
+          "id": "T22",
+          "name": "Production cutover rehearsal",
+          "team": "Engineering",
+          "shift_days": 3
+        },
+        {
+          "id": "T23",
+          "name": "Final data accuracy sign-off",
+          "team": "Data",
+          "shift_days": 3
+        },
+        {
+          "id": "T24",
+          "name": "Support team training",
+          "team": "Ops",
+          "shift_days": 3
+        },
+        {
+          "id": "T25",
+          "name": "Go / no-go readiness review",
+          "team": "Engineering",
+          "shift_days": 3
+        },
+        {
+          "id": "T26",
+          "name": "Production launch",
+          "team": "Engineering",
+          "shift_days": 3
+        },
+        {
+          "id": "T27",
+          "name": "Post-launch monitoring window",
+          "team": "Ops",
+          "shift_days": 3
+        },
+        {
+          "id": "T28",
+          "name": "Press release & launch marketing push",
+          "team": "Marketing",
+          "shift_days": 3
+        },
+        {
+          "id": "T29",
+          "name": "Accessibility review",
+          "team": "Design",
+          "shift_days": 3
+        },
+        {
+          "id": "T30",
+          "name": "Analytics event tagging",
+          "team": "Data",
+          "shift_days": 3
+        },
+        {
+          "id": "T31",
+          "name": "Third-party security pen test",
+          "team": "Compliance",
+          "shift_days": 3
+        },
+        {
+          "id": "T32",
+          "name": "Internal training deck",
+          "team": "Marketing",
+          "shift_days": 3
+        },
+        {
+          "id": "T33",
+          "name": "Disaster recovery runbook",
+          "team": "Engineering",
+          "shift_days": 3
+        },
+        {
+          "id": "T34",
+          "name": "Customer support macros",
+          "team": "Ops",
+          "shift_days": 3
+        },
+        {
+          "id": "T35",
+          "name": "Executive launch briefing",
+          "team": "Marketing",
+          "shift_days": 3
+        }
+      ]
+    },
+    {
+      "task_id": "T07",
+      "delay_days": 3,
+      "old_program_length_days": 41,
+      "new_program_length_days": 41,
+      "program_slip_days": 0,
+      "affected_teams": {
+        "Engineering": 3,
+        "Ops": 3,
+        "Data": 3,
+        "Compliance": 3,
+        "Marketing": 3
+      },
+      "affected_tasks": [
+        {
+          "id": "T07",
+          "name": "Reporting API layer",
+          "team": "Engineering",
+          "shift_days": 3
+        },
+        {
+          "id": "T11",
+          "name": "Audit trail logging",
+          "team": "Engineering",
+          "shift_days": 3
+        },
+        {
+          "id": "T13",
+          "name": "Dashboard front-end build",
+          "team": "Engineering",
+          "shift_days": 3
+        },
+        {
+          "id": "T17",
+          "name": "Internal beta access rollout",
+          "team": "Ops",
+          "shift_days": 3
+        },
+        {
+          "id": "T18",
+          "name": "Load & performance testing",
+          "team": "Engineering",
+          "shift_days": 3
+        },
+        {
+          "id": "T22",
+          "name": "Production cutover rehearsal",
+          "team": "Engineering",
+          "shift_days": 3
+        },
+        {
+          "id": "T24",
+          "name": "Support team training",
+          "team": "Ops",
+          "shift_days": 3
+        },
+        {
+          "id": "T30",
+          "name": "Analytics event tagging",
+          "team": "Data",
+          "shift_days": 3
+        },
+        {
+          "id": "T31",
+          "name": "Third-party security pen test",
+          "team": "Compliance",
+          "shift_days": 3
+        },
+        {
+          "id": "T32",
+          "name": "Internal training deck",
+          "team": "Marketing",
+          "shift_days": 3
+        },
+        {
+          "id": "T33",
+          "name": "Disaster recovery runbook",
+          "team": "Engineering",
+          "shift_days": 3
+        },
+        {
+          "id": "T34",
+          "name": "Customer support macros",
+          "team": "Ops",
+          "shift_days": 3
+        }
+      ]
+    }
+  ]
+}
