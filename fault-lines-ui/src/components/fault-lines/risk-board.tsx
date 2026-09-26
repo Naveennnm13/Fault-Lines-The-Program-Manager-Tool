@@ -101,8 +101,8 @@ export function RiskBoard({
       </div>
 
       <p className="text-muted-foreground shrink-0 border-t px-4 py-2 text-[11px]">
-        {hiddenCount} tasks are not on this board — completed, or with no
-        downstream reach and more than two days of float.
+        {hiddenCount} tasks aren&apos;t shown here. They&apos;re either done,
+        or nothing depends on them and they have more than two spare days.
       </p>
     </div>
   );
@@ -210,7 +210,7 @@ function RiskTicket({
               <dd className="tabular mt-0.5">{downstream.length}</dd>
             </div>
             <div>
-              <dt className="text-muted-foreground text-[11px]">Slack</dt>
+              <dt className="text-muted-foreground text-[11px]">Spare time</dt>
               <dd
                 className={cn("tabular mt-0.5", slack === 0 && "text-risk")}
               >
@@ -245,20 +245,20 @@ function RiskTicket({
 
           {projection && (
             <p className="border-t pt-3 leading-relaxed">
-              <span className="text-muted-foreground">If it slips 3 days: </span>
+              <span className="text-muted-foreground">If it slips 3 days, </span>
               {projection.programSlip > 0 ? (
                 <>
                   <span className="text-risk font-medium">
-                    the program end date moves to day {projection.newProgramLength}
-                  </span>{" "}
-                  ({projection.programSlip}d later), shifting{" "}
-                  {projection.affectedTasks.length} tasks.
+                    the end date moves to day {projection.newProgramLength}
+                  </span>
+                  , {projection.programSlip}{" "}
+                  {projection.programSlip === 1 ? "day" : "days"} late, and{" "}
+                  {projection.affectedTasks.length} tasks shift.
                 </>
               ) : (
                 <>
-                  absorbed by float — the end date holds at day{" "}
-                  {projection.newProgramLength}, but{" "}
-                  {projection.affectedTasks.length} tasks still move.
+                  the end date stays at day {projection.newProgramLength}, but{" "}
+                  {projection.affectedTasks.length} tasks still shift.
                 </>
               )}
             </p>

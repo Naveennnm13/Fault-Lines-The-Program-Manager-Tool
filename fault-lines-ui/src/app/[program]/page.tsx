@@ -91,7 +91,7 @@ export default async function ProgramPage({ params }: Props) {
                   </span>
                 </>
               ) : (
-                "—"
+                "None"
               )
             }
           />

@@ -107,7 +107,7 @@ export function BriefingReport({ data }: { data: ProgramData }) {
         </Select>
 
         <span className="text-muted-foreground text-xs">
-          {dirty ? "Edited — export reflects your changes" : "Generated draft"}
+          {dirty ? "Edited. Copy and download include your changes." : "Generated draft"}
         </span>
 
         <div className="ml-auto flex items-center gap-2">

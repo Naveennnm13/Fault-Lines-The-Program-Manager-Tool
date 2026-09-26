@@ -52,9 +52,11 @@ export function DelaySimulatorCard({
                 "Select a task to simulate a slip"
               )}
             </span>
-            <span className="tabular text-sm font-medium">
-              {task ? days(delayDays) : "—"}
-            </span>
+            {task && (
+              <span className="tabular text-sm font-medium">
+                {days(delayDays)}
+              </span>
+            )}
           </div>
 
           <Slider
@@ -88,7 +90,7 @@ export function DelaySimulatorCard({
             </p>
           ) : !result || delayDays === 0 ? (
             <p className="text-muted-foreground">
-              No delay applied. The program holds at day{" "}
+              No delay yet. The program finishes on day{" "}
               <span className="tabular text-foreground">{programLength}</span>.
             </p>
           ) : (
@@ -96,21 +98,22 @@ export function DelaySimulatorCard({
               {result.programSlip > 0 ? (
                 <p className="leading-snug">
                   <span className="text-risk tabular text-xl font-semibold">
-                    +{days(result.programSlip)}
+                    {days(result.programSlip)} late
                   </span>
                   <span className="text-muted-foreground ml-2 text-xs">
-                    program end moves day{" "}
-                    <span className="tabular">{result.oldProgramLength}</span> →{" "}
+                    finishes on day{" "}
                     <span className="tabular text-foreground">
                       {result.newProgramLength}
-                    </span>
+                    </span>{" "}
+                    instead of{" "}
+                    <span className="tabular">{result.oldProgramLength}</span>
                   </span>
                 </p>
               ) : (
                 <p className="leading-snug">
-                  <span className="text-lg font-semibold">Absorbed by slack</span>
+                  <span className="text-lg font-semibold">End date unchanged</span>
                   <span className="text-muted-foreground ml-2 text-xs">
-                    program end holds at day{" "}
+                    still finishes on day{" "}
                     <span className="tabular">{result.newProgramLength}</span>
                   </span>
                 </p>
@@ -118,8 +121,8 @@ export function DelaySimulatorCard({
 
               <p className="text-muted-foreground text-xs">
                 {downstreamShifted === 0
-                  ? `Only ${task.id} itself moves; nothing downstream shifts.`
-                  : `${downstreamShifted} downstream ${downstreamShifted === 1 ? "task shifts" : "tasks shift"}, across ${teams.length} ${teams.length === 1 ? "team" : "teams"}:`}
+                  ? `Only ${task.id} moves. Nothing after it shifts.`
+                  : `${downstreamShifted} ${downstreamShifted === 1 ? "task after it shifts" : "tasks after it shift"}, across ${teams.length} ${teams.length === 1 ? "team" : "teams"}:`}
               </p>
 
               <ul className="flex flex-wrap gap-x-4 gap-y-1.5">

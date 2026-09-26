@@ -28,7 +28,7 @@ export function narrativeSource(narrative: NarrativeFile): "claude" | "sample" {
 
 export const SOURCE_LABEL: Record<ProseSource, string> = {
   claude: "Written by Claude",
-  sample: "Sample text — no API key",
+  sample: "Sample text (no API key)",
   computed: "Computed from the analysis",
 };
 
@@ -79,27 +79,26 @@ export function computedAction(args: {
 
   if (task.status === "done") {
     return downstreamCount > 0
-      ? `Complete. Treat any change to ${task.id} as a change request, since ${plural(downstreamCount, "task")} built on it.`
-      : `Complete. Nothing further needed.`;
+      ? `Done. ${plural(downstreamCount, "task")} build on it, so handle any change to ${task.id} as a change request.`
+      : `Done. Nothing more to do here.`;
   }
   if (task.status === "blocked") {
-    return `Name the blocker in writing this week and give ${task.owner} an escalation path; it has ${slack === 0 ? "no float to absorb the wait" : `${plural(slack, "day")} of float`}.`;
+    return slack === 0
+      ? `Find out what's blocking it and escalate this week. There are no spare days, so every day it waits moves the end date.`
+      : `Find out what's blocking it and agree a date with ${task.owner}. There are ${plural(slack, "day")} to spare, so it can wait a little, but not indefinitely.`;
   }
   if (task.status === "in_progress" && task.pct < 50) {
-    return (
-      `Either add capacity for ${task.owner} or agree a reduced scope now, ` +
-      (slack === 0
-        ? `because there is no float left to absorb it.`
-        : `while ${plural(slack, "day")} of float still ${slack === 1 ? "exists" : "exist"}.`)
-    );
+    return slack === 0
+      ? `Talk to ${task.owner} this week about adding help or cutting scope. There are no spare days to absorb a slip.`
+      : `Talk to ${task.owner} about adding help or cutting scope while there are still ${plural(slack, "day")} to spare.`;
   }
   if (onCriticalPath) {
-    return `Confirm ${task.owner} has what they need to start on time; there is no slack to recover a late start.`;
+    return `Check that ${task.owner} has everything needed to start on time. A late start can't be made up later.`;
   }
   if (downstreamCount > 0) {
-    return `Worth a status check at the next stand-up: ${plural(downstreamCount, "task")} of downstream reach on ${plural(slack, "day")} of float.`;
+    return `Check in at the next stand-up. ${plural(downstreamCount, "task")} ${downstreamCount === 1 ? "depends" : "depend"} on it, with ${plural(slack, "day")} to spare.`;
   }
-  return `No action needed. Nothing waits on it and it has ${plural(slack, "day")} of float.`;
+  return `No action needed. Nothing depends on it, and it has ${plural(slack, "day")} to spare.`;
 }
 
 export function buildTaskBriefing(

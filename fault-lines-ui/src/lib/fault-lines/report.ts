@@ -82,23 +82,23 @@ export function generateReport(
   if (!top) {
     bottomLine.push(
       para(
-        `Nothing owned by ${audience} is currently flagged. No task in this scope is blocked, behind pace, or sitting on the critical path without float.`,
+        `Nothing ${audience} owns is flagged right now. None of its tasks are blocked, stalled early, or holding up work on the critical path.`,
       ),
     );
   } else if (scope) {
     const worst = simulateDelay(ctx, top.task.id, 3);
-    // Only call it an "exposure" when something is actually wrong; otherwise
-    // the lead reads an alarming sentence about a task that is on track.
+    // Only call it a risk when something is actually wrong; otherwise the lead
+    // reads an alarming sentence about a task that is on track.
     const lead =
       top.tier === "watch"
-        ? `Nothing ${audience} owns is flagged for escalation. The item carrying the most weight is ${top.task.name} (${top.task.id}), owned by ${top.task.owner}: ${top.summary}.`
-        : `${audience}'s biggest exposure is ${top.task.name} (${top.task.id}), owned by ${top.task.owner}. ${top.summary}.`;
+        ? `Nothing ${audience} owns needs escalating. The task with the most riding on it is ${top.task.name} (${top.task.id}), owned by ${top.task.owner}. ${top.summary}.`
+        : `${audience}'s biggest risk is ${top.task.name} (${top.task.id}), owned by ${top.task.owner}. ${top.summary}.`;
     bottomLine.push(
       para(
         `${lead} ` +
           (worst.programSlip > 0
-            ? `If it slips three days, the program end date moves from day ${worst.oldProgramLength} to day ${worst.newProgramLength} — this is not absorbed anywhere.`
-            : `A three-day slip is still absorbed by float today, but that margin is what is protecting the end date.`),
+            ? `If it slips 3 days, the program's end date moves from day ${worst.oldProgramLength} to day ${worst.newProgramLength}.`
+            : `It can slip 3 days without moving the end date, but that spare time is the program's buffer and it won't last forever.`),
       ),
     );
     const escalate = scoped.filter((i) => i.tier === "escalate").length;
@@ -107,11 +107,11 @@ export function generateReport(
       para(
         `${audience} owns ${plural(owned.length, "task")} in this program. ` +
           (escalate > 0
-            ? `${plural(escalate, "needs", "need")} escalation now`
-            : `None need escalation today`) +
+            ? `${plural(escalate, "needs", "need")} escalating now`
+            : `None need escalating`) +
           (act > 0
-            ? `, and ${plural(act, "more needs", "more need")} action this week.`
-            : `, and nothing else is on zero float.`),
+            ? `, and ${plural(act, "more needs", "more need")} attention this week.`
+            : `, and none need attention this week.`),
       ),
     );
   } else {
@@ -132,8 +132,8 @@ export function generateReport(
     standing.push(
       bullet(
         onCritical > 0
-          ? `On the critical path: ${onCritical}. These have zero float by definition — any slip moves the end date.`
-          : `On the critical path: none. Nothing this team owns moves the end date on its own.`,
+          ? `On the critical path: ${onCritical}. Any slip on these moves the end date.`
+          : `On the critical path: none, so nothing this team owns moves the end date on its own.`,
       ),
     );
     standing.push(
@@ -141,7 +141,7 @@ export function generateReport(
     );
     standing.push(
       bullet(
-        `Total downstream reach: ${load?.total_blast_radius ?? 0} task-dependencies hang off work this team owns.`,
+        `Downstream load: ${load?.total_blast_radius ?? 0}. That's how many tasks sit downstream of each of this team's tasks, added up.`,
       ),
     );
     const blockedTeams = new Set<string>();
@@ -168,7 +168,7 @@ export function generateReport(
     )) {
       standing.push(
         bullet(
-          `${team}: ${load.critical_path_tasks} critical-path ${load.critical_path_tasks === 1 ? "task" : "tasks"}, ${load.at_risk_tasks} at risk, ${load.total_blast_radius} downstream reach.`,
+          `${team}: ${load.critical_path_tasks} on the critical path, ${load.at_risk_tasks} at risk, downstream load ${load.total_blast_radius}.`,
         ),
       );
     }
@@ -193,9 +193,9 @@ export function generateReport(
           .filter((t) => t !== item.task.team)
           .sort();
         return para(
-          `${item.task.id} — ${item.task.name} (${item.task.owner}, ${item.task.team}). ${item.reasons.join(" ")}` +
+          `${item.task.name} (${item.task.id}, owned by ${item.task.owner} in ${item.task.team}). ${item.reasons.join(" ")}` +
             (others.length
-              ? ` The teams waiting on it are ${others.join(", ")}.`
+              ? ` Teams waiting on it: ${others.join(", ")}.`
               : ""),
         );
       }),
@@ -206,7 +206,7 @@ export function generateReport(
   if (top) {
     const projections: ReportBlock[] = [
       para(
-        `These figures come from replaying the dependency graph with ${top.task.id} pushed out, using the same earliest-finish values the critical-path analysis produced.`,
+        `These numbers come from pushing ${top.task.id} back and recalculating every date that depends on it.`,
       ),
     ];
 
@@ -220,21 +220,21 @@ export function generateReport(
       projections.push(
         bullet(
           result.programSlip > 0
-            ? `${top.task.id} slips ${plural(delayDays, "day")} → program end moves to day ${result.newProgramLength}, a ${result.programSlip}-day hit. ${plural(result.affectedTasks.length, "task")} shift: ${teams}.`
-            : `${top.task.id} slips ${plural(delayDays, "day")} → absorbed by float, end date holds at day ${result.newProgramLength}. ${plural(result.affectedTasks.length, "task")} still move internally: ${teams}.`,
+            ? `If ${top.task.id} slips ${plural(delayDays, "day")}, the end date moves to day ${result.newProgramLength}, ${plural(result.programSlip, "day")} late. ${plural(result.affectedTasks.length, "task")} shift: ${teams}.`
+            : `If ${top.task.id} slips ${plural(delayDays, "day")}, the end date stays at day ${result.newProgramLength}. ${plural(result.affectedTasks.length, "task")} still shift: ${teams}.`,
         ),
       );
     }
 
     // The breaking point is exact from the CPM output: a task absorbs its
     // total float, and each day beyond that moves the end date by one. Reading
-    // it off the sampled 3/5/10 projections would overstate it — a task with
+    // it off the sampled 3/5/10 projections would overstate it: a task with
     // one day of float would appear to break at three.
     projections.push(
       para(
         top.slack === 0
-          ? `In short: ${top.task.id} has no room. Every day of slip moves the end date by a day.`
-          : `In short: ${top.task.id} can absorb ${plural(top.slack, "day")} of slip. From day ${top.slack + 1}, the end date moves one-for-one.`,
+          ? `${top.task.id} has no spare days, so every day it slips moves the end date by a day.`
+          : `${top.task.id} can slip ${plural(top.slack, "day")} without moving the end date. After that, every extra day moves it by a day.`,
       ),
     );
 
@@ -262,14 +262,14 @@ export function generateReport(
       narrative.risks.find((r) => r.task_id === item.task.id);
     if (fromNarrative) {
       actions.push(
-        bullet(`${item.task.id} — ${fromNarrative.mitigation}`, narrated),
+        bullet(`${item.task.id}: ${fromNarrative.mitigation}`, narrated),
       );
       continue;
     }
 
     actions.push(
       bullet(
-        `${item.task.id} — ${item.task.name}: ${computedAction({
+        `${item.task.name} (${item.task.id}): ${computedAction({
           task: item.task,
           slack: item.slack,
           downstreamCount: item.downstream.length,
@@ -280,7 +280,7 @@ export function generateReport(
   }
 
   if (!actions.length) {
-    actions.push(bullet("No action required from this team this week."));
+    actions.push(bullet("Nothing needed from this team this week."));
   }
 
   sections.push({ id: "actions", heading: "Action points", blocks: actions });
@@ -291,10 +291,10 @@ export function generateReport(
     heading: "How this was produced",
     blocks: [
       para(
-        `Critical path, slack and blast radius were computed by analyze.py over the ${tasks.length}-task dependency graph. Delay projections were recomputed from the same earliest-finish baseline. ` +
+        `The critical path, spare days and downstream counts come from analyze.py, run over all ${tasks.length} tasks. The delay figures come from recalculating the schedule from the same starting point. ` +
           (narrative.mode === "live"
-            ? `Lines marked as model-written were generated by ${narrative.model ?? "Claude"} from the analysis output; everything else is derived directly from the numbers.`
-            : `The narrative lines are hand-written sample text standing in for Claude's output, because this briefing was generated without an API key; everything else is derived directly from the numbers.`),
+            ? `Lines marked "Claude" were written by ${narrative.model ?? "Claude"} from that analysis. Everything else comes straight from the numbers.`
+            : `The lines marked "Sample" are hand-written stand-ins, because this briefing was made without an API key. Everything else comes straight from the numbers.`),
       ),
     ],
   });
@@ -305,11 +305,11 @@ export function generateReport(
 
   return {
     title: scope
-      ? `${scope} — program risk briefing`
-      : `${program.name} — program risk briefing`,
+      ? `Risk briefing for ${scope}`
+      : `${program.name} risk briefing`,
     subtitle: scope
-      ? `${program.name} · ${plural(owned.length, "task")} owned · ${scopedDownstream?.size ?? 0} downstream tasks depend on them · baseline day ${analysis.cpm.program_length_days}`
-      : `${plural(tasks.length, "task")} · ${plural(program.teams.length, "team")} · baseline day ${analysis.cpm.program_length_days} · starts ${program.start_date}`,
+      ? `${program.name} · ${plural(owned.length, "task")} owned · ${scopedDownstream?.size ?? 0} downstream tasks depend on them · planned end day ${analysis.cpm.program_length_days}`
+      : `${plural(tasks.length, "task")} · ${plural(program.teams.length, "team")} · planned end day ${analysis.cpm.program_length_days} · starts ${program.start_date}`,
     sections,
   };
 }

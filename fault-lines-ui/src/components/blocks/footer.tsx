@@ -24,7 +24,7 @@ export function Footer({
           </>
         ) : (
           <>
-            briefing is sample text —{" "}
+            briefing is sample text because{" "}
             <code className="font-mono">narrative.py</code> ran without an API
             key
           </>

@@ -117,10 +117,10 @@ function TaskView({ briefing }: { briefing: TaskBriefing }) {
             !tier && "text-muted-foreground",
           )}
         >
-          {tierMeta ? tierMeta.label : done ? "Complete" : "Not on the risk board"}
+          {tierMeta ? tierMeta.label : done ? "Done" : "Not on the risk board"}
         </span>
         {tierMeta && (
-          <span className="text-muted-foreground"> · {tierMeta.blurb.toLowerCase()}</span>
+          <span className="text-muted-foreground">. {tierMeta.blurb}</span>
         )}
       </p>
 
@@ -151,10 +151,9 @@ function TaskView({ briefing }: { briefing: TaskBriefing }) {
       {!done && briefing.projections.length > 0 && (
         <div className="space-y-1.5 border-t pt-4">
           <h3 className="text-muted-foreground text-xs font-normal">
-            If it slips —{" "}
             {onCriticalPath
-              ? "no float, so the end date moves day for day"
-              : `it absorbs ${slack} ${slack === 1 ? "day" : "days"}, then the end date moves`}
+              ? "If it slips, the end date moves by the same number of days"
+              : `If it slips, the first ${slack} ${slack === 1 ? "day is" : "days are"} absorbed. After that, the end date moves.`}
           </h3>
           <table className="w-full text-xs">
             <caption className="sr-only">
@@ -172,11 +171,11 @@ function TaskView({ briefing }: { briefing: TaskBriefing }) {
                   <td className="tabular py-1.5">
                     {p.slip > 0 ? (
                       <span className="text-risk">
-                        end date +{p.slip} → day {p.newLength}
+                        ends day {p.newLength}, {p.slip} {p.slip === 1 ? "day" : "days"} late
                       </span>
                     ) : (
                       <span className="text-muted-foreground">
-                        absorbed, holds at day {p.newLength}
+                        still ends day {p.newLength}
                       </span>
                     )}
                   </td>

@@ -38,10 +38,12 @@ const DEST_DIR = join(APP_ROOT, "src", "data", "programs");
 const FILES = ["tasks.json", "analysis.json", "narrative.json"];
 const LIVE = process.argv.includes("--live");
 
+// The repo layout puts the pipeline in ../fault-lines. The nested path is the
+// layout of the original fault-lines.zip, kept so an unzipped copy still works.
 const CANDIDATES = [
   process.env.FAULT_LINES_PY,
-  join(APP_ROOT, "..", "fault-lines", "fault-lines"),
   join(APP_ROOT, "..", "fault-lines"),
+  join(APP_ROOT, "..", "fault-lines", "fault-lines"),
 ].filter(Boolean);
 
 // An explicit --live request that can't be honoured is an error; an implicit

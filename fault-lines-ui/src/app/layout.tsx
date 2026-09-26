@@ -60,7 +60,7 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   title: {
-    default: "Fault Lines — cross-team dependency & bottleneck radar",
+    default: "Fault Lines: cross-team dependency and bottleneck radar",
     template: "%s · Fault Lines",
   },
   description:

@@ -25,19 +25,22 @@ export const TIERS: {
   {
     id: "escalate",
     label: "Escalate now",
-    blurb: "Slipping, and on the critical path or holding up a large share of the work",
+    blurb: "Slipping, and either on the critical path or holding up a lot of work.",
   },
   {
     id: "act",
     label: "Act this week",
-    blurb: "Slipping, or on the critical path with no float to spare",
+    blurb: "Slipping, or on the critical path with no spare days.",
   },
   {
     id: "watch",
     label: "Watch",
-    blurb: "Real downstream reach or thin float, but nothing is wrong yet",
+    blurb: "A lot depends on these, or they have little spare time. Nothing is wrong yet.",
   },
 ];
+
+const plural = (n: number, one: string, many = `${one}s`) =>
+  `${n} ${n === 1 ? one : many}`;
 
 export interface RiskItem {
   task: Task;
@@ -83,40 +86,42 @@ export function describeRisk(
 ): { summary: string; reasons: string[] } {
   const reasons: string[] = [];
 
+  // The analysis flags "in progress and under 50% done". It has no clock, so
+  // the copy says that, rather than claiming the task is behind schedule.
   if (score.status === "blocked") {
-    reasons.push("Blocked right now — no work is moving on it.");
+    reasons.push("Blocked. No work is moving on it.");
   }
   if (score.status === "in_progress" && score.pct < 50) {
-    reasons.push(
-      `${score.pct}% complete and behind pace for the time elapsed.`,
-    );
+    reasons.push(`In progress but only ${score.pct}% done.`);
   }
   if (score.on_critical_path) {
     reasons.push(
-      "Sits on the critical path, so a day lost here is a day lost off the program end date.",
+      "On the critical path, so every day it loses moves the end date by a day.",
     );
   }
   if (slack === 0 && !score.on_critical_path) {
-    reasons.push("Has zero float — it cannot absorb any slip.");
+    reasons.push("Has no spare days, so any slip moves the end date.");
   } else if (slack > 0) {
     reasons.push(
-      `Has ${slack} ${slack === 1 ? "day" : "days"} of float before it starts pushing the end date.`,
+      `Can slip ${plural(slack, "day")} before the end date moves.`,
     );
   }
   if (score.blast_radius > 0) {
     reasons.push(
-      `${score.blast_radius} ${score.blast_radius === 1 ? "task" : "tasks"} downstream across ${teamCount} ${teamCount === 1 ? "team" : "teams"}.`,
+      `${plural(score.blast_radius, "task")} across ${plural(teamCount, "team")} ${score.blast_radius === 1 ? "depends" : "depend"} on it.`,
     );
   }
 
+  const waiting = plural(score.blast_radius, "task");
+  const depend = score.blast_radius === 1 ? "depends" : "depend";
   const summary =
     score.status === "blocked"
-      ? `Blocked with ${score.blast_radius} tasks waiting behind it`
+      ? `Blocked, with ${waiting} waiting on it`
       : score.status === "in_progress" && score.pct < 50
-        ? `Behind pace at ${score.pct}%, ${score.blast_radius} tasks downstream`
+        ? `Only ${score.pct}% done, and ${waiting} ${depend} on it`
         : score.on_critical_path
-          ? `On the critical path with no float, ${score.blast_radius} tasks downstream`
-          : `${score.blast_radius} tasks downstream, ${slack} ${slack === 1 ? "day" : "days"} of float`;
+          ? `On the critical path, and ${waiting} ${depend} on it`
+          : `${waiting} ${depend} on it, with ${plural(slack, "day")} to spare`;
 
   return { summary, reasons };
 }

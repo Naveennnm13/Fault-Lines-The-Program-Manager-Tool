@@ -103,17 +103,17 @@ export function TaskDetailCard({
           </dd>
         </div>
         <div>
-          <dt className="text-muted-foreground text-xs">Slack</dt>
+          <dt className="text-muted-foreground text-xs">Spare time</dt>
           <dd className="mt-0.5">
             {slack === null ? (
-              "—"
+              <span className="text-muted-foreground">Unknown</span>
             ) : slack === 0 ? (
               <span className="text-risk">None</span>
             ) : (
               <>
                 <span className="tabular">{slack}</span>{" "}
                 <span className="text-muted-foreground text-xs">
-                  {slack === 1 ? "day" : "days"} of float
+                  {slack === 1 ? "day" : "days"}
                 </span>
               </>
             )}
@@ -125,7 +125,7 @@ export function TaskDetailCard({
         <p className="text-muted-foreground mb-2 text-xs">
           {dependents.length > 0
             ? `Directly unblocks ${dependents.length} ${dependents.length === 1 ? "task" : "tasks"}`
-            : "No direct dependents — nothing waits on this."}
+            : "Nothing depends on this directly."}
         </p>
         {dependents.length > 0 && (
           <ul className="flex flex-wrap gap-1.5">

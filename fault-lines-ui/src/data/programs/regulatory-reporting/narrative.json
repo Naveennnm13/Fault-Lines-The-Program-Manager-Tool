@@ -2,51 +2,51 @@
   "mode": "mock",
   "model": null,
   "source_fingerprint": "5d8a10e8ea6bb3f3",
-  "headline": "The program's single biggest exposure is Reporting data lineage mapping (Data): it is 45% complete and behind pace on the critical path, with 15 downstream tasks across 6 teams queued behind it.",
+  "headline": "The biggest risk in this program is Reporting data lineage mapping (Data). It's only 45% done, it's on the critical path, and 15 tasks across 6 teams are waiting on it.",
   "risks": [
     {
       "task_id": "R03",
       "task_name": "Reporting data lineage mapping",
       "team": "Data",
-      "why_it_matters": "Data lineage mapping is behind pace at the front of the critical path. The extract fixes, the calculation rewrite and the parallel run all queue behind it, and the regulator deadline does not move.",
-      "mitigation": "Scope lineage to the fields in the audit findings first. Y. Tanaka can hand those to Engineering this week and finish the long tail in parallel."
+      "why_it_matters": "Data lineage mapping is only 45% done and it's near the start of the critical path. The extract fixes, the calculation rewrite and the parallel run all wait on it, and the regulator's deadline is fixed.",
+      "mitigation": "Map the fields named in the audit findings first. Y. Tanaka can hand those to Engineering this week and finish the rest alongside."
     },
     {
       "task_id": "R04",
       "task_name": "Control inventory & gap assessment",
       "team": "Compliance",
-      "why_it_matters": "The control gap assessment is behind pace, and Compliance owns it while also owning control testing, the evidence pack and the attestation. It has float today; the risk is that the same people are needed everywhere at once.",
-      "mitigation": "Borrow one reviewer from internal audit for the gap assessment so F. Moreau is free for control testing when the harness lands."
+      "why_it_matters": "The control gap assessment is only 40% done. Compliance owns it, and also owns control testing, the evidence pack and the sign-off. It has some spare time, but the same few people are needed for all of it.",
+      "mitigation": "Borrow a reviewer from internal audit for the gap assessment, so F. Moreau is free for control testing when the test harness is ready."
     },
     {
       "task_id": "R12",
       "task_name": "Evidence repository & retention setup",
       "team": "Ops",
-      "why_it_matters": "The evidence repository is blocked on a retention policy that has not been written yet. It has room on the calendar, but an evidence pack with nowhere to live is not an evidence pack.",
-      "mitigation": "Stand the repository up under the current retention policy now and migrate it when the rewrite lands, rather than waiting on R06."
+      "why_it_matters": "The evidence repository is blocked until the new retention policy is written. There's time on the calendar, but the evidence pack needs somewhere to live before it can be assembled.",
+      "mitigation": "Set up the repository under the current retention policy now, and move it over once the new policy is agreed. There's no need to wait for R06."
     }
   ],
-  "cascade_summary": "If Reporting data lineage mapping slips 3 more days, the program end date moves from day 53 to day 56, a 3-day hit that lands on Compliance, Data, Design, Engineering, Marketing and Ops.",
+  "cascade_summary": "If Reporting data lineage mapping slips another 3 days, the program finishes on day 56 instead of day 53. The delay reaches Compliance, Data, Design, Engineering, Marketing and Ops.",
   "task_briefings": {
     "R03": {
-      "why_it_matters": "Data lineage mapping is behind pace at the front of the critical path. The extract fixes, the calculation rewrite and the parallel run all queue behind it, and the regulator deadline does not move.",
-      "mitigation": "Scope lineage to the fields in the audit findings first. Y. Tanaka can hand those to Engineering this week and finish the long tail in parallel."
+      "why_it_matters": "Data lineage mapping is only 45% done and it's near the start of the critical path. The extract fixes, the calculation rewrite and the parallel run all wait on it, and the regulator's deadline is fixed.",
+      "mitigation": "Map the fields named in the audit findings first. Y. Tanaka can hand those to Engineering this week and finish the rest alongside."
     },
     "R04": {
-      "why_it_matters": "The control gap assessment is behind pace, and Compliance owns it while also owning control testing, the evidence pack and the attestation. It has float today; the risk is that the same people are needed everywhere at once.",
-      "mitigation": "Borrow one reviewer from internal audit for the gap assessment so F. Moreau is free for control testing when the harness lands."
+      "why_it_matters": "The control gap assessment is only 40% done. Compliance owns it, and also owns control testing, the evidence pack and the sign-off. It has some spare time, but the same few people are needed for all of it.",
+      "mitigation": "Borrow a reviewer from internal audit for the gap assessment, so F. Moreau is free for control testing when the test harness is ready."
     },
     "R12": {
-      "why_it_matters": "The evidence repository is blocked on a retention policy that has not been written yet. It has room on the calendar, but an evidence pack with nowhere to live is not an evidence pack.",
-      "mitigation": "Stand the repository up under the current retention policy now and migrate it when the rewrite lands, rather than waiting on R06."
+      "why_it_matters": "The evidence repository is blocked until the new retention policy is written. There's time on the calendar, but the evidence pack needs somewhere to live before it can be assembled.",
+      "mitigation": "Set up the repository under the current retention policy now, and move it over once the new policy is agreed. There's no need to wait for R06."
     },
     "R13": {
-      "why_it_matters": "The calculation rewrite is the longest build task on the critical path and waits on both extract fixes and data quality controls.",
-      "mitigation": "Have V. Mensah start on the calculations with the cleanest source extracts while the rest of the fixes land."
+      "why_it_matters": "The calculation rewrite is the longest build task on the critical path. It can't start until both the extract fixes and the data quality controls are done.",
+      "mitigation": "Have V. Mensah start on the calculations that use the cleanest source extracts while the other fixes are finished."
     },
     "R20": {
-      "why_it_matters": "Every workstream converges here: variance sign-off, control testing and the evidence repository. It is the single point where a slip anywhere upstream becomes a slip in the submission.",
-      "mitigation": "Assemble the evidence pack incrementally as each workstream finishes, instead of in one push at the end."
+      "why_it_matters": "Variance sign-off, control testing and the evidence repository all feed into this. A slip in any of them shows up here, and then in the submission date.",
+      "mitigation": "Build the evidence pack as each piece of work finishes, rather than all at once at the end."
     }
   }
 }
