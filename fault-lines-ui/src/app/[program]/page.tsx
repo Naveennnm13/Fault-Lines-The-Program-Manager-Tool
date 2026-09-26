@@ -83,9 +83,16 @@ export default async function ProgramPage({ params }: Props) {
           <Stat
             label="Heaviest downstream load"
             value={
-              heaviest
-                ? `${heaviest[0]} · ${heaviest[1].total_blast_radius}`
-                : "—"
+              heaviest ? (
+                <>
+                  {heaviest[0]}{" "}
+                  <span className="text-muted-foreground">
+                    · {heaviest[1].total_blast_radius} downstream
+                  </span>
+                </>
+              ) : (
+                "—"
+              )
             }
           />
         </dl>

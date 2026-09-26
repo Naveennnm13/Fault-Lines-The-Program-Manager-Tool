@@ -19,15 +19,18 @@ export const TIERS: {
   label: string;
   blurb: string;
 }[] = [
+  // Blurbs must hold for every task a lane can contain. Escalate includes
+  // off-critical-path tasks with float (it also admits large reach), and Act
+  // includes at-risk tasks that have plenty of float.
   {
     id: "escalate",
     label: "Escalate now",
-    blurb: "Already slipping, and the program feels it immediately",
+    blurb: "Slipping, and on the critical path or holding up a large share of the work",
   },
   {
     id: "act",
     label: "Act this week",
-    blurb: "Zero float — any slip moves the end date",
+    blurb: "Slipping, or on the critical path with no float to spare",
   },
   {
     id: "watch",

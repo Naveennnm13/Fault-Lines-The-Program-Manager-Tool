@@ -1,6 +1,5 @@
 "use client";
 
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Slider } from "@/components/ui/slider";
 import type { CascadeResult } from "@/lib/fault-lines/cascade";
 import { teamColor } from "@/lib/fault-lines/teams";
@@ -30,16 +29,17 @@ export function DelaySimulatorCard({
         ([a, da], [b, db]) => db - da || a.localeCompare(b),
       )
     : [];
+  // The cascade's affected list always includes the delayed task itself.
+  const downstreamShifted = result
+    ? result.affectedTasks.filter((t) => t.id !== task?.id).length
+    : 0;
 
   return (
-    <Card className="shadow-none">
-      <CardHeader className="p-5 pb-3">
-        <CardTitle className="text-muted-foreground font-mono text-xs font-medium tracking-wide uppercase">
-          Delay simulator
-        </CardTitle>
-      </CardHeader>
-      <CardContent className="space-y-4 p-5 pt-0">
-        <div className="space-y-3">
+    <section aria-labelledby="delay-simulator-heading" className="space-y-4 py-5">
+      <h2 id="delay-simulator-heading" className="text-sm">
+        Delay simulator
+      </h2>
+      <div className="space-y-3">
           <div className="flex items-baseline justify-between gap-3">
             <span className="text-muted-foreground text-sm">
               {task ? (
@@ -70,9 +70,9 @@ export function DelaySimulatorCard({
                 : "Delay simulator, disabled until a task is selected"
             }
           />
-          <div className="text-muted-foreground font-mono flex justify-between text-[10px]">
+          <div className="text-muted-foreground tabular flex justify-between text-[11px]">
             <span>0</span>
-            <span>{MAX_DELAY}d</span>
+            <span>{MAX_DELAY} days</span>
           </div>
         </div>
 
@@ -83,8 +83,8 @@ export function DelaySimulatorCard({
         >
           {!task ? (
             <p className="text-muted-foreground text-balance">
-              The cascade is recomputed in the browser from the same earliest-finish
-              values analyze.py produced.
+              Select a task, then drag the slider to see how far a slip travels
+              and which teams it lands on.
             </p>
           ) : !result || delayDays === 0 ? (
             <p className="text-muted-foreground">
@@ -117,9 +117,9 @@ export function DelaySimulatorCard({
               )}
 
               <p className="text-muted-foreground text-xs">
-                {result.affectedTasks.length} downstream{" "}
-                {result.affectedTasks.length === 1 ? "task shifts" : "tasks shift"}
-                , across {teams.length} {teams.length === 1 ? "team" : "teams"}:
+                {downstreamShifted === 0
+                  ? `Only ${task.id} itself moves; nothing downstream shifts.`
+                  : `${downstreamShifted} downstream ${downstreamShifted === 1 ? "task shifts" : "tasks shift"}, across ${teams.length} ${teams.length === 1 ? "team" : "teams"}:`}
               </p>
 
               <ul className="flex flex-wrap gap-x-4 gap-y-1.5">
@@ -143,7 +143,6 @@ export function DelaySimulatorCard({
             </div>
           )}
         </div>
-      </CardContent>
-    </Card>
+    </section>
   );
 }

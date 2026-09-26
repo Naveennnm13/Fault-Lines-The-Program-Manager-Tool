@@ -13,6 +13,7 @@ import {
   type SimulationLinkDatum,
   type SimulationNodeDatum,
 } from "d3-force";
+import { Maximize2, Minus, Plus } from "lucide-react";
 
 import { outDegreeById } from "@/lib/fault-lines/cascade";
 import { STATUS_LABEL, teamColor } from "@/lib/fault-lines/teams";
@@ -54,13 +55,36 @@ export interface DependencyGraphProps {
 }
 
 const ARROW_LENGTH = 7;
+const MIN_ZOOM = 0.35;
+const MAX_ZOOM = 4;
+/** Screen-space radius of a node's hit area on touch: a ~44px target. */
+const TOUCH_HIT_RADIUS = 22;
+
+/**
+ * Pointer capture keeps a drag attached when the finger or cursor leaves the
+ * element — useful, but not something a tap may depend on. Browsers throw if
+ * the pointer is already gone (a very quick tap on some mobile browsers), and
+ * an unguarded throw aborts the handler, so the tap silently does nothing.
+ */
+function capture(el: Element, pointerId: number) {
+  try {
+    el.setPointerCapture(pointerId);
+  } catch {
+    // Drag still works while the pointer stays over the element.
+  }
+}
+
+function release(el: Element, pointerId: number) {
+  if (el.hasPointerCapture(pointerId)) el.releasePointerCapture(pointerId);
+}
 
 /**
  * Space the fitted layout keeps clear of the pane edges. The left gutter is
  * wider because the legend floats there; below a narrow pane it is dropped,
  * since reserving 180px of a 380px pane would squash the graph to nothing.
  */
-const FIT_INSET = { top: 20, right: 20, bottom: 48, left: 20 };
+// The top inset clears the zoom controls and the collapsed mobile legend.
+const FIT_INSET = { top: 56, right: 20, bottom: 48, left: 20 };
 const LEGEND_GUTTER = 184;
 const LEGEND_MIN_PANE = 560;
 
@@ -166,6 +190,39 @@ export function DependencyGraph({
     return () => observer.disconnect();
   }, []);
 
+  // --- Touch -----------------------------------------------------------------
+  // Fingers need targets around 44px; the drawn nodes are 7–12px on a phone.
+  // Each node gets an invisible hit circle of that size whenever a finger is
+  // plausible. `any-pointer` rather than `pointer`, because touchscreen laptops
+  // report their trackpad as the primary pointer; and any sub-desktop width,
+  // because a phone-sized graph is too dense to hit precisely even by mouse.
+  const [coarsePointer, setCoarsePointer] = React.useState(false);
+  React.useEffect(() => {
+    const query = window.matchMedia(
+      "(any-pointer: coarse), (max-width: 1023px)",
+    );
+    const update = () => setCoarsePointer(query.matches);
+    update();
+    query.addEventListener("change", update);
+    return () => query.removeEventListener("change", update);
+  }, []);
+
+  // The pane lets the browser own vertical swipes so the page still scrolls on
+  // mobile — but a swipe that starts on a node is a drag, and if the browser
+  // claims it the drag is cancelled mid-gesture. Only a non-passive native
+  // touchstart can veto that; React's touch handlers are passive.
+  React.useEffect(() => {
+    const el = containerRef.current;
+    if (!el) return;
+    const onTouchStart = (event: TouchEvent) => {
+      if ((event.target as Element | null)?.closest?.("[data-node]")) {
+        event.preventDefault();
+      }
+    };
+    el.addEventListener("touchstart", onTouchStart, { passive: false });
+    return () => el.removeEventListener("touchstart", onTouchStart);
+  }, []);
+
   // --- Physics -------------------------------------------------------------
   // Same forces and constants as the reference dashboard, so the layout keeps
   // its familiar shape: a long critical-path spine with team clusters hanging
@@ -231,19 +288,15 @@ export function DependencyGraph({
     // Resizing re-centres the forces below rather than rebuilding the layout.
   }, [tasks, edges, radii, measured]);
 
-  // Re-centre on resize without throwing away the settled positions.
+  // On resize (a window drag, a phone rotating), re-frame the settled layout.
+  // Only the view changes: the layout's shape doesn't depend on the pane, and
+  // re-centring the forces here used to set nodes drifting *after* the frame
+  // was computed, leaving most of them off-screen. Views the user has panned
+  // or zoomed are theirs and are left alone.
   React.useEffect(() => {
-    const sim = simRef.current;
-    if (!sim || !size.width || !size.height) return;
-    const { width, height } = size;
-    sim.force("x", forceX(width / 2).strength(0.06));
-    sim.force("y", forceY(height / 2).strength(0.06));
-    sim.alpha(0.15).restart();
-
-    // A pane that got narrower would otherwise leave the layout hanging off
-    // the edge. Only re-frame views we placed ourselves.
+    if (!simRef.current || !size.width || !size.height) return;
     if (fittedRef.current && !userMovedRef.current) {
-      setView(fitToNodes(nodesRef.current, { width, height }));
+      setView(fitToNodes(nodesRef.current, size));
     }
   }, [size]);
 
@@ -279,7 +332,10 @@ export function DependencyGraph({
       const px = event.clientX - rect.left;
       const py = event.clientY - rect.top;
       setView((v) => {
-        const k = Math.min(4, Math.max(0.35, v.k * Math.exp(-event.deltaY * 0.0015)));
+        const k = Math.min(
+          MAX_ZOOM,
+          Math.max(MIN_ZOOM, v.k * Math.exp(-event.deltaY * 0.0015)),
+        );
         // Keep the point under the cursor fixed while scaling.
         return { k, x: px - ((px - v.x) / v.k) * k, y: py - ((py - v.y) / v.k) * k };
       });
@@ -294,17 +350,19 @@ export function DependencyGraph({
     y: number;
     vx: number;
     vy: number;
+    slop: number;
     moved: boolean;
   } | null>(null);
 
   const onBackgroundPointerDown = (event: React.PointerEvent) => {
     if (event.button !== 0) return;
-    event.currentTarget.setPointerCapture(event.pointerId);
+    capture(event.currentTarget, event.pointerId);
     panRef.current = {
       x: event.clientX,
       y: event.clientY,
       vx: view.x,
       vy: view.y,
+      slop: event.pointerType === "mouse" ? 2 : 10,
       moved: false,
     };
   };
@@ -314,17 +372,14 @@ export function DependencyGraph({
     if (!pan) return;
     const dx = event.clientX - pan.x;
     const dy = event.clientY - pan.y;
-    if (Math.abs(dx) > 2 || Math.abs(dy) > 2) {
-      pan.moved = true;
-      userMovedRef.current = true;
-    }
+    if (!pan.moved && Math.hypot(dx, dy) <= pan.slop) return;
+    pan.moved = true;
+    userMovedRef.current = true;
     setView((v) => ({ ...v, x: pan.vx + dx, y: pan.vy + dy }));
   };
 
   const onBackgroundPointerUp = (event: React.PointerEvent) => {
-    if (event.currentTarget.hasPointerCapture(event.pointerId)) {
-      event.currentTarget.releasePointerCapture(event.pointerId);
-    }
+    release(event.currentTarget, event.pointerId);
     const pan = panRef.current;
     panRef.current = null;
     // A click on empty canvas clears the selection.
@@ -336,11 +391,26 @@ export function DependencyGraph({
     setView(fitToNodes(nodesRef.current, sizeRef.current));
   }, []);
 
+  // Phones have no wheel and the pane can't own pinch without breaking page
+  // scroll, so zoom needs explicit controls. They anchor on the pane centre.
+  const zoomBy = React.useCallback((factor: number) => {
+    userMovedRef.current = true;
+    const { width, height } = sizeRef.current;
+    const cx = width / 2;
+    const cy = height / 2;
+    setView((v) => {
+      const k = Math.min(MAX_ZOOM, Math.max(MIN_ZOOM, v.k * factor));
+      return { k, x: cx - ((cx - v.x) / v.k) * k, y: cy - ((cy - v.y) / v.k) * k };
+    });
+  }, []);
+
   // --- Node drag -----------------------------------------------------------
   const dragRef = React.useRef<{
     node: SimNode;
     startX: number;
     startY: number;
+    /** Movement allowed before a press counts as a drag; fingers jitter more. */
+    slop: number;
     moved: boolean;
   } | null>(null);
 
@@ -350,11 +420,12 @@ export function DependencyGraph({
     const node = nodesRef.current.find((n) => n.id === id);
     if (!node) return;
 
-    (event.currentTarget as Element).setPointerCapture(event.pointerId);
+    capture(event.currentTarget as Element, event.pointerId);
     dragRef.current = {
       node,
       startX: event.clientX,
       startY: event.clientY,
+      slop: event.pointerType === "mouse" ? 4 : 10,
       moved: false,
     };
     node.fx = node.x;
@@ -366,11 +437,12 @@ export function DependencyGraph({
     const drag = dragRef.current;
     if (!drag) return;
 
-    // Pointers jitter by a pixel or two during an ordinary click; without a
-    // threshold every click would be classified as a drag and never select.
+    // Pointers jitter during an ordinary click or tap; without a threshold
+    // every tap would be classified as a drag and never select.
     if (
       !drag.moved &&
-      Math.hypot(event.clientX - drag.startX, event.clientY - drag.startY) < 4
+      Math.hypot(event.clientX - drag.startX, event.clientY - drag.startY) <
+        drag.slop
     ) {
       return;
     }
@@ -383,9 +455,7 @@ export function DependencyGraph({
 
   const onNodePointerUp = (event: React.PointerEvent, id: string) => {
     const drag = dragRef.current;
-    if ((event.currentTarget as Element).hasPointerCapture(event.pointerId)) {
-      (event.currentTarget as Element).releasePointerCapture(event.pointerId);
-    }
+    release(event.currentTarget as Element, event.pointerId);
     dragRef.current = null;
     if (!drag) return;
 
@@ -521,12 +591,18 @@ export function DependencyGraph({
               const flagged = atRiskSet.has(task.id) || task.status === "blocked";
               const onCritical = criticalSet.has(task.id);
               const shift = cascade?.get(task.id);
+              // Hit radius in graph units, so it stays ~44px on screen at any zoom.
+              const hitR = coarsePointer
+                ? Math.max(r + 4, TOUCH_HIT_RADIUS / view.k)
+                : r + 3;
 
               return (
                 <g
                   key={task.id}
+                  data-node=""
                   transform={`translate(${p.x},${p.y})`}
-                  className="cursor-pointer outline-none"
+                  className="group/node cursor-pointer outline-none"
+                  style={{ touchAction: "none" }}
                   opacity={dim === "muted" ? 0.2 : 1}
                   tabIndex={0}
                   role="button"
@@ -536,7 +612,11 @@ export function DependencyGraph({
                   onPointerMove={onNodePointerMove}
                   onPointerUp={(e) => onNodePointerUp(e, task.id)}
                   onPointerCancel={(e) => onNodePointerUp(e, task.id)}
-                  onPointerEnter={() => setHoveredId(task.id)}
+                  // Hover is a mouse idea. On touch, pointerenter fires on
+                  // the tap and the tooltip would stay stuck over the graph.
+                  onPointerEnter={(e) => {
+                    if (e.pointerType === "mouse") setHoveredId(task.id);
+                  }}
                   onPointerLeave={() =>
                     setHoveredId((current) => (current === task.id ? null : current))
                   }
@@ -550,6 +630,14 @@ export function DependencyGraph({
                     onSelect(task.id === selectedId ? null : task.id);
                   }}
                 >
+                  <circle r={hitR} fill="transparent" />
+                  <circle
+                    r={r + 9}
+                    fill="none"
+                    stroke="var(--ring)"
+                    strokeWidth={2}
+                    className="opacity-0 transition-opacity group-focus-visible/node:opacity-100"
+                  />
                   {selected && (
                     <circle
                       r={r + 6}
@@ -608,13 +696,28 @@ export function DependencyGraph({
         </div>
       )}
 
-      <button
-        type="button"
-        onClick={refit}
-        className="text-muted-foreground hover:text-foreground hover:bg-accent bg-background/80 absolute right-4 bottom-4 rounded-md border px-2.5 py-1 text-xs backdrop-blur-sm transition-colors"
+      <div
+        role="group"
+        aria-label="Zoom"
+        className="bg-background absolute top-3 right-3 flex divide-x overflow-hidden rounded-md border lg:top-4 lg:right-4"
       >
-        Fit to view
-      </button>
+        {[
+          { label: "Zoom out", onClick: () => zoomBy(1 / 1.35), icon: <Minus /> },
+          { label: "Zoom in", onClick: () => zoomBy(1.35), icon: <Plus /> },
+          { label: "Fit graph to view", onClick: refit, icon: <Maximize2 /> },
+        ].map(({ label, onClick, icon }) => (
+          <button
+            key={label}
+            type="button"
+            onClick={onClick}
+            aria-label={label}
+            title={label}
+            className="text-muted-foreground hover:text-foreground hover:bg-accent focus-visible:ring-ring flex size-10 items-center justify-center transition-colors focus-visible:ring-2 focus-visible:outline-none focus-visible:ring-inset lg:size-8 [&_svg]:size-4 lg:[&_svg]:size-3.5"
+          >
+            {icon}
+          </button>
+        ))}
+      </div>
     </div>
   );
 }

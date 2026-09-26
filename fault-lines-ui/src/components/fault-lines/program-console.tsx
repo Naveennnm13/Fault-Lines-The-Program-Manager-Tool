@@ -2,6 +2,8 @@
 
 import * as React from "react";
 
+import { X } from "lucide-react";
+
 import { DashedLine } from "@/components/dashed-line";
 import { BriefingReport } from "@/components/fault-lines/briefing-report";
 import { DelaySimulatorCard } from "@/components/fault-lines/delay-simulator-card";
@@ -14,6 +16,7 @@ import { ViewTabs, type ViewId } from "@/components/fault-lines/view-tabs";
 import { buildTaskBriefing, narrativeSource } from "@/lib/fault-lines/briefing";
 import { buildCascadeContext, simulateDelay } from "@/lib/fault-lines/cascade";
 import { buildRiskItems } from "@/lib/fault-lines/severity";
+import { teamColor } from "@/lib/fault-lines/teams";
 import type { ProgramData } from "@/lib/fault-lines/types";
 
 /**
@@ -25,6 +28,7 @@ export function ProgramConsole({ data }: { data: ProgramData }) {
   const { tasks, analysis, narrative, program } = data;
 
   const [view, setView] = React.useState<ViewId>("graph");
+  const asideRef = React.useRef<HTMLElement>(null);
   const [selectedId, setSelectedId] = React.useState<string | null>(null);
   const [delayDays, setDelayDays] = React.useState(0);
   const [hiddenTeams, setHiddenTeams] = React.useState<Set<string>>(
@@ -182,17 +186,62 @@ export function ProgramConsole({ data }: { data: ProgramData }) {
           teams={program.teams}
           hiddenTeams={hiddenTeams}
           onToggleTeam={toggleTeam}
-          className="absolute top-4 left-4"
+          className="absolute top-3 left-3 z-10 lg:top-4 lg:left-4"
         />
-        <p className="text-muted-foreground pointer-events-none absolute bottom-4 left-4 text-[11px]">
-          Scroll to zoom · drag a node to reposition it
-        </p>
+
+        {selectedTask ? (
+          // Phones only: the detail sections are below the fold, so without
+          // this a successful tap changes nothing but an 8px ring.
+          <div className="bg-background absolute inset-x-3 bottom-3 flex items-center gap-2 rounded-md border py-1.5 pr-1.5 pl-3 lg:hidden">
+            <span
+              aria-hidden
+              className="size-2.5 shrink-0 rounded-full"
+              style={{ backgroundColor: teamColor(selectedTask.team) }}
+            />
+            <p className="min-w-0 flex-1 text-sm leading-tight">
+              <span className="block truncate font-medium">
+                {selectedTask.name}
+              </span>
+              <span className="text-muted-foreground block truncate text-xs">
+                <span className="font-mono">{selectedTask.id}</span> ·{" "}
+                {selectedTask.owner}
+              </span>
+            </p>
+            <button
+              type="button"
+              onClick={() =>
+                asideRef.current?.scrollIntoView({ behavior: "smooth" })
+              }
+              className="bg-foreground text-background focus-visible:ring-ring h-10 shrink-0 rounded px-3 text-sm font-medium focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none"
+            >
+              Details
+            </button>
+            <button
+              type="button"
+              onClick={() => selectTask(null)}
+              aria-label="Clear selection"
+              className="text-muted-foreground hover:text-foreground flex size-10 shrink-0 items-center justify-center rounded"
+            >
+              <X className="size-4" />
+            </button>
+          </div>
+        ) : (
+          <p className="text-muted-foreground pointer-events-none absolute bottom-3 left-3 text-[11px] lg:bottom-4 lg:left-4">
+            <span className="lg:hidden">Tap a task to inspect it · drag to move it</span>
+            <span className="max-lg:hidden">
+              Scroll to zoom · drag a task to move it · drag the canvas to pan
+            </span>
+          </p>
+        )}
       </section>
 
       <DashedLine orientation="vertical" className="max-lg:hidden" />
 
+      {/* One continuous column, divided by the template's dashed rule, rather
+          than a stack of identical bordered boxes. */}
       <aside
-        className="space-y-4 p-4 lg:overflow-y-auto"
+        ref={asideRef}
+        className="scroll-mt-2 px-4 lg:overflow-y-auto lg:px-6"
         aria-label="Program analysis"
       >
         <TaskDetailCard
@@ -208,6 +257,8 @@ export function ProgramConsole({ data }: { data: ProgramData }) {
           onSelectTask={selectTask}
         />
 
+        <DashedLine />
+
         <DelaySimulatorCard
           task={selectedTask}
           delayDays={delayDays}
@@ -215,6 +266,8 @@ export function ProgramConsole({ data }: { data: ProgramData }) {
           result={result}
           programLength={analysis.cpm.program_length_days}
         />
+
+        <DashedLine />
 
         <RiskBriefingCard
           narrative={narrative}

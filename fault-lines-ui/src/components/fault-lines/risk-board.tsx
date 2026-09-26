@@ -52,19 +52,21 @@ export function RiskBoard({
               aria-label={tier.label}
               className="bg-background flex flex-col lg:min-h-0"
             >
-              <header className="flex shrink-0 items-baseline gap-2 px-4 pt-4 pb-3">
-                <h2 className="text-sm font-medium">{tier.label}</h2>
-                <span
-                  className={cn(
-                    "tabular font-mono rounded px-1.5 py-0.5 text-[11px]",
-                    tier.id === "escalate"
-                      ? "bg-risk/10 text-risk"
-                      : "bg-muted text-muted-foreground",
-                  )}
-                >
-                  {lane.length}
-                </span>
-                <p className="text-muted-foreground ml-auto hidden text-[11px] xl:block">
+              <header className="shrink-0 px-4 pt-4 pb-3">
+                <div className="flex items-baseline gap-2">
+                  <h2 className="text-sm">{tier.label}</h2>
+                  <span
+                    className={cn(
+                      "tabular rounded px-1.5 py-0.5 text-[11px] leading-none",
+                      tier.id === "escalate"
+                        ? "bg-risk/10 text-risk"
+                        : "bg-muted text-muted-foreground",
+                    )}
+                  >
+                    {lane.length}
+                  </span>
+                </div>
+                <p className="text-muted-foreground mt-0.5 text-xs">
                   {tier.blurb}
                 </p>
               </header>
@@ -166,7 +168,7 @@ function RiskTicket({
             </span>
             <span
               className={cn(
-                "font-mono rounded border px-1 py-px text-[10px] uppercase",
+                "rounded border px-1.5 py-0.5 text-[11px] leading-none",
                 task.status === "blocked"
                   ? "border-risk/50 text-risk"
                   : "text-muted-foreground",
@@ -175,7 +177,7 @@ function RiskTicket({
               {STATUS_LABEL[task.status] ?? task.status}
             </span>
             {score.on_critical_path && (
-              <span className="font-mono border-foreground/40 rounded border px-1 py-px text-[10px] uppercase">
+              <span className="border-foreground/30 rounded border px-1.5 py-0.5 text-[11px] leading-none">
                 Critical path
               </span>
             )}
@@ -263,9 +265,12 @@ function RiskTicket({
           )}
 
           {mitigation && (
-            <div className="border-risk/40 border-l-2 pl-3">
-              <p className="text-muted-foreground mb-1 text-[11px]">
-                Recommended mitigation · {SOURCE_LABEL[mitigationSource]}
+            <div className="border-t pt-3">
+              <p className="mb-1 flex items-baseline justify-between gap-3 text-[11px]">
+                <span className="text-muted-foreground">Recommended action</span>
+                <span className="text-muted-foreground">
+                  {SOURCE_LABEL[mitigationSource]}
+                </span>
               </p>
               <p className="leading-relaxed">{mitigation}</p>
             </div>
@@ -274,7 +279,7 @@ function RiskTicket({
           <button
             type="button"
             onClick={onShowInGraph}
-            className="text-muted-foreground hover:text-foreground hover:bg-accent focus-visible:ring-ring inline-flex items-center gap-1.5 rounded-md border px-2 py-1 text-[11px] transition-colors focus-visible:ring-2 focus-visible:outline-none"
+            className="text-muted-foreground hover:text-foreground hover:bg-accent focus-visible:ring-ring inline-flex min-h-8 items-center gap-1.5 rounded-md border px-2.5 text-xs transition-colors focus-visible:ring-2 focus-visible:outline-none max-lg:min-h-10"
           >
             <GitBranch className="size-3" />
             Show in dependency graph

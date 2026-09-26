@@ -2,7 +2,7 @@
 
 import * as React from "react";
 
-import { Check, Copy, Download, RotateCcw, Sparkles, X } from "lucide-react";
+import { Check, Copy, Download, RotateCcw, X } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -144,8 +144,8 @@ export function BriefingReport({ data }: { data: ProgramData }) {
           <p className="text-muted-foreground mt-2 text-sm">{doc.subtitle}</p>
 
           {doc.sections.map((section) => (
-            <section key={section.id} className="mt-8">
-              <h2 className="text-muted-foreground font-mono mb-3 border-b pb-2 text-xs font-medium tracking-wide uppercase">
+            <section key={section.id} className="mt-9">
+              <h2 className="mb-2.5 text-base tracking-tight">
                 {section.heading}
               </h2>
               <div
@@ -227,7 +227,6 @@ function EditableBlock({
             title={SOURCE_LABEL[block.source]}
             className="text-muted-foreground bg-background flex items-center gap-1 rounded border px-1 py-px text-[10px]"
           >
-            {block.source === "claude" && <Sparkles className="size-2.5" />}
             {block.source === "claude" ? "Claude" : "Sample"}
           </span>
         )}

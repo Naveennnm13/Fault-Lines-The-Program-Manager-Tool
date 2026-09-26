@@ -1,8 +1,7 @@
 "use client";
 
-import { ArrowLeft, Sparkles } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   narrativeSource,
   SOURCE_LABEL,
@@ -26,7 +25,7 @@ interface RiskBriefingCardProps {
 }
 
 /**
- * Two views in one card. With nothing selected it is the program briefing
+ * Two views in one section. With nothing selected it is the program briefing
  * from narrative.json: headline, top risks, cascade summary. Select any task —
  * in the graph, on the board, or from a risk below — and it becomes that
  * task's briefing, so every issue gets one, not just the three the narrative
@@ -40,47 +39,50 @@ export function RiskBriefingCard({
   onSelectTask,
 }: RiskBriefingCardProps) {
   return (
-    <Card className="shadow-none">
-      <CardHeader className="flex-row items-center justify-between gap-2 space-y-0 p-5 pb-3">
-        <CardTitle className="text-muted-foreground font-mono text-xs font-medium tracking-wide uppercase">
-          {taskBriefing ? "Task briefing" : "Risk briefing"}
-        </CardTitle>
+    <section
+      id="risk-briefing"
+      aria-labelledby="risk-briefing-heading"
+      className="scroll-mt-4 space-y-4 py-5"
+    >
+      <div className="flex items-baseline justify-between gap-3">
+        <h2 id="risk-briefing-heading" className="text-sm">
+          {taskBriefing ? `Briefing on ${taskBriefing.task.id}` : "Risk briefing"}
+        </h2>
         {taskBriefing && (
           <button
             type="button"
             onClick={() => onSelectTask(null)}
-            className="text-muted-foreground hover:text-foreground focus-visible:ring-ring -my-1 inline-flex items-center gap-1 rounded-sm text-[11px] transition-colors focus-visible:ring-2 focus-visible:outline-none"
+            className="text-muted-foreground hover:text-foreground focus-visible:ring-ring -my-2 inline-flex min-h-8 items-center gap-1 rounded-sm text-xs transition-colors focus-visible:ring-2 focus-visible:outline-none"
           >
             <ArrowLeft className="size-3" />
             Program briefing
           </button>
         )}
-      </CardHeader>
-      <CardContent className="p-5 pt-0">
-        {taskBriefing ? (
-          <TaskView briefing={taskBriefing} />
-        ) : (
-          <ProgramView
-            narrative={narrative}
-            knownTaskIds={knownTaskIds}
-            selectedId={selectedId}
-            onSelectTask={onSelectTask}
-          />
-        )}
-      </CardContent>
-    </Card>
+      </div>
+
+      {taskBriefing ? (
+        <TaskView briefing={taskBriefing} />
+      ) : (
+        <ProgramView
+          narrative={narrative}
+          knownTaskIds={knownTaskIds}
+          selectedId={selectedId}
+          onSelectTask={onSelectTask}
+        />
+      )}
+    </section>
   );
 }
 
-function SourceTag({ source }: { source: ProseSource }) {
+/** Provenance, stated plainly. Only live output is attributed to Claude. */
+function SourceNote({ source }: { source: ProseSource }) {
   return (
     <span
       className={cn(
-        "inline-flex items-center gap-1 text-[10px]",
+        "text-[11px]",
         source === "claude" ? "text-foreground/70" : "text-muted-foreground",
       )}
     >
-      {source === "claude" && <Sparkles aria-hidden className="size-2.5" />}
       {SOURCE_LABEL[source]}
     </span>
   );
@@ -89,9 +91,9 @@ function SourceTag({ source }: { source: ProseSource }) {
 function ProseBlock({ label, prose }: { label: string; prose: Prose }) {
   return (
     <div className="space-y-1">
-      <div className="flex items-baseline justify-between gap-2">
-        <p className="text-muted-foreground text-[11px]">{label}</p>
-        <SourceTag source={prose.source} />
+      <div className="flex items-baseline justify-between gap-3">
+        <h3 className="text-muted-foreground text-xs font-normal">{label}</h3>
+        <SourceNote source={prose.source} />
       </div>
       <p className="text-sm leading-relaxed">{prose.text}</p>
     </div>
@@ -105,43 +107,32 @@ function TaskView({ briefing }: { briefing: TaskBriefing }) {
 
   return (
     <div className="space-y-4">
-      <div>
-        <div className="flex items-start gap-2">
-          <span
-            aria-hidden
-            className="mt-1.5 size-2.5 shrink-0 rounded-full"
-            style={{ backgroundColor: teamColor(task.team) }}
-          />
-          <h3 className="font-display text-base leading-snug">{task.name}</h3>
-        </div>
-        <p className="text-muted-foreground mt-1.5 ml-4.5 text-xs">
-          <span className="font-mono">{task.id}</span> · POC{" "}
-          <span className="text-foreground">{task.owner}</span> ·{" "}
-          {tierMeta ? (
-            <span
-              className={cn(
-                tier === "escalate" && "text-risk font-medium",
-                tier === "act" && "text-foreground",
-              )}
-            >
-              {tierMeta.label}
-            </span>
-          ) : done ? (
-            "Complete"
-          ) : (
-            "Not flagged"
+      {/* The name, owner and status are in the section above; this line
+          adds only what that one doesn't say: where it sits on the board. */}
+      <p className="text-xs">
+        <span
+          className={cn(
+            tier === "escalate" && "text-risk font-medium",
+            tier === "act" && "text-foreground font-medium",
+            !tier && "text-muted-foreground",
           )}
-        </p>
-      </div>
+        >
+          {tierMeta ? tierMeta.label : done ? "Complete" : "Not on the risk board"}
+        </span>
+        {tierMeta && (
+          <span className="text-muted-foreground"> · {tierMeta.blurb.toLowerCase()}</span>
+        )}
+      </p>
 
       <ProseBlock label="Why it matters" prose={briefing.whyItMatters} />
 
       {others.length > 0 && (
         <div className="space-y-1.5">
-          <p className="text-muted-foreground text-[11px]">
-            {done ? "Built on by" : "Waiting on it"} · {blastRadius}{" "}
+          <h3 className="text-muted-foreground text-xs font-normal">
+            {done ? "Built on by" : "Waiting on it"} ·{" "}
+            <span className="tabular">{blastRadius}</span>{" "}
             {blastRadius === 1 ? "task" : "tasks"}
-          </p>
+          </h3>
           <ul className="flex flex-wrap gap-x-3 gap-y-1 text-xs">
             {others.map((team) => (
               <li key={team} className="flex items-center gap-1.5">
@@ -159,32 +150,38 @@ function TaskView({ briefing }: { briefing: TaskBriefing }) {
 
       {!done && briefing.projections.length > 0 && (
         <div className="space-y-1.5 border-t pt-4">
-          <p className="text-muted-foreground text-[11px]">
+          <h3 className="text-muted-foreground text-xs font-normal">
             If it slips —{" "}
             {onCriticalPath
-              ? "on the critical path, so the end date moves one-for-one"
-              : `absorbs ${slack} ${slack === 1 ? "day" : "days"}, then the end date moves`}
-          </p>
+              ? "no float, so the end date moves day for day"
+              : `it absorbs ${slack} ${slack === 1 ? "day" : "days"}, then the end date moves`}
+          </h3>
           <table className="w-full text-xs">
+            <caption className="sr-only">
+              Projected effect of delaying {task.id}
+            </caption>
             <tbody>
               {briefing.projections.map((p) => (
                 <tr key={p.delay} className="border-b border-dashed last:border-0">
-                  <td className="tabular text-muted-foreground py-1.5 pr-3">
-                    +{p.delay}d
-                  </td>
+                  <th
+                    scope="row"
+                    className="tabular text-muted-foreground py-1.5 pr-3 text-left font-normal"
+                  >
+                    +{p.delay} days
+                  </th>
                   <td className="tabular py-1.5">
                     {p.slip > 0 ? (
-                      <span className="text-risk font-medium">
-                        end date +{p.slip}d → day {p.newLength}
+                      <span className="text-risk">
+                        end date +{p.slip} → day {p.newLength}
                       </span>
                     ) : (
                       <span className="text-muted-foreground">
-                        absorbed · holds at day {p.newLength}
+                        absorbed, holds at day {p.newLength}
                       </span>
                     )}
                   </td>
                   <td className="tabular text-muted-foreground py-1.5 text-right">
-                    {p.affected} {p.affected === 1 ? "task" : "tasks"} move
+                    {p.affected} {p.affected === 1 ? "task moves" : "tasks move"}
                   </td>
                 </tr>
               ))}
@@ -210,13 +207,11 @@ function ProgramView({
 
   return (
     <div className="space-y-5">
-      <div className="space-y-2">
-        <p className="border-risk border-l-2 pl-3 text-sm leading-relaxed text-balance">
+      <div className="space-y-1.5">
+        <p className="text-[15px] leading-relaxed font-medium text-balance">
           {narrative.headline}
         </p>
-        <div className="pl-3">
-          <SourceTag source={source} />
-        </div>
+        <SourceNote source={source} />
       </div>
 
       <ol className="divide-y border-t">
@@ -224,7 +219,7 @@ function ProgramView({
           const linkable = knownTaskIds.has(risk.task_id);
           const isSelected = selectedId === risk.task_id;
           return (
-            <li key={risk.task_id} className="py-4 first:pt-4 last:pb-0">
+            <li key={risk.task_id} className="py-4 last:pb-0">
               <div className="flex items-start gap-2">
                 <span
                   aria-hidden
@@ -247,8 +242,9 @@ function ProgramView({
                         {risk.task_name}
                       </span>
                     )}
-                    <p className="text-muted-foreground font-mono mt-0.5 text-[10px]">
-                      {risk.task_id} · {risk.team}
+                    <p className="text-muted-foreground mt-0.5 text-[11px]">
+                      <span className="font-mono">{risk.task_id}</span> ·{" "}
+                      {risk.team}
                     </p>
                   </div>
 
@@ -273,8 +269,8 @@ function ProgramView({
         {narrative.cascade_summary}
       </p>
 
-      <p className="text-muted-foreground text-[11px]">
-        Select any task in the graph for its own briefing.
+      <p className="text-muted-foreground text-xs">
+        Select any task in the graph for a briefing on that task alone.
       </p>
     </div>
   );

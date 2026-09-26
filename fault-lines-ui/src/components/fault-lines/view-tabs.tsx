@@ -6,10 +6,11 @@ import { cn } from "@/lib/utils";
 
 export type ViewId = "graph" | "board" | "briefing";
 
-const VIEWS: { id: ViewId; label: string }[] = [
-  { id: "graph", label: "Dependency graph" },
-  { id: "board", label: "Risk board" },
-  { id: "briefing", label: "Briefing" },
+// `short` is used below sm, where the full labels wrap onto two lines.
+const VIEWS: { id: ViewId; label: string; short: string }[] = [
+  { id: "graph", label: "Dependency graph", short: "Graph" },
+  { id: "board", label: "Risk board", short: "Board" },
+  { id: "briefing", label: "Briefing", short: "Briefing" },
 ];
 
 /**
@@ -60,13 +61,14 @@ export function ViewTabs({
             onClick={() => onChange(view.id)}
             onKeyDown={(event) => onKeyDown(event, index)}
             className={cn(
-              "focus-visible:ring-ring relative flex items-center gap-2 px-3 py-2.5 text-sm transition-colors focus-visible:ring-2 focus-visible:outline-none",
+              "focus-visible:ring-ring relative flex min-h-11 items-center gap-2 px-3 text-sm whitespace-nowrap transition-colors focus-visible:ring-2 focus-visible:outline-none focus-visible:ring-inset",
               selected
                 ? "text-foreground"
                 : "text-muted-foreground hover:text-foreground",
             )}
           >
-            {view.label}
+            <span className="sm:hidden">{view.short}</span>
+            <span className="max-sm:hidden">{view.label}</span>
             {count !== undefined && (
               <span
                 className={cn(
