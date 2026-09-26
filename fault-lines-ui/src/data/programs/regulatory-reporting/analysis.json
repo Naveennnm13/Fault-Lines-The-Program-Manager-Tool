@@ -1,0 +1,863 @@
+{
+  "cpm": {
+    "program_length_days": 53,
+    "critical_path": [
+      "R01",
+      "R02",
+      "R03",
+      "R07",
+      "R13",
+      "R14",
+      "R15",
+      "R20",
+      "R21",
+      "R22",
+      "R23",
+      "R24"
+    ],
+    "slack": {
+      "R01": 0,
+      "R02": 0,
+      "R03": 0,
+      "R04": 9,
+      "R05": 5,
+      "R06": 17,
+      "R07": 0,
+      "R08": 1,
+      "R09": 32,
+      "R10": 9,
+      "R11": 9,
+      "R12": 17,
+      "R13": 0,
+      "R14": 0,
+      "R15": 0,
+      "R16": 9,
+      "R17": 9,
+      "R18": 9,
+      "R19": 13,
+      "R20": 0,
+      "R21": 0,
+      "R22": 0,
+      "R23": 0,
+      "R24": 0,
+      "R25": 4,
+      "R26": 20,
+      "R27": 11,
+      "R28": 23,
+      "R29": 3,
+      "R30": 5
+    },
+    "earliest_finish": {
+      "R01": 4,
+      "R02": 7,
+      "R03": 15,
+      "R04": 13,
+      "R05": 10,
+      "R09": 11,
+      "R08": 21,
+      "R06": 18,
+      "R11": 18,
+      "R07": 22,
+      "R10": 18,
+      "R12": 22,
+      "R13": 30,
+      "R16": 23,
+      "R14": 35,
+      "R19": 33,
+      "R17": 27,
+      "R15": 39,
+      "R18": 30,
+      "R28": 30,
+      "R27": 42,
+      "R20": 43,
+      "R26": 33,
+      "R21": 46,
+      "R22": 47,
+      "R30": 48,
+      "R23": 48,
+      "R25": 49,
+      "R24": 53,
+      "R29": 50
+    }
+  },
+  "bottleneck_scores": [
+    {
+      "id": "R03",
+      "name": "Reporting data lineage mapping",
+      "team": "Data",
+      "owner": "Y. Tanaka",
+      "status": "in_progress",
+      "pct": 45,
+      "blast_radius": 15,
+      "on_critical_path": true,
+      "at_risk": true,
+      "score": 56.2
+    },
+    {
+      "id": "R01",
+      "name": "Audit findings triage",
+      "team": "Compliance",
+      "owner": "G. Hale",
+      "status": "done",
+      "pct": 100,
+      "blast_radius": 29,
+      "on_critical_path": true,
+      "at_risk": false,
+      "score": 43.5
+    },
+    {
+      "id": "R04",
+      "name": "Control inventory & gap assessment",
+      "team": "Compliance",
+      "owner": "F. Moreau",
+      "status": "in_progress",
+      "pct": 40,
+      "blast_radius": 17,
+      "on_critical_path": false,
+      "at_risk": true,
+      "score": 42.5
+    },
+    {
+      "id": "R02",
+      "name": "Remediation plan & regulator commitment",
+      "team": "Compliance",
+      "owner": "G. Hale",
+      "status": "done",
+      "pct": 100,
+      "blast_radius": 28,
+      "on_critical_path": true,
+      "at_risk": false,
+      "score": 42.0
+    },
+    {
+      "id": "R05",
+      "name": "Reporting environments & access",
+      "team": "Ops",
+      "owner": "B. Kowalski",
+      "status": "done",
+      "pct": 100,
+      "blast_radius": 20,
+      "on_critical_path": false,
+      "at_risk": false,
+      "score": 20.0
+    },
+    {
+      "id": "R12",
+      "name": "Evidence repository & retention setup",
+      "team": "Ops",
+      "owner": "B. Kowalski",
+      "status": "blocked",
+      "pct": 0,
+      "blast_radius": 8,
+      "on_critical_path": false,
+      "at_risk": true,
+      "score": 20.0
+    },
+    {
+      "id": "R07",
+      "name": "Source-system extract fixes",
+      "team": "Engineering",
+      "owner": "D. Osei",
+      "status": "not_started",
+      "pct": 0,
+      "blast_radius": 13,
+      "on_critical_path": true,
+      "at_risk": false,
+      "score": 19.5
+    },
+    {
+      "id": "R13",
+      "name": "Reporting calculation rewrite",
+      "team": "Data",
+      "owner": "V. Mensah",
+      "status": "not_started",
+      "pct": 0,
+      "blast_radius": 12,
+      "on_critical_path": true,
+      "at_risk": false,
+      "score": 18.0
+    },
+    {
+      "id": "R14",
+      "name": "Parallel report generation, old vs new",
+      "team": "Data",
+      "owner": "V. Mensah",
+      "status": "not_started",
+      "pct": 0,
+      "blast_radius": 10,
+      "on_critical_path": true,
+      "at_risk": false,
+      "score": 15.0
+    },
+    {
+      "id": "R15",
+      "name": "Variance investigation & sign-off",
+      "team": "Data",
+      "owner": "Y. Tanaka",
+      "status": "not_started",
+      "pct": 0,
+      "blast_radius": 9,
+      "on_critical_path": true,
+      "at_risk": false,
+      "score": 13.5
+    },
+    {
+      "id": "R08",
+      "name": "Data quality controls on reportable fields",
+      "team": "Data",
+      "owner": "Y. Tanaka",
+      "status": "not_started",
+      "pct": 0,
+      "blast_radius": 13,
+      "on_critical_path": false,
+      "at_risk": false,
+      "score": 13.0
+    },
+    {
+      "id": "R10",
+      "name": "Automated control testing harness",
+      "team": "Engineering",
+      "owner": "C. Park",
+      "status": "not_started",
+      "pct": 0,
+      "blast_radius": 13,
+      "on_critical_path": false,
+      "at_risk": false,
+      "score": 13.0
+    },
+    {
+      "id": "R11",
+      "name": "Maker-checker for manual adjustments",
+      "team": "Engineering",
+      "owner": "C. Park",
+      "status": "not_started",
+      "pct": 0,
+      "blast_radius": 13,
+      "on_critical_path": false,
+      "at_risk": false,
+      "score": 13.0
+    },
+    {
+      "id": "R16",
+      "name": "Control testing, cycle 1",
+      "team": "Compliance",
+      "owner": "F. Moreau",
+      "status": "not_started",
+      "pct": 0,
+      "blast_radius": 12,
+      "on_critical_path": false,
+      "at_risk": false,
+      "score": 12.0
+    },
+    {
+      "id": "R17",
+      "name": "Control test remediation",
+      "team": "Engineering",
+      "owner": "D. Osei",
+      "status": "not_started",
+      "pct": 0,
+      "blast_radius": 11,
+      "on_critical_path": false,
+      "at_risk": false,
+      "score": 11.0
+    },
+    {
+      "id": "R20",
+      "name": "Evidence pack assembly",
+      "team": "Compliance",
+      "owner": "G. Hale",
+      "status": "not_started",
+      "pct": 0,
+      "blast_radius": 7,
+      "on_critical_path": true,
+      "at_risk": false,
+      "score": 10.5
+    },
+    {
+      "id": "R06",
+      "name": "Data retention policy rewrite",
+      "team": "Compliance",
+      "owner": "F. Moreau",
+      "status": "not_started",
+      "pct": 0,
+      "blast_radius": 9,
+      "on_critical_path": false,
+      "at_risk": false,
+      "score": 9.0
+    },
+    {
+      "id": "R18",
+      "name": "Control testing, cycle 2",
+      "team": "Compliance",
+      "owner": "F. Moreau",
+      "status": "not_started",
+      "pct": 0,
+      "blast_radius": 9,
+      "on_critical_path": false,
+      "at_risk": false,
+      "score": 9.0
+    },
+    {
+      "id": "R21",
+      "name": "Internal audit walkthrough",
+      "team": "Compliance",
+      "owner": "G. Hale",
+      "status": "not_started",
+      "pct": 0,
+      "blast_radius": 6,
+      "on_critical_path": true,
+      "at_risk": false,
+      "score": 9.0
+    },
+    {
+      "id": "R09",
+      "name": "Report template redesign",
+      "team": "Design",
+      "owner": "A. Lindqvist",
+      "status": "in_progress",
+      "pct": 60,
+      "blast_radius": 6,
+      "on_critical_path": false,
+      "at_risk": false,
+      "score": 6.0
+    },
+    {
+      "id": "R22",
+      "name": "Executive attestation",
+      "team": "Compliance",
+      "owner": "G. Hale",
+      "status": "not_started",
+      "pct": 0,
+      "blast_radius": 4,
+      "on_critical_path": true,
+      "at_risk": false,
+      "score": 6.0
+    },
+    {
+      "id": "R19",
+      "name": "Report template UAT",
+      "team": "Design",
+      "owner": "A. Lindqvist",
+      "status": "not_started",
+      "pct": 0,
+      "blast_radius": 5,
+      "on_critical_path": false,
+      "at_risk": false,
+      "score": 5.0
+    },
+    {
+      "id": "R23",
+      "name": "Regulator submission",
+      "team": "Compliance",
+      "owner": "G. Hale",
+      "status": "not_started",
+      "pct": 0,
+      "blast_radius": 2,
+      "on_critical_path": true,
+      "at_risk": false,
+      "score": 3.0
+    },
+    {
+      "id": "R24",
+      "name": "Post-submission monitoring",
+      "team": "Ops",
+      "owner": "B. Kowalski",
+      "status": "not_started",
+      "pct": 0,
+      "blast_radius": 0,
+      "on_critical_path": true,
+      "at_risk": false,
+      "score": 0.0
+    },
+    {
+      "id": "R25",
+      "name": "Board risk committee update",
+      "team": "Marketing",
+      "owner": "P. Achebe",
+      "status": "not_started",
+      "pct": 0,
+      "blast_radius": 0,
+      "on_critical_path": false,
+      "at_risk": false,
+      "score": 0.0
+    },
+    {
+      "id": "R26",
+      "name": "Staff training on new controls",
+      "team": "Ops",
+      "owner": "B. Kowalski",
+      "status": "not_started",
+      "pct": 0,
+      "blast_radius": 0,
+      "on_critical_path": false,
+      "at_risk": false,
+      "score": 0.0
+    },
+    {
+      "id": "R27",
+      "name": "Client disclosure updates",
+      "team": "Marketing",
+      "owner": "P. Achebe",
+      "status": "not_started",
+      "pct": 0,
+      "blast_radius": 0,
+      "on_critical_path": false,
+      "at_risk": false,
+      "score": 0.0
+    },
+    {
+      "id": "R28",
+      "name": "Control operating runbooks",
+      "team": "Ops",
+      "owner": "B. Kowalski",
+      "status": "not_started",
+      "pct": 0,
+      "blast_radius": 0,
+      "on_critical_path": false,
+      "at_risk": false,
+      "score": 0.0
+    },
+    {
+      "id": "R29",
+      "name": "Lessons-learned review",
+      "team": "Design",
+      "owner": "A. Lindqvist",
+      "status": "not_started",
+      "pct": 0,
+      "blast_radius": 0,
+      "on_critical_path": false,
+      "at_risk": false,
+      "score": 0.0
+    },
+    {
+      "id": "R30",
+      "name": "Regulator follow-up comms plan",
+      "team": "Marketing",
+      "owner": "P. Achebe",
+      "status": "not_started",
+      "pct": 0,
+      "blast_radius": 0,
+      "on_critical_path": false,
+      "at_risk": false,
+      "score": 0.0
+    }
+  ],
+  "team_bottleneck_load": {
+    "Compliance": {
+      "critical_path_tasks": 6,
+      "total_blast_radius": 123,
+      "at_risk_tasks": 1
+    },
+    "Data": {
+      "critical_path_tasks": 4,
+      "total_blast_radius": 59,
+      "at_risk_tasks": 1
+    },
+    "Ops": {
+      "critical_path_tasks": 1,
+      "total_blast_radius": 28,
+      "at_risk_tasks": 1
+    },
+    "Engineering": {
+      "critical_path_tasks": 1,
+      "total_blast_radius": 50,
+      "at_risk_tasks": 0
+    },
+    "Design": {
+      "critical_path_tasks": 0,
+      "total_blast_radius": 11,
+      "at_risk_tasks": 0
+    },
+    "Marketing": {
+      "critical_path_tasks": 0,
+      "total_blast_radius": 0,
+      "at_risk_tasks": 0
+    }
+  },
+  "sample_delay_scenarios": [
+    {
+      "task_id": "R03",
+      "delay_days": 3,
+      "old_program_length_days": 53,
+      "new_program_length_days": 56,
+      "program_slip_days": 3,
+      "affected_teams": {
+        "Data": 3,
+        "Engineering": 3,
+        "Design": 3,
+        "Compliance": 3,
+        "Ops": 3,
+        "Marketing": 3
+      },
+      "affected_tasks": [
+        {
+          "id": "R03",
+          "name": "Reporting data lineage mapping",
+          "team": "Data",
+          "shift_days": 3
+        },
+        {
+          "id": "R07",
+          "name": "Source-system extract fixes",
+          "team": "Engineering",
+          "shift_days": 3
+        },
+        {
+          "id": "R08",
+          "name": "Data quality controls on reportable fields",
+          "team": "Data",
+          "shift_days": 3
+        },
+        {
+          "id": "R13",
+          "name": "Reporting calculation rewrite",
+          "team": "Data",
+          "shift_days": 3
+        },
+        {
+          "id": "R14",
+          "name": "Parallel report generation, old vs new",
+          "team": "Data",
+          "shift_days": 3
+        },
+        {
+          "id": "R15",
+          "name": "Variance investigation & sign-off",
+          "team": "Data",
+          "shift_days": 3
+        },
+        {
+          "id": "R19",
+          "name": "Report template UAT",
+          "team": "Design",
+          "shift_days": 3
+        },
+        {
+          "id": "R20",
+          "name": "Evidence pack assembly",
+          "team": "Compliance",
+          "shift_days": 3
+        },
+        {
+          "id": "R21",
+          "name": "Internal audit walkthrough",
+          "team": "Compliance",
+          "shift_days": 3
+        },
+        {
+          "id": "R22",
+          "name": "Executive attestation",
+          "team": "Compliance",
+          "shift_days": 3
+        },
+        {
+          "id": "R23",
+          "name": "Regulator submission",
+          "team": "Compliance",
+          "shift_days": 3
+        },
+        {
+          "id": "R24",
+          "name": "Post-submission monitoring",
+          "team": "Ops",
+          "shift_days": 3
+        },
+        {
+          "id": "R25",
+          "name": "Board risk committee update",
+          "team": "Marketing",
+          "shift_days": 3
+        },
+        {
+          "id": "R27",
+          "name": "Client disclosure updates",
+          "team": "Marketing",
+          "shift_days": 3
+        },
+        {
+          "id": "R29",
+          "name": "Lessons-learned review",
+          "team": "Design",
+          "shift_days": 3
+        },
+        {
+          "id": "R30",
+          "name": "Regulator follow-up comms plan",
+          "team": "Marketing",
+          "shift_days": 3
+        }
+      ]
+    },
+    {
+      "task_id": "R01",
+      "delay_days": 3,
+      "old_program_length_days": 53,
+      "new_program_length_days": 56,
+      "program_slip_days": 3,
+      "affected_teams": {
+        "Compliance": 3,
+        "Data": 3,
+        "Ops": 3,
+        "Engineering": 3,
+        "Design": 3,
+        "Marketing": 3
+      },
+      "affected_tasks": [
+        {
+          "id": "R01",
+          "name": "Audit findings triage",
+          "team": "Compliance",
+          "shift_days": 3
+        },
+        {
+          "id": "R02",
+          "name": "Remediation plan & regulator commitment",
+          "team": "Compliance",
+          "shift_days": 3
+        },
+        {
+          "id": "R03",
+          "name": "Reporting data lineage mapping",
+          "team": "Data",
+          "shift_days": 3
+        },
+        {
+          "id": "R04",
+          "name": "Control inventory & gap assessment",
+          "team": "Compliance",
+          "shift_days": 3
+        },
+        {
+          "id": "R05",
+          "name": "Reporting environments & access",
+          "team": "Ops",
+          "shift_days": 3
+        },
+        {
+          "id": "R06",
+          "name": "Data retention policy rewrite",
+          "team": "Compliance",
+          "shift_days": 3
+        },
+        {
+          "id": "R07",
+          "name": "Source-system extract fixes",
+          "team": "Engineering",
+          "shift_days": 3
+        },
+        {
+          "id": "R08",
+          "name": "Data quality controls on reportable fields",
+          "team": "Data",
+          "shift_days": 3
+        },
+        {
+          "id": "R09",
+          "name": "Report template redesign",
+          "team": "Design",
+          "shift_days": 3
+        },
+        {
+          "id": "R10",
+          "name": "Automated control testing harness",
+          "team": "Engineering",
+          "shift_days": 3
+        },
+        {
+          "id": "R11",
+          "name": "Maker-checker for manual adjustments",
+          "team": "Engineering",
+          "shift_days": 3
+        },
+        {
+          "id": "R12",
+          "name": "Evidence repository & retention setup",
+          "team": "Ops",
+          "shift_days": 3
+        },
+        {
+          "id": "R13",
+          "name": "Reporting calculation rewrite",
+          "team": "Data",
+          "shift_days": 3
+        },
+        {
+          "id": "R14",
+          "name": "Parallel report generation, old vs new",
+          "team": "Data",
+          "shift_days": 3
+        },
+        {
+          "id": "R15",
+          "name": "Variance investigation & sign-off",
+          "team": "Data",
+          "shift_days": 3
+        },
+        {
+          "id": "R16",
+          "name": "Control testing, cycle 1",
+          "team": "Compliance",
+          "shift_days": 3
+        },
+        {
+          "id": "R17",
+          "name": "Control test remediation",
+          "team": "Engineering",
+          "shift_days": 3
+        },
+        {
+          "id": "R18",
+          "name": "Control testing, cycle 2",
+          "team": "Compliance",
+          "shift_days": 3
+        },
+        {
+          "id": "R19",
+          "name": "Report template UAT",
+          "team": "Design",
+          "shift_days": 3
+        },
+        {
+          "id": "R20",
+          "name": "Evidence pack assembly",
+          "team": "Compliance",
+          "shift_days": 3
+        },
+        {
+          "id": "R21",
+          "name": "Internal audit walkthrough",
+          "team": "Compliance",
+          "shift_days": 3
+        },
+        {
+          "id": "R22",
+          "name": "Executive attestation",
+          "team": "Compliance",
+          "shift_days": 3
+        },
+        {
+          "id": "R23",
+          "name": "Regulator submission",
+          "team": "Compliance",
+          "shift_days": 3
+        },
+        {
+          "id": "R24",
+          "name": "Post-submission monitoring",
+          "team": "Ops",
+          "shift_days": 3
+        },
+        {
+          "id": "R25",
+          "name": "Board risk committee update",
+          "team": "Marketing",
+          "shift_days": 3
+        },
+        {
+          "id": "R26",
+          "name": "Staff training on new controls",
+          "team": "Ops",
+          "shift_days": 3
+        },
+        {
+          "id": "R27",
+          "name": "Client disclosure updates",
+          "team": "Marketing",
+          "shift_days": 3
+        },
+        {
+          "id": "R28",
+          "name": "Control operating runbooks",
+          "team": "Ops",
+          "shift_days": 3
+        },
+        {
+          "id": "R29",
+          "name": "Lessons-learned review",
+          "team": "Design",
+          "shift_days": 3
+        },
+        {
+          "id": "R30",
+          "name": "Regulator follow-up comms plan",
+          "team": "Marketing",
+          "shift_days": 3
+        }
+      ]
+    },
+    {
+      "task_id": "R04",
+      "delay_days": 3,
+      "old_program_length_days": 53,
+      "new_program_length_days": 53,
+      "program_slip_days": 0,
+      "affected_teams": {
+        "Compliance": 3,
+        "Engineering": 3,
+        "Ops": 3
+      },
+      "affected_tasks": [
+        {
+          "id": "R04",
+          "name": "Control inventory & gap assessment",
+          "team": "Compliance",
+          "shift_days": 3
+        },
+        {
+          "id": "R06",
+          "name": "Data retention policy rewrite",
+          "team": "Compliance",
+          "shift_days": 3
+        },
+        {
+          "id": "R10",
+          "name": "Automated control testing harness",
+          "team": "Engineering",
+          "shift_days": 3
+        },
+        {
+          "id": "R11",
+          "name": "Maker-checker for manual adjustments",
+          "team": "Engineering",
+          "shift_days": 3
+        },
+        {
+          "id": "R12",
+          "name": "Evidence repository & retention setup",
+          "team": "Ops",
+          "shift_days": 3
+        },
+        {
+          "id": "R16",
+          "name": "Control testing, cycle 1",
+          "team": "Compliance",
+          "shift_days": 3
+        },
+        {
+          "id": "R17",
+          "name": "Control test remediation",
+          "team": "Engineering",
+          "shift_days": 3
+        },
+        {
+          "id": "R18",
+          "name": "Control testing, cycle 2",
+          "team": "Compliance",
+          "shift_days": 3
+        },
+        {
+          "id": "R26",
+          "name": "Staff training on new controls",
+          "team": "Ops",
+          "shift_days": 3
+        },
+        {
+          "id": "R28",
+          "name": "Control operating runbooks",
+          "team": "Ops",
+          "shift_days": 3
+        }
+      ]
+    }
+  ]
+}

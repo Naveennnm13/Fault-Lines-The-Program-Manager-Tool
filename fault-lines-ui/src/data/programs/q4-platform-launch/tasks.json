@@ -1,0 +1,447 @@
+{
+  "program": {
+    "slug": "q4-platform-launch",
+    "name": "Q4 Platform Launch",
+    "start_date": "2026-10-05",
+    "teams": [
+      "Engineering",
+      "Data",
+      "Design",
+      "Compliance",
+      "Ops",
+      "Marketing"
+    ]
+  },
+  "tasks": [
+    {
+      "id": "T01",
+      "name": "Define platform requirements",
+      "team": "Engineering",
+      "owner": "R. Kapoor",
+      "duration": 5,
+      "deps": [],
+      "status": "done",
+      "pct": 100
+    },
+    {
+      "id": "T02",
+      "name": "Data model & schema design",
+      "team": "Data",
+      "owner": "S. Ibarra",
+      "duration": 4,
+      "deps": [
+        "T01"
+      ],
+      "status": "done",
+      "pct": 100
+    },
+    {
+      "id": "T03",
+      "name": "Compliance scope review",
+      "team": "Compliance",
+      "owner": "J. Okafor",
+      "duration": 6,
+      "deps": [
+        "T01"
+      ],
+      "status": "in_progress",
+      "pct": 60
+    },
+    {
+      "id": "T04",
+      "name": "Design system audit",
+      "team": "Design",
+      "owner": "L. Chen",
+      "duration": 3,
+      "deps": [
+        "T01"
+      ],
+      "status": "done",
+      "pct": 100
+    },
+    {
+      "id": "T05",
+      "name": "Vendor data feed contracts",
+      "team": "Ops",
+      "owner": "M. Reyes",
+      "duration": 8,
+      "deps": [
+        "T01"
+      ],
+      "status": "blocked",
+      "pct": 20
+    },
+    {
+      "id": "T06",
+      "name": "Core ingestion pipeline",
+      "team": "Data",
+      "owner": "S. Ibarra",
+      "duration": 7,
+      "deps": [
+        "T02",
+        "T05"
+      ],
+      "status": "not_started",
+      "pct": 0
+    },
+    {
+      "id": "T07",
+      "name": "Reporting API layer",
+      "team": "Engineering",
+      "owner": "R. Kapoor",
+      "duration": 6,
+      "deps": [
+        "T02"
+      ],
+      "status": "in_progress",
+      "pct": 40
+    },
+    {
+      "id": "T08",
+      "name": "KYC / regulatory checks",
+      "team": "Compliance",
+      "owner": "J. Okafor",
+      "duration": 5,
+      "deps": [
+        "T03"
+      ],
+      "status": "not_started",
+      "pct": 0
+    },
+    {
+      "id": "T09",
+      "name": "Component library build",
+      "team": "Design",
+      "owner": "L. Chen",
+      "duration": 5,
+      "deps": [
+        "T04"
+      ],
+      "status": "in_progress",
+      "pct": 70
+    },
+    {
+      "id": "T10",
+      "name": "Vendor onboarding & sandbox test",
+      "team": "Ops",
+      "owner": "M. Reyes",
+      "duration": 4,
+      "deps": [
+        "T05"
+      ],
+      "status": "not_started",
+      "pct": 0
+    },
+    {
+      "id": "T11",
+      "name": "Audit trail logging",
+      "team": "Engineering",
+      "owner": "A. Novak",
+      "duration": 4,
+      "deps": [
+        "T07"
+      ],
+      "status": "not_started",
+      "pct": 0
+    },
+    {
+      "id": "T12",
+      "name": "Data quality validation rules",
+      "team": "Data",
+      "owner": "P. Singh",
+      "duration": 5,
+      "deps": [
+        "T06"
+      ],
+      "status": "not_started",
+      "pct": 0
+    },
+    {
+      "id": "T13",
+      "name": "Dashboard front-end build",
+      "team": "Engineering",
+      "owner": "A. Novak",
+      "duration": 8,
+      "deps": [
+        "T07",
+        "T09"
+      ],
+      "status": "not_started",
+      "pct": 0
+    },
+    {
+      "id": "T14",
+      "name": "Compliance sign-off checkpoint",
+      "team": "Compliance",
+      "owner": "J. Okafor",
+      "duration": 2,
+      "deps": [
+        "T08"
+      ],
+      "status": "not_started",
+      "pct": 0
+    },
+    {
+      "id": "T15",
+      "name": "Cross-team data reconciliation",
+      "team": "Data",
+      "owner": "P. Singh",
+      "duration": 6,
+      "deps": [
+        "T06",
+        "T10",
+        "T12"
+      ],
+      "status": "not_started",
+      "pct": 0
+    },
+    {
+      "id": "T16",
+      "name": "Brand & messaging finalization",
+      "team": "Marketing",
+      "owner": "D. Alvarez",
+      "duration": 4,
+      "deps": [
+        "T09"
+      ],
+      "status": "not_started",
+      "pct": 0
+    },
+    {
+      "id": "T17",
+      "name": "Internal beta access rollout",
+      "team": "Ops",
+      "owner": "M. Reyes",
+      "duration": 3,
+      "deps": [
+        "T10",
+        "T11"
+      ],
+      "status": "not_started",
+      "pct": 0
+    },
+    {
+      "id": "T18",
+      "name": "Load & performance testing",
+      "team": "Engineering",
+      "owner": "A. Novak",
+      "duration": 5,
+      "deps": [
+        "T13"
+      ],
+      "status": "not_started",
+      "pct": 0
+    },
+    {
+      "id": "T19",
+      "name": "Regulatory filing submission",
+      "team": "Compliance",
+      "owner": "J. Okafor",
+      "duration": 3,
+      "deps": [
+        "T14",
+        "T15"
+      ],
+      "status": "not_started",
+      "pct": 0
+    },
+    {
+      "id": "T20",
+      "name": "Customer-facing help docs",
+      "team": "Marketing",
+      "owner": "D. Alvarez",
+      "duration": 3,
+      "deps": [
+        "T16"
+      ],
+      "status": "not_started",
+      "pct": 0
+    },
+    {
+      "id": "T21",
+      "name": "Launch comms & press plan",
+      "team": "Marketing",
+      "owner": "D. Alvarez",
+      "duration": 4,
+      "deps": [
+        "T16"
+      ],
+      "status": "not_started",
+      "pct": 0
+    },
+    {
+      "id": "T22",
+      "name": "Production cutover rehearsal",
+      "team": "Engineering",
+      "owner": "R. Kapoor",
+      "duration": 3,
+      "deps": [
+        "T17",
+        "T18"
+      ],
+      "status": "not_started",
+      "pct": 0
+    },
+    {
+      "id": "T23",
+      "name": "Final data accuracy sign-off",
+      "team": "Data",
+      "owner": "S. Ibarra",
+      "duration": 2,
+      "deps": [
+        "T15"
+      ],
+      "status": "not_started",
+      "pct": 0
+    },
+    {
+      "id": "T24",
+      "name": "Support team training",
+      "team": "Ops",
+      "owner": "M. Reyes",
+      "duration": 3,
+      "deps": [
+        "T17"
+      ],
+      "status": "not_started",
+      "pct": 0
+    },
+    {
+      "id": "T25",
+      "name": "Go / no-go readiness review",
+      "team": "Engineering",
+      "owner": "R. Kapoor",
+      "duration": 1,
+      "deps": [
+        "T19",
+        "T22",
+        "T23"
+      ],
+      "status": "not_started",
+      "pct": 0
+    },
+    {
+      "id": "T26",
+      "name": "Production launch",
+      "team": "Engineering",
+      "owner": "R. Kapoor",
+      "duration": 1,
+      "deps": [
+        "T25",
+        "T20",
+        "T24"
+      ],
+      "status": "not_started",
+      "pct": 0
+    },
+    {
+      "id": "T27",
+      "name": "Post-launch monitoring window",
+      "team": "Ops",
+      "owner": "M. Reyes",
+      "duration": 5,
+      "deps": [
+        "T26"
+      ],
+      "status": "not_started",
+      "pct": 0
+    },
+    {
+      "id": "T28",
+      "name": "Press release & launch marketing push",
+      "team": "Marketing",
+      "owner": "D. Alvarez",
+      "duration": 2,
+      "deps": [
+        "T26",
+        "T21"
+      ],
+      "status": "not_started",
+      "pct": 0
+    },
+    {
+      "id": "T29",
+      "name": "Accessibility review",
+      "team": "Design",
+      "owner": "L. Chen",
+      "duration": 3,
+      "deps": [
+        "T09"
+      ],
+      "status": "not_started",
+      "pct": 0
+    },
+    {
+      "id": "T30",
+      "name": "Analytics event tagging",
+      "team": "Data",
+      "owner": "P. Singh",
+      "duration": 3,
+      "deps": [
+        "T07"
+      ],
+      "status": "not_started",
+      "pct": 0
+    },
+    {
+      "id": "T31",
+      "name": "Third-party security pen test",
+      "team": "Compliance",
+      "owner": "J. Okafor",
+      "duration": 6,
+      "deps": [
+        "T07"
+      ],
+      "status": "not_started",
+      "pct": 0
+    },
+    {
+      "id": "T32",
+      "name": "Internal training deck",
+      "team": "Marketing",
+      "owner": "D. Alvarez",
+      "duration": 2,
+      "deps": [
+        "T13"
+      ],
+      "status": "not_started",
+      "pct": 0
+    },
+    {
+      "id": "T33",
+      "name": "Disaster recovery runbook",
+      "team": "Engineering",
+      "owner": "A. Novak",
+      "duration": 4,
+      "deps": [
+        "T13"
+      ],
+      "status": "not_started",
+      "pct": 0
+    },
+    {
+      "id": "T34",
+      "name": "Customer support macros",
+      "team": "Ops",
+      "owner": "M. Reyes",
+      "duration": 2,
+      "deps": [
+        "T24"
+      ],
+      "status": "not_started",
+      "pct": 0
+    },
+    {
+      "id": "T35",
+      "name": "Executive launch briefing",
+      "team": "Marketing",
+      "owner": "D. Alvarez",
+      "duration": 1,
+      "deps": [
+        "T25"
+      ],
+      "status": "not_started",
+      "pct": 0
+    }
+  ]
+}

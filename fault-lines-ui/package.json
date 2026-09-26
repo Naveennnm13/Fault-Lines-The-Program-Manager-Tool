@@ -1,0 +1,56 @@
+{
+  "name": "fault-lines-ui",
+  "version": "1.0.0",
+  "private": true,
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "predev": "node scripts/sync-data.mjs",
+    "dev": "next dev --turbopack",
+    "prebuild": "node scripts/sync-data.mjs",
+    "build": "next build",
+    "start": "next start",
+    "data": "node scripts/sync-data.mjs",
+    "data:live": "node scripts/sync-data.mjs --live",
+    "verify:cascade": "tsx scripts/verify-cascade.ts",
+    "report": "tsx scripts/render-report.ts",
+    "lint": "next lint --fix",
+    "format": "prettier -w ."
+  },
+  "dependencies": {
+    "@radix-ui/react-checkbox": "^1.3.3",
+    "@radix-ui/react-select": "^2.2.6",
+    "@radix-ui/react-slider": "^1.3.6",
+    "@radix-ui/react-slot": "^1.2.3",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "d3-force": "^3.0.0",
+    "lucide-react": "^0.545.0",
+    "next": "^15.5.5",
+    "next-themes": "^0.4.6",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
+    "tailwind-merge": "^3.3.1"
+  },
+  "devDependencies": {
+    "@eslint/eslintrc": "^3.3.1",
+    "@tailwindcss/postcss": "^4.1.14",
+    "@tailwindcss/typography": "^0.5.19",
+    "@types/d3-force": "^3.0.10",
+    "@types/node": "^24.7.2",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "eslint": "^9",
+    "eslint-config-next": "^15.5.5",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-import": "^2.32.0",
+    "eslint-plugin-prettier": "^5.5.4",
+    "postcss": "^8.5.6",
+    "prettier-plugin-tailwindcss": "^0.6.14",
+    "tailwindcss": "^4.1.14",
+    "tsx": "^4.23.15",
+    "tw-animate-css": "^1.4.0",
+    "typescript": "^5.9.3"
+  }
+}

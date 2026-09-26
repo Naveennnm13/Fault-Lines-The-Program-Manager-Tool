@@ -1,0 +1,52 @@
+{
+  "mode": "mock",
+  "model": null,
+  "source_fingerprint": "a89224d00aa81f74",
+  "headline": "The task to watch is Transaction ingest pipeline (Data): it is 35% complete and behind pace, with 14 downstream tasks across 5 teams. It can absorb 4 days of slip; anything beyond that moves the end date.",
+  "risks": [
+    {
+      "task_id": "C07",
+      "task_name": "Transaction ingest pipeline",
+      "team": "Data",
+      "why_it_matters": "Transaction ingest is behind pace and feeds reconciliation, corporate actions and the historical backfill. It has a few days of float today, which is exactly why it is dangerous: it will look fine right up until that float runs out.",
+      "mitigation": "Split the pipeline so E. Marsh ships equity and cash transactions first and defers fixed-income edge cases; reconciliation can start against the partial feed."
+    },
+    {
+      "task_id": "C05",
+      "task_name": "SFTP & API credential provisioning",
+      "team": "Ops",
+      "why_it_matters": "Blocked, and it will be the first thing anyone points at in a status meeting. But it has weeks of float: the sandbox test it unblocks is not needed until much later. Worth fixing, not worth panicking over.",
+      "mitigation": "Give the custodian's onboarding desk a named escalation contact and a date. Do not pull engineers off transaction ingest to chase it."
+    },
+    {
+      "task_id": "C03",
+      "task_name": "Custodian-to-internal data mapping",
+      "team": "Data",
+      "why_it_matters": "The data mapping is on the critical path and everything in the build phase inherits from it. It is on pace, but it has no float, so any late-found mapping gap moves go-live directly.",
+      "mitigation": "Freeze the mapping for the fields reconciliation needs first, and log anything else as a post-go-live enhancement."
+    }
+  ],
+  "cascade_summary": "A 3-day slip on Transaction ingest pipeline is absorbed today: the end date holds at day 53. It has 4 days of float, so a slip of 5 or more starts moving the end date.",
+  "task_briefings": {
+    "C07": {
+      "why_it_matters": "Transaction ingest is behind pace and feeds reconciliation, corporate actions and the historical backfill. It has a few days of float today, which is exactly why it is dangerous: it will look fine right up until that float runs out.",
+      "mitigation": "Split the pipeline so E. Marsh ships equity and cash transactions first and defers fixed-income edge cases; reconciliation can start against the partial feed."
+    },
+    "C05": {
+      "why_it_matters": "Blocked, and it will be the first thing anyone points at in a status meeting. But it has weeks of float: the sandbox test it unblocks is not needed until much later. Worth fixing, not worth panicking over.",
+      "mitigation": "Give the custodian's onboarding desk a named escalation contact and a date. Do not pull engineers off transaction ingest to chase it."
+    },
+    "C03": {
+      "why_it_matters": "The data mapping is on the critical path and everything in the build phase inherits from it. It is on pace, but it has no float, so any late-found mapping gap moves go-live directly.",
+      "mitigation": "Freeze the mapping for the fields reconciliation needs first, and log anything else as a post-go-live enhancement."
+    },
+    "C10": {
+      "why_it_matters": "The advisor UI design is behind pace, but it sits on a side branch with plenty of float. It affects the pilot group, not go-live.",
+      "mitigation": "Let M. Castillo ship a minimal account-status view for the pilot and iterate after cutover."
+    },
+    "C17": {
+      "why_it_matters": "The parallel run is the longest single task on the critical path. Its duration is set by how many clean cycles the custodian needs to see, not by effort, so it cannot be compressed.",
+      "mitigation": "Agree the exit criteria for the parallel run with the custodian now, so it ends on evidence rather than on the calendar."
+    }
+  }
+}

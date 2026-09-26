@@ -1,0 +1,20 @@
+{
+  "default": "q4-platform-launch",
+  "programs": [
+    {
+      "slug": "q4-platform-launch",
+      "name": "Q4 Platform Launch",
+      "task_count": 35
+    },
+    {
+      "slug": "custodian-integration",
+      "name": "Custodian Integration",
+      "task_count": 28
+    },
+    {
+      "slug": "regulatory-reporting",
+      "name": "Regulatory Reporting Remediation",
+      "task_count": 30
+    }
+  ]
+}
