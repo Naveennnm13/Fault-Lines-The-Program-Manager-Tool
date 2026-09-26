@@ -36,7 +36,12 @@ const argv = process.argv.slice(2);
 const programFlag = argv.indexOf("--program");
 const index = read<ProgramIndex>("index.json");
 const slug = programFlag >= 0 ? argv[programFlag + 1] : index.default;
-const team = argv.filter((_, i) => i !== programFlag && i !== programFlag + 1)[0];
+// Whatever is left once `--program <slug>` is removed is the team, if any.
+const positional =
+  programFlag >= 0
+    ? argv.filter((_, i) => i !== programFlag && i !== programFlag + 1)
+    : argv;
+const team = positional[0];
 
 if (!index.programs.some((p) => p.slug === slug)) {
   console.error(
