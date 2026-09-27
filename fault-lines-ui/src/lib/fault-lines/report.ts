@@ -98,7 +98,7 @@ export function generateReport(
         `${lead} ` +
           (worst.programSlip > 0
             ? `If it slips 3 days, the program's end date moves from day ${worst.oldProgramLength} to day ${worst.newProgramLength}.`
-            : `It can slip 3 days without moving the end date, but that spare time is the program's buffer and it won't last forever.`),
+            : `It has ${plural(top.slack, "day")} to spare, so it can slip that long before the end date moves.`),
       ),
     );
     const escalate = scoped.filter((i) => i.tier === "escalate").length;
@@ -314,7 +314,18 @@ export function generateReport(
   };
 }
 
-/** Serialises the document — including any edits — to Markdown. */
+/**
+ * The tag shown after a line that came from the narrative rather than the
+ * numbers. The provenance section tells the reader lines are marked, so every
+ * export format has to carry the mark, not just the on-screen editor.
+ */
+export function sourceTag(source: BlockSource): string | null {
+  if (source === "claude") return "Written by Claude";
+  if (source === "sample") return "Sample text";
+  return null;
+}
+
+/** Serialises the document, including any edits, to Markdown. */
 export function toMarkdown(doc: ReportDoc): string {
   const lines: string[] = [`# ${doc.title}`, "", `_${doc.subtitle}_`, ""];
 
@@ -323,7 +334,8 @@ export function toMarkdown(doc: ReportDoc): string {
 
     const blocks = section.blocks.filter((b) => b.text.trim());
     blocks.forEach((block, index) => {
-      const text = block.text.trim();
+      const tag = sourceTag(block.source);
+      const text = block.text.trim() + (tag ? ` _(${tag})_` : "");
       if (block.kind === "bullet") {
         lines.push(`- ${text}`);
         // Keep runs of bullets tight; a blank line between them makes
@@ -338,7 +350,14 @@ export function toMarkdown(doc: ReportDoc): string {
   return lines.join("\n").replace(/\n{3,}/g, "\n\n").trimEnd() + "\n";
 }
 
-export function reportFilename(scope: ReportScope): string {
-  const who = (scope ?? "program").toLowerCase().replace(/[^a-z0-9]+/g, "-");
-  return `fault-lines-${who}-briefing.md`;
+export type ExportFormat = "md" | "docx" | "pdf";
+
+export function reportFilename(
+  programSlug: string,
+  scope: ReportScope,
+  format: ExportFormat,
+): string {
+  const slug = (s: string) => s.toLowerCase().replace(/[^a-z0-9]+/g, "-");
+  const who = scope ? `-${slug(scope)}` : "";
+  return `${slug(programSlug)}${who}-risk-briefing.${format}`;
 }

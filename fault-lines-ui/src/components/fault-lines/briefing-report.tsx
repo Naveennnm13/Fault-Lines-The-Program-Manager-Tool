@@ -2,8 +2,9 @@
 
 import * as React from "react";
 
-import { Check, Copy, Download, RotateCcw, X } from "lucide-react";
+import { RotateCcw, X } from "lucide-react";
 
+import { BriefingActions } from "@/components/fault-lines/briefing-actions";
 import { Button } from "@/components/ui/button";
 import {
   Select,
@@ -15,8 +16,6 @@ import {
 import { SOURCE_LABEL } from "@/lib/fault-lines/briefing";
 import {
   generateReport,
-  reportFilename,
-  toMarkdown,
   type ReportDoc,
   type ReportScope,
 } from "@/lib/fault-lines/report";
@@ -29,9 +28,9 @@ const WHOLE_PROGRAM = "__program__";
  * The shippable briefing.
  *
  * The document is state, not a string: every paragraph and bullet is a
- * textarea bound to `doc`, and Markdown export serialises that same state. So
- * whatever the lead edits before sending is exactly what leaves the app —
- * there is no separate "source" that can drift from what is on screen.
+ * textarea bound to `doc`, and every export (Word, PDF, Markdown, email,
+ * Slack) is built from that same state. So whatever the lead edits before
+ * sending is exactly what leaves the app, with no separate copy to drift.
  */
 export function BriefingReport({ data }: { data: ProgramData }) {
   const [scope, setScope] = React.useState<ReportScope>(null);
@@ -107,10 +106,10 @@ export function BriefingReport({ data }: { data: ProgramData }) {
         </Select>
 
         <span className="text-muted-foreground text-xs">
-          {dirty ? "Edited. Copy and download include your changes." : "Generated draft"}
+          {dirty ? "Edited. Downloads and sends include your changes." : "Generated draft"}
         </span>
 
-        <div className="ml-auto flex items-center gap-2">
+        <div className="ml-auto flex flex-wrap items-center justify-end gap-2">
           {dirty && (
             <Button
               variant="ghost"
@@ -124,15 +123,12 @@ export function BriefingReport({ data }: { data: ProgramData }) {
               Reset
             </Button>
           )}
-          <CopyButton doc={doc} />
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => downloadMarkdown(doc, scope)}
-          >
-            <Download className="size-3.5" />
-            Download .md
-          </Button>
+          <BriefingActions
+            doc={doc}
+            scope={scope}
+            programName={data.program.name}
+            programSlug={data.program.slug}
+          />
         </div>
       </div>
 
@@ -241,40 +237,4 @@ function EditableBlock({
       </div>
     </div>
   );
-}
-
-function CopyButton({ doc }: { doc: ReportDoc }) {
-  const [copied, setCopied] = React.useState(false);
-
-  React.useEffect(() => {
-    if (!copied) return;
-    const timer = setTimeout(() => setCopied(false), 2000);
-    return () => clearTimeout(timer);
-  }, [copied]);
-
-  return (
-    <Button
-      variant="outline"
-      size="sm"
-      onClick={async () => {
-        await navigator.clipboard.writeText(toMarkdown(doc));
-        setCopied(true);
-      }}
-    >
-      {copied ? <Check className="size-3.5" /> : <Copy className="size-3.5" />}
-      {copied ? "Copied" : "Copy Markdown"}
-    </Button>
-  );
-}
-
-function downloadMarkdown(doc: ReportDoc, scope: ReportScope) {
-  const blob = new Blob([toMarkdown(doc)], {
-    type: "text/markdown;charset=utf-8",
-  });
-  const url = URL.createObjectURL(blob);
-  const link = document.createElement("a");
-  link.href = url;
-  link.download = reportFilename(scope);
-  link.click();
-  URL.revokeObjectURL(url);
 }

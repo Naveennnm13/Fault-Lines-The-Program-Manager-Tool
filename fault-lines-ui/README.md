@@ -218,6 +218,34 @@ a provenance note. Lines taken from the narrative are tagged "Claude" or
 "Sample" depending on how it was generated; everything else is derived from the
 numbers. Hovering a line reveals a control to drop it.
 
+#### Downloading and sending
+
+Everything below is built from the edited document, so what leaves the app is
+what's on screen. The "Claude" / "Sample text" marks travel with every format.
+
+| Menu | Option | What it does |
+| --- | --- | --- |
+| Download | Word document | A real .docx (Word headings and bullets), built in the browser by `docx` |
+| Download | PDF | Typeset in DM Sans by `@react-pdf/renderer`, text searchable and copyable |
+| Download | Markdown / Copy as Markdown | As before |
+| Send | Share PDF… / Share Word document… | Opens the device share menu with the file attached (Outlook, Slack, Teams, Mail). Shown only where the browser supports sharing files: phones, Edge and Chrome on Windows, Safari |
+| Send | Outlook app / Outlook on the web | Opens a new email with a short summary and downloads the PDF to drag in |
+| Send | Copy for Slack | Plain text that pastes cleanly into a channel or message |
+
+The Word and PDF libraries are loaded only when someone exports, so they add
+nothing to the page everyone else loads. Code: `src/lib/fault-lines/export/`
+and `src/components/fault-lines/briefing-actions.tsx`.
+
+**Why "send" can't be one click from a public page.** A browser won't let a web
+page attach a file to an email or post into Slack on its own. Genuinely direct
+sending (the app posts the PDF to a Slack channel, or sends from your Outlook
+account) needs a Slack app installed in the workspace and a Microsoft Entra
+(Azure AD) app registration, both approved by IT, plus sign-in on the site so
+strangers can't use it. See `LIVE-MONITORING.md` for where that fits.
+
+`npm run dev` uses webpack rather than Turbopack: Turbopack couldn't load the
+`docx` package, so Word export failed in development only.
+
 Same generator runs from the terminal:
 
 ```bash
