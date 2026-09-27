@@ -235,20 +235,20 @@ export function BriefingActions({
             <ChevronDown className="size-3.5 opacity-70" />
           </Button>
         </DropdownMenuTrigger>
-        <DropdownMenuContent align="end" className="w-72">
+        <DropdownMenuContent align="end" className="w-[19rem] max-w-[calc(100vw-1rem)]">
           {canShareFiles && (
             <>
               <DropdownMenuLabel>With the file attached</DropdownMenuLabel>
               <MenuItem
                 icon={<Share2 />}
                 title="Share PDF…"
-                hint="Opens your device's share menu: Outlook, Slack, Teams, Mail"
+                hint="Via Outlook, Slack, Teams or Mail"
                 onSelect={() => share("pdf")}
               />
               <MenuItem
                 icon={<Share2 />}
                 title="Share Word document…"
-                hint="The same, as an editable .docx"
+                hint="Same, as an editable .docx"
                 onSelect={() => share("docx")}
               />
               <DropdownMenuSeparator />
@@ -258,13 +258,13 @@ export function BriefingActions({
           <MenuItem
             icon={<Mail />}
             title="Outlook app"
-            hint="Opens a new email with a summary and downloads the PDF to attach. The summary is also copied, in case Outlook leaves it out."
+            hint="New email with a summary, plus the PDF"
             onSelect={() => email("desktop")}
           />
           <MenuItem
             icon={<Mail />}
             title="Outlook on the web"
-            hint="The same, in Outlook for Microsoft 365 in your browser"
+            hint="Same, in Outlook for Microsoft 365"
             onSelect={() => email("web")}
           />
           <DropdownMenuSeparator />
@@ -272,7 +272,7 @@ export function BriefingActions({
           <MenuItem
             icon={<MessageSquare />}
             title="Copy for Slack"
-            hint="Copies the briefing as text to paste into a channel or message"
+            hint="Text to paste into a channel or message"
             onSelect={() =>
               copy(
                 toSlackText(doc, meta()),
