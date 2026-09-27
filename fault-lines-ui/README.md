@@ -228,7 +228,7 @@ what's on screen. The "Claude" / "Sample text" marks travel with every format.
 | Download | Word document | A real .docx (Word headings and bullets), built in the browser by `docx` |
 | Download | PDF | Typeset in DM Sans by `@react-pdf/renderer`, text searchable and copyable |
 | Download | Markdown / Copy as Markdown | As before |
-| Send | Share PDF… / Share Word document… | Opens the device share menu with the file attached (Outlook, Slack, Teams, Mail). Shown only where the browser supports sharing files: phones, Edge and Chrome on Windows, Safari |
+| Send | Share PDF… | Opens the device share menu with the PDF attached (Outlook, Slack, Teams, Mail). Shown only where the browser supports sharing files: phones, Edge and Chrome on Windows, Safari |
 | Send | Outlook app / Outlook on the web | Opens a new email with a short summary and downloads the PDF to drag in |
 | Send | Copy for Slack | Plain text that pastes cleanly into a channel or message |
 

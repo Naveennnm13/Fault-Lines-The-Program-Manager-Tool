@@ -131,10 +131,10 @@ export function BriefingActions({
       setStatus(`Downloaded ${filename(format)}.`);
     });
 
-  const share = (format: "pdf" | "docx") =>
+  const sharePdf = () =>
     run("open the share menu", async () => {
-      const blob = await fileFor(format);
-      const file = new File([blob], filename(format), { type: MIME[format] });
+      const blob = await fileFor("pdf");
+      const file = new File([blob], filename("pdf"), { type: MIME.pdf });
       await navigator.share({ files: [file], title: doc.title, text: doc.title });
       setStatus(null);
     });
@@ -222,10 +222,7 @@ export function BriefingActions({
         onOpenChange={(open) => {
           // Start building now, so the file is ready by the time an item is
           // chosen. Sharing only works straight after a click.
-          if (open) {
-            void fileFor("pdf").catch(() => {});
-            if (canShareFiles) void fileFor("docx").catch(() => {});
-          }
+          if (open) void fileFor("pdf").catch(() => {});
         }}
       >
         <DropdownMenuTrigger asChild>
@@ -243,13 +240,7 @@ export function BriefingActions({
                 icon={<Share2 />}
                 title="Share PDF…"
                 hint="Via Outlook, Slack, Teams or Mail"
-                onSelect={() => share("pdf")}
-              />
-              <MenuItem
-                icon={<Share2 />}
-                title="Share Word document…"
-                hint="Same, as an editable .docx"
-                onSelect={() => share("docx")}
+                onSelect={sharePdf}
               />
               <DropdownMenuSeparator />
             </>
