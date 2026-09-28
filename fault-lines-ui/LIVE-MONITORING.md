@@ -1,7 +1,7 @@
 # Fault Lines, live: Jira ingest + Claude monitoring
 
 How this prototype becomes a tool that watches a real program instead of a
-synthetic one — and an honest read on what would actually be hard.
+synthetic one, and an honest read on what would actually be hard.
 
 ---
 
@@ -31,7 +31,7 @@ production path".
 
 ## 2. Layer by layer
 
-### 2.1 Ingest — Jira → task graph
+### 2.1 Ingest: Jira → task graph
 
 A scheduled job that pulls issues and emits the same `tasks.json` schema.
 
@@ -39,7 +39,7 @@ A scheduled job that pulls issues and emits the same `tasks.json` schema.
 | ---------- | --------------------------------------------------------------------------- |
 | `id`       | issue key (`PROJ-123`)                                                      |
 | `name`     | `fields.summary`                                                            |
-| `team`     | component, board/project, or a team custom field — **decide this up front** |
+| `team`     | component, board/project, or a team custom field. **Decide this up front** |
 | `owner`    | `fields.assignee.displayName`                                               |
 | `duration` | `fields.timeoriginalestimate`, story points × velocity, or historical cycle time |
 | `deps`     | `fields.issuelinks` where the link type is `Blocks` / `is blocked by`        |
@@ -51,7 +51,7 @@ Notes that matter in practice:
 - **Endpoints move.** Jira Cloud retired the old `GET /rest/api/3/search` in
   2025 in favour of a POST JQL search endpoint with token pagination. Check
   Atlassian's current REST v3 reference before writing the client rather than
-  trusting any example — including this one.
+  trusting any example, including this one.
 - **Auth.** OAuth 2.0 (3LO) for anything shipped; a scoped API token over
   HTTPS is fine for a pilot. Read-only scopes for phases 1–3.
 - **Rate limits.** Jira Cloud uses a cost-based budget and returns 429 with
@@ -62,9 +62,9 @@ Notes that matter in practice:
   config. Do not guess.
 - **Cycles.** Jira will happily let two issues block each other. CPM requires a
   DAG. Detect cycles at ingest, break them with a logged heuristic, and surface
-  the fact — silently discarding an edge changes the critical path.
+  the fact. Silently discarding an edge changes the critical path.
 
-### 2.2 Analyze — unchanged
+### 2.2 Analyze: unchanged
 
 `analyze.py` runs as-is. Add two things for monitoring:
 
@@ -72,10 +72,10 @@ Notes that matter in practice:
   History is what turns a report into monitoring: *"T05 has been the top
   bottleneck for 11 straight days"* is a far stronger signal than today's
   ranking.
-- **Diff against the previous run** — new/resolved bottlenecks, slack that
+- **Diff against the previous run**: new/resolved bottlenecks, slack that
   fell, critical path that changed shape.
 
-### 2.3 Narrate — where Claude belongs, and where it doesn't
+### 2.3 Narrate: where Claude belongs, and where it doesn't
 
 This is the part most teams get wrong, so it is worth being precise.
 
@@ -114,7 +114,7 @@ Implementation details that matter:
 - **Prompt caching.** The system prompt, the scoring rubric and the program
   structure are stable across runs; the analysis delta is not. Put the stable
   content first with a `cache_control` breakpoint after it. Cache reads bill at
-  roughly a tenth of input rate. Verify with `usage.cache_read_input_tokens` —
+  roughly a tenth of input rate. Verify with `usage.cache_read_input_tokens`:
   if it is zero on repeated runs, something volatile (a timestamp, unsorted
   JSON keys) is sitting in the cached prefix.
 - **Batch API** if you monitor many programs. Async, 50% cost, ideal for an
@@ -128,14 +128,14 @@ Implementation details that matter:
 | Weekly exec roll-up; large structural changes   | `claude-opus-5`      | $5        | $25        |
 | High-volume classification (e.g. "is this blocked?" across 5k issues) | `claude-haiku-4-5` | $1 | $5 |
 
-### 2.4 Act — write-back
+### 2.4 Act: write-back
 
 In rough order of how much trust each one costs you if it misfires:
 
 1. **Slack/Teams message** to a team channel. Cheapest to get wrong.
 2. **Confluence page** updated with the program briefing.
 3. **Jira comment** on the epic, containing the team's briefing.
-4. **Jira field change** — flag the bottleneck issue, add a label.
+4. **Jira field change**: flag the bottleneck issue, add a label.
 
 **Gate write-back behind human approval for the first few months.** An agent
 that autonomously comments on people's tickets is how you lose the room in week
@@ -159,8 +159,8 @@ generate constant churn in the UI.
 
 - Nightly full recompute + delta narration.
 - On-demand recompute from a button in the UI.
-- *Optionally* a debounced webhook for one specific transition — an issue
-  entering a blocked state — since that is the event with real time value.
+- *Optionally* a debounced webhook for one specific transition (an issue
+  entering a blocked state), since that is the event with real time value.
 
 Host it wherever is cheapest to get approved: GitHub Actions on a schedule,
 Lambda + EventBridge, or a container on whatever the team already runs.
@@ -172,14 +172,14 @@ Lambda + EventBridge, or a container on whatever the team already runs.
 For one 200-task program, nightly:
 
 - Jira API: free (rate limits, not billing).
-- Claude: the analysis payload is small — a few thousand tokens of shortlist
+- Claude: the analysis payload is small: a few thousand tokens of shortlist
   and deltas, not the whole backlog. At Sonnet rates with caching on the stable
   prefix, a nightly run plus six per-team briefings lands in **cents per day**.
   Even at 50 programs it is a rounding error next to the engineer-hours.
 - Compute/storage: negligible.
 
 The cost of this system is entirely the engineering time and the data cleanup,
-not the API bill. Say that plainly — managers expect "AI feature" to mean a
+not the API bill. Say that plainly. Managers expect "AI feature" to mean a
 scary invoice, and here it genuinely does not.
 
 ---
@@ -192,8 +192,8 @@ in the pitch rather than discovered in review.
 - **Data classification.** Jira summaries in a wealth-management firm can
   contain client names, deal details, or material non-public information.
   Someone has to classify what leaves the network before anything is sent.
-  Sending only issue *keys*, statuses and the computed graph — not free-text
-  summaries — is a viable hardening step that preserves most of the value.
+  Sending only issue *keys*, statuses and the computed graph (not free-text
+  summaries) is a viable hardening step that preserves most of the value.
 - **Deployment boundary.** If sending text to a third-party API is a blocker,
   Claude is available through **Amazon Bedrock**, **Google Vertex AI**, and
   **Microsoft Foundry**, which keeps traffic inside an existing cloud contract
@@ -242,7 +242,7 @@ Real engineering has partial overlap, rework loops, and resource contention
 has actually run a program will raise this in the first five minutes.
 
 Do not oversell. The honest claim is: *this surfaces structural risk that is
-invisible in a board view* — not *this predicts your launch date*. The delay
+invisible in a board view*, not *this predicts your launch date*. The delay
 simulator is a sensitivity analysis, not a forecast.
 
 ### 6.3 Organizational, not technical
@@ -257,7 +257,7 @@ per-team briefing to the team lead first, not to their VP. Never rank teams by
 ### 6.4 Procurement and review
 
 Adding an LLM vendor to a regulated firm is a months-long process, not a
-sprint. If Bedrock or Vertex is already approved, use it — riding an existing
+sprint. If Bedrock or Vertex is already approved, use it. Riding an existing
 approval can be the difference between a Q1 pilot and a Q4 one.
 
 ---

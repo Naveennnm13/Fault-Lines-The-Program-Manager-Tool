@@ -1,4 +1,4 @@
-# Fault Lines — UI
+# Fault Lines UI
 
 Cross-team dependency and bottleneck radar for multi-team programs. This is the
 Next.js front end; the analysis behind it lives in the sibling `fault-lines/`
@@ -49,8 +49,8 @@ unset.
 ### Claude-written briefings in the demo
 
 As committed, the narratives are **sample text**: `narrative.py` ran without an
-API key and used hand-written stand-ins. The UI labels them "Sample text — no
-API key", never "Written by Claude".
+API key and used hand-written stand-ins. The UI labels them "Sample text (no
+API key)", never "Written by Claude".
 
 To ship real Claude output, run the pipeline live once, then commit and deploy:
 
@@ -80,11 +80,11 @@ The interesting work is deliberately **not** in TypeScript.
 | Critical path method, slack, earliest finish | `fault-lines/analyze.py`          |
 | Bottleneck scoring, blast radius             | `fault-lines/analyze.py`          |
 | Risk briefing (Claude API)                   | `fault-lines/narrative.py`        |
-| Delay cascade — recomputed per slider step   | `src/lib/fault-lines/cascade.ts`  |
+| Delay cascade: recomputed per slider step   | `src/lib/fault-lines/cascade.ts`  |
 | Severity tiering for the board               | `src/lib/fault-lines/severity.ts` |
 | Report generation and Markdown export        | `src/lib/fault-lines/report.ts`   |
 
-The last two classify and narrate analysis rather than producing it — they read
+The last two classify and narrate analysis rather than producing it. They read
 the bottleneck score, slack and critical-path flags, and never recompute them.
 
 The cascade is the one piece that exists in both languages, because the slider
@@ -162,7 +162,7 @@ Two panes.
   muted grey. At-risk and blocked tasks carry a red ring. Click a node to
   select it, drag to reposition, scroll to zoom, click empty canvas to clear.
   The legend doubles as a team filter.
-- **Right — three cards.** Selected task (owner, blast radius, slack, direct
+- **Right: three cards.** Selected task (owner, blast radius, slack, direct
   dependents), delay simulator (0–10 days, live cascade), and the risk
   briefing. Task references in the detail and briefing cards are buttons that
   select the corresponding node, so the prose and the graph stay in sync.
@@ -173,7 +173,7 @@ task and it becomes that task's briefing: why it matters, who is waiting on it,
 what happens at +3/+5/+10 days, and the recommended action.
 
 Every line of prose carries its source, one of **Written by Claude**, **Sample
-text — no API key**, or **Computed from the analysis**. Facts and projections
+text (no API key)**, or **Computed from the analysis**. Facts and projections
 are always computed. Prose comes from `narrative.json` when it covers the task
 (`task_briefings`, then the top `risks`), and is otherwise computed by
 `src/lib/fault-lines/briefing.ts`. In live mode, `narrative.py` asks Claude for
@@ -182,7 +182,7 @@ from three tasks to most of the program.
 
 ### Risk board
 
-A triage board. Lanes are **severity tiers**, not task status — the point is
+A triage board. Lanes are **severity tiers**, not task status. The point is
 what to do first. Tiers are derived in `src/lib/fault-lines/severity.ts` from
 values the pipeline already produced:
 
@@ -192,7 +192,7 @@ values the pipeline already produced:
 | Act this week  | at risk, **or** zero slack with anything downstream          |
 | Watch          | blast radius ≥ 5, **or** ≤ 2 days of slack                   |
 
-Completed tasks are excluded however much hangs off them — T01 is the root of
+Completed tasks are excluded however much hangs off them. T01 is the root of
 the whole DAG and scores second overall, but it is done, so putting it at the
 top of a triage board would be noise. Anything with plenty of float and no
 downstream reach is left off entirely; the board footer says how many.
@@ -209,7 +209,7 @@ does not support.
 A per-team report you can edit and send. Pick an audience (a team, or the whole
 program) and the document is generated from the analysis. Every paragraph and
 bullet is a textarea bound to the document state, and Markdown export
-serialises that same state — so what leaves the app is exactly what is on
+serialises that same state, so what leaves the app is exactly what is on
 screen, with no separate source that can drift.
 
 Sections: bottom line, where the team sits, pain points, what happens if delays
@@ -261,7 +261,7 @@ it owns the physics and mutates its own node objects in a ref, and each tick
 publishes a plain snapshot of coordinates into React state. React owns every
 DOM node, so selection, cascade highlighting and filtering are ordinary props
 rather than d3 selections fighting the render cycle. Drag and pan/zoom are
-hand-rolled on pointer events for the same reason — pulling in `d3-drag` and
+hand-rolled on pointer events for the same reason. Pulling in `d3-drag` and
 `d3-zoom` would mean binding d3 to elements React is rendering. `d3-force` is
 the only d3 package installed.
 

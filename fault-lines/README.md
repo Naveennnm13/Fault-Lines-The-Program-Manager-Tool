@@ -77,9 +77,9 @@ The other two programs show patterns this one doesn't:
 
 ## Files
 
-- `programs/` — the three hand-authored program definitions, plus the mock prose for each
-- `generate_data.py` — writes one program's dataset
-- `analyze.py` — critical path method, bottleneck scoring, delay cascade simulation
-- `narrative.py` — the AI layer (live Claude API call with structured outputs, or `--mock` fallback)
-- `dashboard.html` — the original interactive graph, click-to-inspect, delay slider
-- `run_pipeline.py` — runs all three Python steps for every program
+- `programs/`: the three hand-authored program definitions, plus the mock prose for each
+- `generate_data.py`: writes one program's dataset
+- `analyze.py`: critical path method, bottleneck scoring, delay cascade simulation
+- `narrative.py`: the AI layer (live Claude API call with structured outputs, or `--mock` fallback)
+- `dashboard.html`: the original interactive graph, click-to-inspect, delay slider
+- `run_pipeline.py`: runs all three Python steps for every program
